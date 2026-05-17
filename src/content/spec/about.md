@@ -8,6 +8,6 @@
 | Total Score | 27,261,070,564 |
 | Maximum Combo | 1,496 |
 
-![osu! Profile](/assets/images/osu-profile.png)
+![osu! Profile](/assets/images/osuinfo.jpg)
 
 ![Best Play](/assets/images/osu-bp.jpg)
