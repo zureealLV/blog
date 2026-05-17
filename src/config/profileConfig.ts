@@ -46,9 +46,9 @@ export const profileConfig: ProfileConfig = {
 			showName: false,
 		},
 		{
-			name: "RSS",
-			icon: "fa7-solid:rss",
-			url: "/rss/",
+			name: "Bilibili",
+			icon: "fa7-brands:bilibili",
+			url: "https://space.bilibili.com/179690597",
 			showName: false,
 		},
 	],

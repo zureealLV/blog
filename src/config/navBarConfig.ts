@@ -77,6 +77,12 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				icon: "simple-icons:osu",
 			},
 			{
+				name: "Bilibili",
+				url: "https://space.bilibili.com/179690597",
+				external: true,
+				icon: "fa7-brands:bilibili",
+			},
+			{
 				name: "QQ交流群",
 				url: "https://qm.qq.com/q/ZGsFa8qX2G",
 				external: true,
