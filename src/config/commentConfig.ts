@@ -4,7 +4,7 @@ export const commentConfig: CommentConfig = {
 	// 评论系统类型: none, twikoo, waline, giscus, disqus, artalk，默认为none，即不启用评论系统
 	type: "twikoo",
 
-	//twikoo评论系统配置，版本1.7.4
+	//twikoo评论系统配置，版本1.7.9
 	twikoo: {
 		envId: "https://zureeal.vercel.app",
 		// 设置 Twikoo 评论系统语言
