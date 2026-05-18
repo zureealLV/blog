@@ -70,17 +70,19 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			// 是否允许用户通过控制面板切换横幅标题显示
 			switchable: true,
 			// 主页横幅主标题
-			title: "Lovely firefly!",
+			title: "𝓦𝓮𝓵𝓬𝓸𝓶𝓮 𝓣𝓸 𝓞𝓢𝓤！𝓣𝓥",
 			// 主页横幅主标题字体大小
 			titleSize: "3.8rem",
 			// 主页横幅副标题
 			subtitle: [
-				"In Reddened Chrysalis, I Once Rest",
-				"From Shattered Sky, I Free Fall",
-				"Amidst Silenced Stars, I Deep Sleep",
-				"Upon Lighted Fyrefly, I Soon Gaze",
-				"From Undreamt Night, I Thence Shine",
-				"In Finalized Morrow, I Full Bloom",
+				"Stay hungry, stay foolish",
+				"I think, therefore I am",
+				"If you gaze long into an abyss, the abyss also gazes into you",
+				"Without music, life would be a mistake",
+				"God is dead, God remains dead, and we have killed him",
+				"I think where I am not, therefore I am where I do not think",
+				"Man's desire is the desire of the Other",
+				"Truth has the structure of a fiction",
 			],
 			// 主页横幅副标题字体大小
 			subtitleSize: "1.5rem",

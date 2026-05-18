@@ -9,7 +9,7 @@ export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.jpg",
 
 	// 名字
-	name: "Zureeal",
+	name: "ღ𝒵𝒰𝑅𝐸𝐸𝒜𝐿ღ",
 
 	// 个人签名
 	bio: "好想玩OSU！",

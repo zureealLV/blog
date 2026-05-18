@@ -3,7 +3,7 @@ import type { Live2DModelConfig, SpineModelConfig } from "../types/config";
 // Spine 看板娘配置
 export const spineModelConfig: SpineModelConfig = {
 	// Spine 看板娘开关
-	enable: true,
+	enable: false,
 
 	// Spine模型配置
 	model: {
@@ -119,9 +119,11 @@ export const live2dModelConfig: Live2DModelConfig = {
 		clickMessages: [
 			"你好！我是Miku~",
 			"有什么需要帮助的吗？",
-			"今天天气真不错呢！",
+			"提醒我去打OSU！",
 			"要不要一起玩游戏？",
 			"记得按时休息哦！",
+			"好想休息一下呢~",
+			"正在开户中...（开玩笑的）",
 		],
 		// 随机显示的文字消息显示时间（毫秒）
 		messageDisplayTime: 3000,

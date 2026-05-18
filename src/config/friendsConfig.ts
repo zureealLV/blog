@@ -23,7 +23,7 @@ export const friendsPageConfig: FriendsPageConfig = {
 // 友链配置
 export const friendsConfig: FriendLink[] = [
 	{
-		title: "ZureealLV 旧博客",
+		title: "Zureeal 旧博客",
 		imgurl:
 			"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
 		desc: "ღ𝒵𝒰𝑅𝐸𝐸𝒜𝐿ღの个人博客 — 旧版存档",
