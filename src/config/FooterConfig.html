@@ -1,10 +1,21 @@
-<!-- ✝升天✝ -->
-<div style="position:fixed;right:10px;bottom:160px;z-index:999;text-align:center;pointer-events:none;">
-  <div style="color:var(--primary);font-size:14px;font-weight:bold;margin-bottom:4px;">✝升天✝</div>
-  <img src="/assets/images/ctj.gif" style="width:150px;border-radius:8px;opacity:0.9;" alt="升天" />
+<!-- ✝升天✝ - 注入到右侧边栏日历下方 -->
+<div id="ascension-widget" style="display:none;">
+  <div class="card-base px-4 py-3 text-center">
+    <div style="color:var(--primary);font-size:14px;font-weight:bold;margin-bottom:6px;">✝升天✝</div>
+    <img src="/assets/images/ctj.gif" style="width:100%;border-radius:6px;" alt="升天" loading="lazy" />
+  </div>
 </div>
-<style>
-  @media (max-width: 768px) {
-    div[style*="position:fixed"][style*="right:10px"] { display: none; }
-  }
-</style>
+<script>
+(function() {
+  const el = document.getElementById('ascension-widget');
+  if (!el) return;
+  const sidebar = document.getElementById('right-sidebar-sticky');
+  if (!sidebar) return;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'onload-animation';
+  wrapper.style.animationDelay = '200ms';
+  wrapper.innerHTML = el.innerHTML;
+  sidebar.appendChild(wrapper);
+  el.remove();
+})();
+</script>
