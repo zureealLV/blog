@@ -67,12 +67,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				external: true,
 				icon: "fa7-brands:bilibili",
 			},
-			{
-				name: "QQ交流群",
-				url: "https://qm.qq.com/q/ZGsFa8qX2G",
-				external: true,
-				icon: "fa7-brands:qq",
-			},
 		],
 	});
 
@@ -80,7 +74,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	links.push({
 		name: "𝓞𝓢𝓤！𝓣𝓥",
 		url: "/about/",
-		icon: "material-symbols:info",
+		icon: "simple-icons:osu",
 	});
 
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出
