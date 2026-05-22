@@ -190,6 +190,17 @@
   color: color-mix(in oklch, var(--tk-muted) 75%, var(--tk-bg) 25%);
 }
 
+/* ====== 自定义字体排除 ====== */
+/* 保留左上角 OSU！TV 和 个人资料名字的原字体 */
+#navbar a[href="/"] {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* 侧边栏个人资料名字 */
+.card-base .font-bold.text-xl {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
 /* 输入组前后缀：背景与文字色跟随主题 */
 .twikoo .el-input-group__append,
 .twikoo .el-input-group__prepend {
