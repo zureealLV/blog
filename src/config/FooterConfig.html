@@ -5,8 +5,8 @@
     <div style="color:var(--primary);font-size:14px;font-weight:bold;margin-bottom:6px;">✝升天✝</div>
     <img src="/assets/images/ctj.gif" style="width:100%;border-radius:6px;" alt="升天" loading="lazy" />
   </div>
-  <!-- osu! 数据卡片 -->
-  <div class="card-base px-4 py-3">
+  <!-- osu! 实时数据卡片 -->
+  <div class="card-base px-4 py-3" id="osu-card-template" style="display:none;">
     <a href="https://osu.ppy.sh/users/37641269" target="_blank" style="text-decoration:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
         <span style="font-size:18px;">🎮</span>
@@ -14,20 +14,20 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
         <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">Ranked Score</div>
-          <div style="font-weight:bold;">7.85B</div>
+          <div style="color:var(--tk-muted);font-size:10px;">PP</div>
+          <div class="osu-pp" style="font-weight:bold;color:var(--primary);">--</div>
+        </div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--tk-muted);font-size:10px;">Global Rank</div>
+          <div class="osu-rank" style="font-weight:bold;">--</div>
         </div>
         <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
           <div style="color:var(--tk-muted);font-size:10px;">Accuracy</div>
-          <div style="font-weight:bold;color:var(--primary);">95.83%</div>
+          <div class="osu-acc" style="font-weight:bold;color:var(--primary);">--</div>
         </div>
         <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
           <div style="color:var(--tk-muted);font-size:10px;">Play Count</div>
-          <div style="font-weight:bold;">13,392</div>
-        </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">Max Combo</div>
-          <div style="font-weight:bold;">1,496</div>
+          <div class="osu-pc" style="font-weight:bold;">--</div>
         </div>
       </div>
       <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--tk-muted);">点击查看完整主页 →</div>
@@ -52,4 +52,19 @@
   }
   el.remove();
 })();
+
+// 拉取 osu! 实时数据
+fetch('/osu-stats.json')
+  .then(r => r.json())
+  .then(d => {
+    const pp = document.querySelector('.osu-pp');
+    const rank = document.querySelector('.osu-rank');
+    const acc = document.querySelector('.osu-acc');
+    const pc = document.querySelector('.osu-pc');
+    if (pp) pp.textContent = d.pp.toLocaleString();
+    if (rank) rank.textContent = '#' + d.global_rank.toLocaleString();
+    if (acc) acc.textContent = d.accuracy + '%';
+    if (pc) pc.textContent = d.play_count.toLocaleString();
+  })
+  .catch(() => {}); // 静默失败，保留 --
 </script>

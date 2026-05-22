@@ -33,6 +33,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       
+      - name: Fetch osu! stats
+        env:
+          OSU_CLIENT_ID: "57170"
+          OSU_CLIENT_SECRET: ${{ secrets.OSU_CLIENT_SECRET }}
+        run: bash scripts/fetch-osu-stats.sh public/osu-stats.json
+
       - name: Build site
         run: pnpm run build
 
