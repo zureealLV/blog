@@ -9,28 +9,28 @@
   <div class="card-base px-4 py-3" id="osu-card-template">
     <a href="https://osu.ppy.sh/users/37641269" target="_blank" style="text-decoration:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-        <span style="font-size:18px;">🎮</span>
-        <span style="color:var(--primary);font-size:14px;font-weight:bold;">osu! zureealLV</span>
+        <span style="font-size:20px;">🎮</span>
+        <span style="color:var(--primary);font-size:15px;font-weight:bold;">𝓞𝓢𝓤！𝓣𝓥</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">PP</div>
-          <div class="osu-pp" style="font-weight:bold;color:var(--primary);">--</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;">
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">PP</div>
+          <div class="osu-pp" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">Global Rank</div>
-          <div class="osu-rank" style="font-weight:bold;">--</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Global Rank</div>
+          <div class="osu-rank" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">Accuracy</div>
-          <div class="osu-acc" style="font-weight:bold;color:var(--primary);">--</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Accuracy</div>
+          <div class="osu-acc" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
-          <div style="color:var(--tk-muted);font-size:10px;">Play Count</div>
-          <div class="osu-pc" style="font-weight:bold;">--</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Play Count</div>
+          <div class="osu-pc" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--tk-muted);">点击查看完整主页 →</div>
+      <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--primary);opacity:0.8;">点击查看完整主页 →</div>
     </a>
   </div>
 </div>
@@ -66,5 +66,5 @@ fetch('/osu-stats.json')
     if (acc) acc.textContent = d.accuracy + '%';
     if (pc) pc.textContent = d.play_count.toLocaleString();
   })
-  .catch(() => {}); // 静默失败，保留 --
+  .catch(() => {});
 </script>
