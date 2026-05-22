@@ -70,9 +70,9 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
-	// 𝓞𝓢𝓤！𝓣𝓥 关于页面
+	// 𝓞𝓢𝓤！ 关于页面
 	links.push({
-		name: "𝓞𝓢𝓤！𝓣𝓥",
+		name: "𝓞𝓢𝓤！",
 		url: "/about/",
 		icon: "simple-icons:osu",
 	});
