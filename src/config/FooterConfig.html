@@ -1,4 +1,4 @@
-<!-- ✝升天✝ + osu! + 生日特效 -->
+<!-- ✝升天✝ + osu! + 🎂 生日特效 -->
 <div id="custom-right-widgets" style="display:none;">
   <div class="card-base px-4 py-3 text-center">
     <div style="color:var(--primary);font-size:14px;font-weight:bold;margin-bottom:6px;">✝升天✝</div>
@@ -33,15 +33,16 @@
   </div>
 </div>
 <script>
+// ========== 侧边栏注入 ==========
 (function() {
-  const el = document.getElementById('custom-right-widgets');
+  var el = document.getElementById('custom-right-widgets');
   if (!el) return;
-  const sidebar = document.getElementById('right-sidebar-sticky');
+  var sidebar = document.getElementById('right-sidebar-sticky');
   if (!sidebar) return;
-  const children = el.children;
-  let delay = 200;
-  for (let i = 0; i < children.length; i++) {
-    const wrapper = document.createElement('div');
+  var children = el.children;
+  var delay = 200;
+  for (var i = 0; i < children.length; i++) {
+    var wrapper = document.createElement('div');
     wrapper.className = 'onload-animation';
     wrapper.style.animationDelay = delay + 'ms';
     wrapper.appendChild(children[i].cloneNode(true));
@@ -51,102 +52,138 @@
   el.remove();
 })();
 
-// 拉取 osu! 实时数据
+// ========== osu! 数据 ==========
 fetch('/osu-stats.json')
-  .then(r => r.json())
-  .then(d => {
-    const pp = document.querySelector('.osu-pp');
-    const rank = document.querySelector('.osu-rank');
-    const acc = document.querySelector('.osu-acc');
-    const pc = document.querySelector('.osu-pc');
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var pp = document.querySelector('.osu-pp');
+    var rank = document.querySelector('.osu-rank');
+    var acc = document.querySelector('.osu-acc');
+    var pc = document.querySelector('.osu-pc');
     if (pp) pp.textContent = d.pp.toLocaleString();
     if (rank) rank.textContent = '#' + d.global_rank.toLocaleString();
     if (acc) acc.textContent = d.accuracy + '%';
     if (pc) pc.textContent = d.play_count.toLocaleString();
   })
-  .catch(() => {});
+  .catch(function() {});
 
 // ========== 🎂 生日特效 ==========
 (function() {
-  const now = new Date();
-  const isPreview = location.search.includes('birthday=1');
-  if (!isPreview && (now.getMonth() !== 4 || now.getDate() !== 26)) return; // 只在5月26日（或预览模式）
+  var now = new Date();
+  var isPreview = location.search.indexOf('birthday=1') >= 0;
+  if (!isPreview && (now.getMonth() !== 4 || now.getDate() !== 26)) return;
 
-  // 🎊 彩带
-  const confettiScript = document.createElement('script');
-  confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
-  confettiScript.onload = function() {
-    const duration = 5000;
-    const end = Date.now() + duration;
+  // 🎊 彩带（canvas-confetti CDN）
+  var cs = document.createElement('script');
+  cs.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
+  cs.onload = function() {
+    var end = Date.now() + 5000;
     (function frame() {
       confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
       confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
       if (Date.now() < end) requestAnimationFrame(frame);
     }());
-    // 再来一波
-    setTimeout(() => confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b9d','#ffd700','#ff69b4','#ff1493'] }), 1000);
+    setTimeout(function() { confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b9d','#ffd700','#ff69b4','#ff1493'] }); }, 1000);
   };
-  document.head.appendChild(confettiScript);
+  document.head.appendChild(cs);
 
-  // 💬 公告改生日版
-  document.addEventListener('DOMContentLoaded', function() {
-    const titleEls = document.querySelectorAll('.card-base .font-bold, [class*="announce"] strong, [class*="announce"] h3');
-    titleEls.forEach(el => {
-      if (el.textContent.includes('Me and Hermes')) {
-        el.textContent = '🎂 Happy Birthday Lv！🎂';
-        el.style.color = '#ff6b9d';
+  // 💬 公告改生日版（用更宽的选择器）
+  function patchAnnouncement() {
+    // 找所有可能包含公告文字的元素
+    var all = document.querySelectorAll('.card-base p, .card-base div, [class*="announce"] *, .widget-hide-on-non-post p, .widget-hide-on-non-post div');
+    for (var i = 0; i < all.length; i++) {
+      var t = all[i];
+      if (t.textContent === 'Me and Hermes' || t.textContent.indexOf('Me and Hermes') >= 0) {
+        t.textContent = '🎂 Happy Birthday Lv！🎂';
+        t.style.color = '#ff6b9d';
       }
-    });
-    const descEls = document.querySelectorAll('.card-base p, [class*="announce"] p');
-    descEls.forEach(el => {
-      if (el.textContent.includes('Hermes')) {
-        el.innerHTML = '🎉 今天不打 osu! 了！快去吹蜡烛吃蛋糕～<br>Lv 生日快乐！！(≧◡≦)🎂💖';
-        el.style.color = '#ff6b9d';
+      if (t.textContent.indexOf('我是 Hermes') >= 0 && t.textContent.indexOf('赛博小助手') >= 0) {
+        t.innerHTML = '🎉 今天别打 osu! 了！快去过生日吃蛋糕～<br>Lv 生日快乐！！(≧◡≦)🎂💖';
+        t.style.color = '#ff6b9d';
       }
-    });
-  });
+    }
+  }
+  patchAnnouncement();
+  // 有些元素是异步加载的（Swup 页面切换），持续尝试 3 秒
+  var retries = 0;
+  var retryTimer = setInterval(function() {
+    patchAnnouncement();
+    if (++retries > 10) clearInterval(retryTimer);
+  }, 300);
 
   // 🏠 首页横幅改字
-  setTimeout(function() {
-    const bannerTitle = document.querySelector('.banner-title, [class*="banner"] h1, [class*="home"] h1');
-    if (bannerTitle && bannerTitle.textContent.includes('OSU')) {
-      bannerTitle.textContent = '🎂 Happy Birthday Lv！🎂';
-      bannerTitle.style.color = '#ff6b9d';
-    }
-    // 也尝试改其他可能的横幅元素
-    const headings = document.querySelectorAll('h1');
-    headings.forEach(h => {
-      if (h.textContent.includes('𝓦𝓮𝓵𝓬𝓸𝓶𝓮') || h.textContent.includes('OSU')) {
+  function patchBanner() {
+    var h1s = document.querySelectorAll('h1');
+    for (var i = 0; i < h1s.length; i++) {
+      var h = h1s[i];
+      if (h.textContent.indexOf('OSU') >= 0 && h.textContent.indexOf('TV') >= 0) {
         h.textContent = '🎂 Happy Birthday Lv！🎂';
         h.style.color = '#ff6b9d';
       }
-    });
-  }, 500);
-
-  // 🌸 樱花蛋糕化
-  const style = document.createElement('style');
-  style.textContent = `
-    .sakura { --sakura-emoji: '🎂'; }
-    .sakura::before { content: '🎂' !important; }
-  `;
-  document.head.appendChild(style);
-
-  // 👒 生日帽
-  setTimeout(function() {
-    const avatar = document.querySelector('img[alt*="Profile"], img[alt*="Author"], .profile-avatar img, [class*="avatar"] img');
-    if (avatar && !avatar.dataset.birthday) {
-      avatar.dataset.birthday = '1';
-      const hat = document.createElement('div');
-      hat.innerHTML = '🎂';
-      hat.style.cssText = 'position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:22px;pointer-events:none;z-index:10;animation:bounce 0.6s infinite alternate;';
-      if (avatar.parentElement.style.position !== 'relative') {
-        avatar.parentElement.style.position = 'relative';
-      }
-      avatar.parentElement.appendChild(hat);
-      const bounceStyle = document.createElement('style');
-      bounceStyle.textContent = '@keyframes bounce{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-6px)}}';
-      document.head.appendChild(bounceStyle);
     }
-  }, 1000);
+    // banner title area
+    var bannerEl = document.querySelector('.banner-title, [class*="banner-title"]');
+    if (bannerEl) {
+      bannerEl.textContent = '🎂 Happy Birthday Lv！🎂';
+      bannerEl.style.color = '#ff6b9d';
+    }
+  }
+  setTimeout(patchBanner, 600);
+  setTimeout(patchBanner, 1500);
+
+  // 🌸 蛋糕雨（canvas-based sakura override）
+  function makeCakeRain() {
+    // 尝试找 sakura canvas 并改逻辑
+    var canvases = document.querySelectorAll('canvas');
+    for (var i = 0; i < canvases.length; i++) {
+      // 如果 canvas 有 sakura 相关属性则覆盖
+      if (canvases[i].width > 100 && canvases[i].height > 100) {
+        // 在 canvas 上层覆盖 cake emoji
+        var cakeDiv = document.createElement('div');
+        cakeDiv.id = 'cake-rain';
+        cakeDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;';
+        document.body.appendChild(cakeDiv);
+        // 不断生成 cake emoji
+        setInterval(function() {
+          var cake = document.createElement('span');
+          cake.textContent = '🎂';
+          cake.style.cssText = 'position:absolute;font-size:' + (16 + Math.random() * 20) + 'px;left:' + Math.random() * 100 + '%;top:-30px;animation:cakeFall ' + (3 + Math.random() * 4) + 's linear forwards;opacity:' + (0.6 + Math.random() * 0.4) + ';';
+          cakeDiv.appendChild(cake);
+          setTimeout(function() { cake.remove(); }, 8000);
+        }, 300);
+
+        var styleSheet = document.createElement('style');
+        styleSheet.textContent = '@keyframes cakeFall{0%{transform:translateY(0) rotate(0deg)}100%{transform:translateY(100vh) rotate(720deg)}}';
+        document.head.appendChild(styleSheet);
+        break;
+      }
+    }
+  }
+  setTimeout(makeCakeRain, 1000);
+
+  // 👒 头像小蛋糕
+  function addHat() {
+    var imgs = document.querySelectorAll('img[alt*="Profile"], img[alt*="Author"], img[alt*="avatar"], [class*="avatar"] img, .profile-avatar img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.src && img.src.indexOf('avatar') >= 0 && !img.parentElement.querySelector('.cake-hat')) {
+        var parent = img.parentElement;
+        var computed = window.getComputedStyle(parent);
+        if (computed.position === 'static') parent.style.position = 'relative';
+        if (computed.overflow === 'hidden') parent.style.overflow = 'visible';
+        var hat = document.createElement('span');
+        hat.className = 'cake-hat';
+        hat.textContent = '🎂';
+        hat.style.cssText = 'position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:20px;z-index:20;pointer-events:none;animation:cakeBounce 0.5s infinite alternate;';
+        parent.appendChild(hat);
+      }
+    }
+  }
+  setTimeout(addHat, 800);
+  setTimeout(addHat, 2000);
+
+  var bounceKeyframes = document.createElement('style');
+  bounceKeyframes.textContent = '@keyframes cakeBounce{from{transform:translateX(-50%) translateY(-2px)}to{transform:translateX(-50%) translateY(2px)}}';
+  document.head.appendChild(bounceKeyframes);
 })();
 </script>

@@ -2,15 +2,15 @@
 
 | 数据 | 数值 |
 |------|------|
-| PP | 4,259.9 |
-| Global Rank | #155,772 |
-| Country Rank (SG) | #2,067 |
-| Hit Accuracy | 95.99% |
-| Play Count | 13,715 |
-| Ranked Score | 8,157,048,163 |
+| PP | 4,408.4 |
+| Global Rank | #144,591 |
+| Country Rank (SG) | #1,907 |
+| Hit Accuracy | 96.47% |
+| Play Count | 13,861 |
+| Ranked Score | 8,276,713,523 |
 | Max Combo | 1,496 |
 | Level | 100 |
-| SS / S / A | 0 / 54 / 783 |
+| SS / S / A | 0 / 58 / 788 |
 
 ![osu! Profile](/assets/images/osuinfo.jpg)
 
