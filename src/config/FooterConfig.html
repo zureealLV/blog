@@ -1,11 +1,9 @@
-<!-- ✝升天✝ + osu! 卡片 - 注入到右侧边栏 -->
+<!-- ✝升天✝ + osu! + 生日特效 -->
 <div id="custom-right-widgets" style="display:none;">
-  <!-- ✝升天✝ -->
   <div class="card-base px-4 py-3 text-center">
     <div style="color:var(--primary);font-size:14px;font-weight:bold;margin-bottom:6px;">✝升天✝</div>
     <img src="/assets/images/ctj.gif" style="width:100%;border-radius:6px;" alt="升天" loading="lazy" />
   </div>
-  <!-- osu! 实时数据卡片 -->
   <div class="card-base px-4 py-3" id="osu-card-template">
     <a href="https://osu.ppy.sh/users/37641269" target="_blank" style="text-decoration:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
@@ -67,4 +65,88 @@ fetch('/osu-stats.json')
     if (pc) pc.textContent = d.play_count.toLocaleString();
   })
   .catch(() => {});
+
+// ========== 🎂 生日特效 ==========
+(function() {
+  const now = new Date();
+  const isPreview = location.search.includes('birthday=1');
+  if (!isPreview && (now.getMonth() !== 4 || now.getDate() !== 26)) return; // 只在5月26日（或预览模式）
+
+  // 🎊 彩带
+  const confettiScript = document.createElement('script');
+  confettiScript.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
+  confettiScript.onload = function() {
+    const duration = 5000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    }());
+    // 再来一波
+    setTimeout(() => confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b9d','#ffd700','#ff69b4','#ff1493'] }), 1000);
+  };
+  document.head.appendChild(confettiScript);
+
+  // 💬 公告改生日版
+  document.addEventListener('DOMContentLoaded', function() {
+    const titleEls = document.querySelectorAll('.card-base .font-bold, [class*="announce"] strong, [class*="announce"] h3');
+    titleEls.forEach(el => {
+      if (el.textContent.includes('Me and Hermes')) {
+        el.textContent = '🎂 Happy Birthday Lv！🎂';
+        el.style.color = '#ff6b9d';
+      }
+    });
+    const descEls = document.querySelectorAll('.card-base p, [class*="announce"] p');
+    descEls.forEach(el => {
+      if (el.textContent.includes('Hermes')) {
+        el.innerHTML = '🎉 今天不打 osu! 了！快去吹蜡烛吃蛋糕～<br>Lv 生日快乐！！(≧◡≦)🎂💖';
+        el.style.color = '#ff6b9d';
+      }
+    });
+  });
+
+  // 🏠 首页横幅改字
+  setTimeout(function() {
+    const bannerTitle = document.querySelector('.banner-title, [class*="banner"] h1, [class*="home"] h1');
+    if (bannerTitle && bannerTitle.textContent.includes('OSU')) {
+      bannerTitle.textContent = '🎂 Happy Birthday Lv！🎂';
+      bannerTitle.style.color = '#ff6b9d';
+    }
+    // 也尝试改其他可能的横幅元素
+    const headings = document.querySelectorAll('h1');
+    headings.forEach(h => {
+      if (h.textContent.includes('𝓦𝓮𝓵𝓬𝓸𝓶𝓮') || h.textContent.includes('OSU')) {
+        h.textContent = '🎂 Happy Birthday Lv！🎂';
+        h.style.color = '#ff6b9d';
+      }
+    });
+  }, 500);
+
+  // 🌸 樱花蛋糕化
+  const style = document.createElement('style');
+  style.textContent = `
+    .sakura { --sakura-emoji: '🎂'; }
+    .sakura::before { content: '🎂' !important; }
+  `;
+  document.head.appendChild(style);
+
+  // 👒 生日帽
+  setTimeout(function() {
+    const avatar = document.querySelector('img[alt*="Profile"], img[alt*="Author"], .profile-avatar img, [class*="avatar"] img');
+    if (avatar && !avatar.dataset.birthday) {
+      avatar.dataset.birthday = '1';
+      const hat = document.createElement('div');
+      hat.innerHTML = '🎂';
+      hat.style.cssText = 'position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:22px;pointer-events:none;z-index:10;animation:bounce 0.6s infinite alternate;';
+      if (avatar.parentElement.style.position !== 'relative') {
+        avatar.parentElement.style.position = 'relative';
+      }
+      avatar.parentElement.appendChild(hat);
+      const bounceStyle = document.createElement('style');
+      bounceStyle.textContent = '@keyframes bounce{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(-6px)}}';
+      document.head.appendChild(bounceStyle);
+    }
+  }, 1000);
+})();
 </script>
