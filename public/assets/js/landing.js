@@ -169,11 +169,12 @@
     },1500);
   }
 
-  // Click effects — listen on document to catch all clicks on overlay
-  document.addEventListener('click',function(e){
-    if(!ov || ov.style.display==='none')return;
+  // Click effects — bind directly on overlay
+  ov.addEventListener('click',function(e){
+    if(ov.style.display==='none')return;
+    // Don't interfere with center (title + enter prompt)
     if(e.target.closest('#lo-center'))return;
-    if(e.target.closest('#landing-overlay'))burst(e.clientX,e.clientY);
+    burst(e.clientX,e.clientY);
   });
 
   // Animation sequence
