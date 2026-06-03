@@ -269,73 +269,249 @@ const bannerCarouselInterval = Math.max(
 <Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle} postSlug={postSlug}>
 
 <!-- ============ HACKER LANDING OVERLAY ============ -->
-<div id="landing-overlay" style="display:none">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
-#landing-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:#0a0a0a;overflow:hidden}
-#landing-overlay .lo-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
-#landing-overlay .lo-scanline{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;pointer-events:none;background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.25) 50%),linear-gradient(90deg,rgba(255,0,0,.06),rgba(0,255,0,.02),rgba(0,0,255,.06));background-size:100% 3px,4px 100%;animation:lo-scan 8s linear infinite}
-#landing-overlay .lo-vignette{position:absolute;top:0;left:0;width:100%;height:100%;z-index:101;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 60%,rgba(0,0,0,.8) 100%)}
-@keyframes lo-scan{from{background-position:0 0}to{background-position:0 100%}}
-#landing-overlay .lo-cmd{position:absolute;top:6%;left:6%;font-size:14px;line-height:2;color:#00ff41;font-family:'Share Tech Mono','Fira Code',monospace;z-index:20;pointer-events:none}
-#landing-overlay .lo-cmd div{opacity:0;transform:translateX(-10px);transition:all .35s ease}
-#landing-overlay .lo-cmd div.show{opacity:1;transform:translateX(0)}
-#landing-overlay .lo-cmd .p{color:#00cc33;margin-right:8px}
-#landing-overlay .lo-cmd .cur{display:inline-block;width:8px;height:1.1em;background:#00ff41;margin-left:3px;vertical-align:text-bottom;animation:lo-blink 1s step-end infinite}
-#landing-overlay .lo-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;text-align:center}
-#landing-overlay .lo-title{font-family:'VT323',monospace;font-size:clamp(36px,6vw,80px);font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#f0f0f0;text-shadow:0 0 10px #f0f0f0,0 0 20px #f0f0f0,0 0 40px rgba(240,240,240,.3);opacity:0;transition:all 1.2s cubic-bezier(.16,1,.3,1);display:inline-block;position:relative;cursor:pointer}
-#landing-overlay .lo-title.show{opacity:1}
-#landing-overlay .lo-title::before,#landing-overlay .lo-title::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none}
-#landing-overlay .lo-title:hover::before{animation:lo-g1 .3s infinite;color:#ff0040;z-index:-1;opacity:.8}
-#landing-overlay .lo-title:hover::after{animation:lo-g2 .3s infinite;color:#00ffff;z-index:-2;opacity:.8}
-@keyframes lo-g1{0%{clip-path:inset(40% 0 61% 0);transform:translate(-2px,2px)}50%{clip-path:inset(25% 0 58% 0);transform:translate(3px,1px)}100%{clip-path:inset(58% 0 43% 0);transform:translate(2px,-3px)}}
-@keyframes lo-g2{0%{clip-path:inset(65% 0 13% 0);transform:translate(2px,-1px)}50%{clip-path:inset(5% 0 74% 0);transform:translate(-2px,1px)}100%{clip-path:inset(89% 0 3% 0);transform:translate(-1px,-2px)}}
-#landing-overlay .lo-enter{font-size:clamp(14px,2vw,20px);letter-spacing:2px;color:#00ff41;text-shadow:0 0 5px #00ff41,0 0 10px #00ff41,0 0 20px #00ff41,0 0 40px #00cc33;opacity:0;transition:opacity .8s;margin-top:20px;cursor:pointer}
-#landing-overlay .lo-enter.show{opacity:1}
-#landing-overlay .lo-cur{display:inline-block;width:10px;height:1.2em;background:#00ff41;margin-left:4px;vertical-align:text-bottom;animation:lo-blink 1s step-end infinite}
-@keyframes lo-blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-#landing-overlay .lo-bar{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);width:720px;height:16px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.15);border-radius:4px;overflow:hidden;opacity:0;transition:opacity .5s;z-index:20}
-#landing-overlay .lo-bar.show{opacity:1}
-#landing-overlay .lo-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#00cc33,#00ff41,#00cc33);box-shadow:0 0 20px #00ff41,inset 0 1px 0 rgba(255,255,255,.15);transition:width 1.8s cubic-bezier(.16,1,.3,1);border-radius:3px}
-#landing-overlay .lo-bar-fill.done{width:100%}
-#landing-overlay .lo-corner{position:absolute;font-size:11px;opacity:.25;color:#00ff41;font-family:'Share Tech Mono',monospace;z-index:20;pointer-events:none}
-#landing-overlay .lo-c-tl{top:20px;left:20px}
-#landing-overlay .lo-c-tr{top:20px;right:20px;text-align:right}
-#landing-overlay .lo-c-bl{bottom:20px;left:20px}
-#landing-overlay .lo-c-br{bottom:20px;right:20px;text-align:right}
-#landing-overlay .lo-binary{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);font-size:10px;opacity:.12;letter-spacing:3px;white-space:nowrap;z-index:20;pointer-events:none;color:#00ff41}
-#landing-overlay .lo-hitcircle{position:absolute;border-radius:50%;pointer-events:none;z-index:15;border:4px solid #ff66ab;opacity:0}
-#landing-overlay .lo-approach{position:absolute;border-radius:50%;pointer-events:none;z-index:14;border:3px solid #ff66ab;opacity:0}
-#landing-overlay .lo-slider-ball{position:absolute;border-radius:50%;pointer-events:none;z-index:16;width:28px;height:28px;background:#00ccff;box-shadow:0 0 15px #00ccff,0 0 30px #00ccff;opacity:0}
-#landing-overlay .lo-ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:15;border:2px solid #ff66ab;animation:lo-rip .6s ease-out forwards}
-@keyframes lo-rip{0%{transform:scale(0);opacity:.8}100%{transform:scale(3);opacity:0}}
-#landing-overlay .lo-burst{position:absolute;pointer-events:none;z-index:16;font-family:'VT323',monospace;font-size:2em;font-weight:bold;color:#f0f0f0;text-shadow:0 0 10px #f0f0f0;animation:lo-burst .5s ease-out forwards}
-@keyframes lo-burst{0%{transform:scale(0);opacity:1}50%{transform:scale(1.3);opacity:.8}100%{transform:scale(1);opacity:0}}
-#landing-overlay.fade-out{animation:lo-fade .8s ease-in forwards}
-@keyframes lo-fade{0%{opacity:1}100%{opacity:0}}
-@media(max-width:768px){#landing-overlay .lo-bar{width:80vw;height:12px}#landing-overlay .lo-cmd{font-size:11px;top:4%;left:4%}}
-</style>
-<canvas class="lo-canvas" id="lo-canvas"></canvas>
-<div class="lo-scanline"></div>
-<div class="lo-vignette"></div>
-<div class="lo-corner lo-c-tl">SYS://zureeallv.com<br>NODE:TERMINAL_v1.0<br>STATUS:READY</div>
-<div class="lo-corner lo-c-tr"><span id="lo-dt"></span><br>PID: <span id="lo-pid"></span><br>MEM: <span id="lo-mem"></span></div>
-<div class="lo-corner lo-c-bl">SECURE CONNECTION<br>ENCRYPTION: AES-256<br>PROTOCOL: HTTPS</div>
-<div class="lo-corner lo-c-br">FIREWALL: ACTIVE<br>THREATS: 0<br>UPTIME: <span id="lo-up">00:00:00</span></div>
-<div class="lo-cmd" id="lo-cmd">
-  <div id="lo-c1"><span class="p">C:\&gt;</span>initializing world.execute(me)...</div>
-  <div id="lo-c2"><span class="p">C:\&gt;</span>loading neural_interface.dll</div>
-  <div id="lo-c3"><span class="p">C:\&gt;</span>establishing connection to zureeallv.com</div>
-  <div id="lo-c4"><span class="p">C:\&gt;</span>access granted<span class="cur"></span></div>
-</div>
-<div class="lo-center" id="lo-center">
-  <div class="lo-title" id="lo-title" data-text="OSU！TV">OSU！TV</div>
-  <div class="lo-enter" id="lo-enter">&gt; CLICK TO ENTER<span class="lo-cur"></span></div>
-</div>
-<div class="lo-bar" id="lo-bar"><div class="lo-bar-fill" id="lo-fill"></div></div>
-<div class="lo-binary" id="lo-bin"></div>
-</div>
-<script is:inline src="/assets/js/landing.js"></script>
+<script is:inline>
+(function(){
+  if(sessionStorage.getItem('landing-seen'))return;
+
+  // --- CSS ---
+  var style = document.createElement('style');
+  style.textContent = "@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');"
+    + "#lo{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:#0a0a0a;overflow:hidden}"
+    + "#lo .s{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;pointer-events:none;background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.25) 50%),linear-gradient(90deg,rgba(255,0,0,.06),rgba(0,255,0,.02),rgba(0,0,255,.06));background-size:100% 3px,4px 100%;animation:sc 8s linear infinite}"
+    + "#lo .v{position:absolute;top:0;left:0;width:100%;height:100%;z-index:101;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 60%,rgba(0,0,0,.8) 100%)}"
+    + "@keyframes sc{from{background-position:0 0}to{background-position:0 100%}}"
+    + "#lo .cmd{position:absolute;top:6%;left:6%;font-size:14px;line-height:2;color:#00ff41;font-family:'Share Tech Mono','Fira Code',monospace;z-index:20;pointer-events:none;opacity:0;transition:opacity .5s}"
+    + "#lo .cmd div{opacity:0;transform:translateX(-10px);transition:all .35s ease}"
+    + "#lo .cmd div.sh{opacity:1;transform:translateX(0)}"
+    + "#lo .cmd .pr{color:#00cc33;margin-right:8px}"
+    + "#lo .cmd .cr{display:inline-block;width:8px;height:1.1em;background:#00ff41;margin-left:3px;vertical-align:text-bottom;animation:bl 1s step-end infinite}"
+    + "#lo .ct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;text-align:center}"
+    + "#lo .tt{font-family:'VT323',monospace;font-size:clamp(36px,6vw,80px);font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#f0f0f0;text-shadow:0 0 10px #f0f0f0,0 0 20px #f0f0f0,0 0 40px rgba(240,240,240,.3);opacity:0;transition:all 1.2s cubic-bezier(.16,1,.3,1);display:inline-block;position:relative;cursor:pointer}"
+    + "#lo .tt.sh{opacity:1}"
+    + "#lo .tt::before,#lo .tt::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none}"
+    + "#lo .tt:hover::before{animation:g1 .3s infinite;color:#ff0040;z-index:-1;opacity:.8}"
+    + "#lo .tt:hover::after{animation:g2 .3s infinite;color:#00ffff;z-index:-2;opacity:.8}"
+    + "@keyframes g1{0%{clip-path:inset(40% 0 61% 0);transform:translate(-2px,2px)}50%{clip-path:inset(25% 0 58% 0);transform:translate(3px,1px)}100%{clip-path:inset(58% 0 43% 0);transform:translate(2px,-3px)}}"
+    + "@keyframes g2{0%{clip-path:inset(65% 0 13% 0);transform:translate(2px,-1px)}50%{clip-path:inset(5% 0 74% 0);transform:translate(-2px,1px)}100%{clip-path:inset(89% 0 3% 0);transform:translate(-1px,-2px)}}"
+    + "#lo .en{font-size:clamp(14px,2vw,20px);letter-spacing:2px;color:#00ff41;text-shadow:0 0 5px #00ff41,0 0 10px #00ff41,0 0 20px #00ff41,0 0 40px #00cc33;opacity:0;transition:opacity .8s;margin-top:20px;cursor:pointer}"
+    + "#lo .en.sh{opacity:1}"
+    + "#lo .ec{display:inline-block;width:10px;height:1.2em;background:#00ff41;margin-left:4px;vertical-align:text-bottom;animation:bl 1s step-end infinite}"
+    + "@keyframes bl{0%,50%{opacity:1}51%,100%{opacity:0}}"
+    + "#lo .bar{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);width:720px;height:16px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.15);border-radius:4px;overflow:hidden;opacity:0;transition:opacity .5s;z-index:20}"
+    + "#lo .bar.sh{opacity:1}"
+    + "#lo .bar-f{height:100%;width:0%;background:linear-gradient(90deg,#00cc33,#00ff41,#00cc33);box-shadow:0 0 20px #00ff41,inset 0 1px 0 rgba(255,255,255,.15);transition:width 1.8s cubic-bezier(.16,1,.3,1);border-radius:3px}"
+    + "#lo .bar-f.dn{width:100%}"
+    + "#lo .co{position:absolute;font-size:11px;opacity:.25;color:#00ff41;font-family:'Share Tech Mono',monospace;z-index:20;pointer-events:none}"
+    + "#lo .co-tl{top:20px;left:20px}#lo .co-tr{top:20px;right:20px;text-align:right}"
+    + "#lo .co-bl{bottom:20px;left:20px}#lo .co-br{bottom:20px;right:20px;text-align:right}"
+    + "#lo .bn{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);font-size:10px;opacity:.12;letter-spacing:3px;white-space:nowrap;z-index:20;pointer-events:none;color:#00ff41}"
+    + "#lo .hc{position:absolute;border-radius:50%;pointer-events:none;z-index:15;border:4px solid #ff66ab;opacity:0}"
+    + "#lo .ap{position:absolute;border-radius:50%;pointer-events:none;z-index:14;border:3px solid #ff66ab;opacity:0}"
+    + "#lo .sb{position:absolute;border-radius:50%;pointer-events:none;z-index:16;width:28px;height:28px;background:#00ccff;box-shadow:0 0 15px #00ccff,0 0 30px #00ccff;opacity:0}"
+    + "#lo .rp{position:absolute;border-radius:50%;pointer-events:none;z-index:15;border:2px solid #ff66ab;animation:rip .6s ease-out forwards}"
+    + "@keyframes rip{0%{transform:scale(0);opacity:.8}100%{transform:scale(3);opacity:0}}"
+    + "#lo .bu{position:absolute;pointer-events:none;z-index:16;font-family:'VT323',monospace;font-size:2em;font-weight:bold;color:#f0f0f0;text-shadow:0 0 10px #f0f0f0;animation:bur .5s ease-out forwards}"
+    + "@keyframes bur{0%{transform:scale(0);opacity:1}50%{transform:scale(1.3);opacity:.8}100%{transform:scale(1);opacity:0}}"
+    + "#lo.fo{animation:fo .8s ease-in forwards}"
+    + "@keyframes fo{0%{opacity:1}100%{opacity:0}}"
+    + "@media(max-width:768px){#lo .bar{width:80vw;height:12px}#lo .cmd{font-size:11px;top:4%;left:4%}}";
+  document.head.appendChild(style);
+
+  // --- HTML ---
+  var ov = document.createElement('div'); ov.id = 'lo';
+  ov.innerHTML = '<canvas class="c" id="lo-cv"></canvas>'
+    + '<div class="s"></div><div class="v"></div>'
+    + '<div class="co co-tl">SYS://zureeallv.com<br>NODE:TERMINAL_v1.0<br>STATUS:READY</div>'
+    + '<div class="co co-tr"><span id="lo-dt"></span><br>PID: <span id="lo-pid"></span><br>MEM: <span id="lo-mem"></span></div>'
+    + '<div class="co co-bl">SECURE CONNECTION<br>ENCRYPTION: AES-256<br>PROTOCOL: HTTPS</div>'
+    + '<div class="co co-br">FIREWALL: ACTIVE<br>THREATS: 0<br>UPTIME: <span id="lo-up">00:00:00</span></div>'
+    + '<div class="cmd" id="lo-cmd">'
+    + '<div id="lo-c1"><span class="pr">C:\\&gt;</span>initializing world.execute(me)...</div>'
+    + '<div id="lo-c2"><span class="pr">C:\\&gt;</span>loading neural_interface.dll</div>'
+    + '<div id="lo-c3"><span class="pr">C:\\&gt;</span>establishing connection to zureeallv.com</div>'
+    + '<div id="lo-c4"><span class="pr">C:\\&gt;</span>access granted<span class="cr"></span></div></div>'
+    + '<div class="ct" id="lo-ct"><div class="tt" id="lo-tt" data-text="OSU！TV">OSU！TV</div>'
+    + '<div class="en" id="lo-en">&gt; CLICK TO ENTER<span class="ec"></span></div></div>'
+    + '<div class="bar" id="lo-bar"><div class="bar-f" id="lo-bf"></div></div>'
+    + '<div class="bn" id="lo-bn"></div>';
+  document.body.insertBefore(ov, document.body.firstChild);
+
+  // --- JS ---
+  var cv = document.getElementById('lo-cv'), cx = cv.getContext('2d');
+  var kana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+  var abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' + kana;
+  var fs = 16, cols, drops, spd = [], phase = 'idle', sy = 0, sd = false;
+  cv.style.pointerEvents = 'none';
+
+  function rz() {
+    cv.width = innerWidth; cv.height = innerHeight;
+    cols = Math.floor(cv.width / fs); drops = []; spd = [];
+    for (var i = 0; i < cols; i++) { drops[i] = -Math.random() * 20; spd[i] = 0.06 + Math.random() * 0.14; }
+  }
+  rz(); addEventListener('resize', rz);
+
+  function draw() {
+    cx.fillStyle = 'rgba(10,10,10,0.04)'; cx.fillRect(0, 0, cv.width, cv.height);
+    cx.fillStyle = '#00ff41'; cx.font = fs + 'px monospace';
+    if (phase === 'sync') {
+      sy += 0.12;
+      for (var i = 0; i < cols; i++) {
+        var y = sy % (cv.height / fs + 10);
+        cx.fillText(abc[Math.floor(Math.random() * abc.length)], i * fs, y * fs);
+        for (var t = 1; t < 6; t++) {
+          var ty = y - t;
+          if (ty >= 0) { cx.globalAlpha = 1 - t * 0.16; cx.fillText(abc[Math.floor(Math.random() * abc.length)], i * fs, ty * fs); cx.globalAlpha = 1; }
+        }
+      }
+      if (sy * fs > cv.height + fs * 10 && !sd) { sd = true; phase = 'random'; }
+    } else if (phase === 'random') {
+      for (var i = 0; i < drops.length; i++) {
+        if (Math.random() > 0.6) continue;
+        cx.fillText(abc[Math.floor(Math.random() * abc.length)], i * fs, drops[i] * fs);
+        if (drops[i] * fs > cv.height && Math.random() > 0.99) drops[i] = 0;
+        drops[i] += spd[i];
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+
+  // corners
+  document.getElementById('lo-pid').textContent = Math.floor(Math.random() * 90000 + 10000);
+  document.getElementById('lo-mem').textContent = (Math.random() * 2 + 0.5).toFixed(1) + 'GB';
+  function ut() { var n = new Date(); document.getElementById('lo-dt').textContent = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0') + ':' + String(n.getSeconds()).padStart(2, '0'); }
+  ut(); setInterval(ut, 1000);
+  var st = Date.now();
+  setInterval(function () { var d = Math.floor((Date.now() - st) / 1000); document.getElementById('lo-up').textContent = String(Math.floor(d / 3600)).padStart(2, '0') + ':' + String(Math.floor((d % 3600) / 60)).padStart(2, '0') + ':' + String(d % 60).padStart(2, '0'); }, 1000);
+
+  // binary
+  function gb() { var s = ''; for (var i = 0; i < 80; i++) s += Math.random() > 0.5 ? '1' : '0'; document.getElementById('lo-bn').textContent = s; }
+  gb(); setInterval(gb, 200);
+
+  // burst effect
+  function burst(x, y) {
+    var b = document.createElement('div'); b.className = 'bu';
+    b.textContent = ['✦', '◆', '●', '★'][Math.floor(Math.random() * 4)];
+    b.style.left = (x - 15) + 'px'; b.style.top = (y - 15) + 'px';
+    ov.appendChild(b); setTimeout(function () { b.remove(); }, 500);
+    var r = document.createElement('div'); r.className = 'rp';
+    r.style.cssText = 'left:' + (x - 30) + 'px;top:' + (y - 30) + 'px;width:60px;height:60px;';
+    ov.appendChild(r); setTimeout(function () { r.remove(); }, 600);
+  }
+
+  // hit circle
+  function circle(x, y, sz) {
+    var c = document.createElement('div'); c.className = 'hc';
+    c.style.cssText = 'left:' + (x - sz / 2) + 'px;top:' + (y - sz / 2) + 'px;width:' + sz + 'px;height:' + sz + 'px;';
+    ov.appendChild(c);
+    var a = sz * 2.5, ap = document.createElement('div'); ap.className = 'ap';
+    ap.style.cssText = 'left:' + (x - a / 2) + 'px;top:' + (y - a / 2) + 'px;width:' + a + 'px;height:' + a + 'px;';
+    ov.appendChild(ap);
+    var t0 = performance.now(), dur = 1500;
+    function anim(now) {
+      var p = Math.min((now - t0) / dur, 1), cur = a - (a - sz) * p;
+      ap.style.width = cur + 'px'; ap.style.height = cur + 'px';
+      ap.style.left = (x - cur / 2) + 'px'; ap.style.top = (y - cur / 2) + 'px';
+      ap.style.opacity = 0.3 + p * 0.5; c.style.opacity = 0.3 + p * 0.5;
+      if (p < 1) { requestAnimationFrame(anim); }
+      else {
+        burst(x, y);
+        c.style.transition = 'opacity .3s'; c.style.opacity = '0';
+        ap.style.transition = 'opacity .3s'; ap.style.opacity = '0';
+        setTimeout(function () { c.remove(); ap.remove(); }, 400);
+      }
+    }
+    requestAnimationFrame(anim);
+  }
+
+  // slider
+  function slider(x1, y1, x2, y2, cpx, cpy) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:13;';
+    ov.appendChild(svg);
+    var d = 'M' + x1 + ',' + y1 + ' Q' + cpx + ',' + cpy + ' ' + x2 + ',' + y2;
+    function mkP(stroke, sw) { var p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', stroke); p.setAttribute('stroke-width', sw); p.setAttribute('stroke-linecap', 'round'); return p; }
+    svg.appendChild(mkP('rgba(0,204,255,0.1)', '80'));
+    var body = mkP('rgba(0,204,255,0.35)', '40'); svg.appendChild(body);
+    svg.insertBefore(mkP('rgba(0,204,255,0.15)', '60'), body);
+
+    var bl = document.createElement('div'); bl.className = 'sb'; ov.appendChild(bl);
+    var sc = document.createElement('div'); sc.className = 'hc';
+    sc.style.cssText = 'left:' + (x1 - 24) + 'px;top:' + (y1 - 24) + 'px;width:48px;height:48px;opacity:.6;border-color:#00ccff;border-width:4px;';
+    ov.appendChild(sc);
+    var ec = document.createElement('div'); ec.className = 'hc';
+    ec.style.cssText = 'left:' + (x2 - 20) + 'px;top:' + (y2 - 20) + 'px;width:40px;height:40px;opacity:.4;border-color:#00ccff;border-width:3px;';
+    ov.appendChild(ec);
+
+    var pLen = body.getTotalLength(), t0 = performance.now(), dur = 2800;
+    svg.style.opacity = '0.9'; sc.style.opacity = '0.6'; ec.style.opacity = '0.4'; bl.style.opacity = '1';
+    function anim(now) {
+      var el = (now - t0) % (dur * 2), t = el < dur ? el / dur : 1 - (el - dur) / dur;
+      var pt = body.getPointAtLength(t * pLen);
+      bl.style.left = (pt.x - 14) + 'px'; bl.style.top = (pt.y - 14) + 'px';
+      if ((now - t0) < dur * 2.5) { requestAnimationFrame(anim); }
+      else {
+        svg.style.transition = 'opacity .5s'; svg.style.opacity = '0';
+        bl.style.transition = 'opacity .5s'; bl.style.opacity = '0';
+        sc.style.transition = 'opacity .5s'; sc.style.opacity = '0';
+        ec.style.transition = 'opacity .5s'; ec.style.opacity = '0';
+        setTimeout(function () { svg.remove(); bl.remove(); sc.remove(); ec.remove(); }, 600);
+      }
+    }
+    requestAnimationFrame(anim);
+  }
+
+  // start osu
+  function startOsu() {
+    var w = innerWidth, h = innerHeight;
+    function spC() { circle(120 + Math.random() * (w - 240), 120 + Math.random() * (h - 240), 80 + Math.random() * 40); }
+    function spS() {
+      var x1 = 100 + Math.random() * (w - 200), y1 = 100 + Math.random() * (h - 200);
+      var x2 = x1 + (Math.random() - 0.5) * 500, y2 = y1 + (Math.random() - 0.5) * 400;
+      x2 = Math.max(60, Math.min(w - 60, x2)); y2 = Math.max(60, Math.min(h - 60, y2));
+      slider(x1, y1, x2, y2, (x1 + x2) / 2 + (Math.random() - 0.5) * 350, (y1 + y2) / 2 + (Math.random() - 0.5) * 300);
+    }
+    spC();
+    setInterval(function () { if (ov.parentNode) spC(); }, 3000);
+    setTimeout(function () { spS(); setInterval(function () { if (ov.parentNode) spS(); }, 5000); }, 1500);
+  }
+
+  // click effects on overlay (not on title/enter)
+  ov.addEventListener('click', function (e) {
+    if (e.target.closest('#lo-ct')) return;
+    burst(e.clientX, e.clientY);
+  });
+
+  // sequence
+  var c1 = document.getElementById('lo-c1'), c2 = document.getElementById('lo-c2');
+  var c3 = document.getElementById('lo-c3'), c4 = document.getElementById('lo-c4');
+  var ttl = document.getElementById('lo-tt'), ent = document.getElementById('lo-en');
+
+  setTimeout(function () { document.getElementById('lo-cmd').style.opacity = '1'; }, 300);
+  setTimeout(function () { c1.classList.add('sh'); }, 600);
+  setTimeout(function () { c2.classList.add('sh'); }, 1400);
+  setTimeout(function () { c3.classList.add('sh'); }, 2200);
+  setTimeout(function () { c4.classList.add('sh'); }, 3000);
+  setTimeout(function () { ttl.classList.add('sh'); }, 4000);
+  setTimeout(function () { ent.classList.add('sh'); }, 4800);
+  setTimeout(function () { phase = 'sync'; }, 5000);
+  setTimeout(function () { startOsu(); }, 6000);
+
+  // enter blog
+  var entering = false;
+  function enter() {
+    if (entering) return; entering = true;
+    var bar = document.getElementById('lo-bar'), bf = document.getElementById('lo-bf');
+    bar.classList.add('sh');
+    setTimeout(function () { bf.classList.add('dn'); }, 100);
+    setTimeout(function () { ov.classList.add('fo'); }, 2000);
+    setTimeout(function () { sessionStorage.setItem('landing-seen', '1'); ov.remove(); }, 2800);
+  }
+  document.getElementById('lo-tt').addEventListener('click', enter);
+  document.getElementById('lo-en').addEventListener('click', enter);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') enter(); });
+})();
+</script>
 <!-- ============ END LANDING OVERLAY ============ -->
 
 <!-- 为全屏壁纸模式添加body类 -->
