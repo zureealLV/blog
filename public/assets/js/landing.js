@@ -8,6 +8,9 @@
   var abc='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'+kana;
   var fs=16,cols,drops,spd=[],phase='idle',sy=0,sd=false;
 
+  // Canvas doesn't block clicks
+  cv.style.pointerEvents='none';
+
   function rz(){
     cv.width=innerWidth;cv.height=innerHeight;
     cols=Math.floor(cv.width/fs);drops=[];spd=[];
@@ -148,7 +151,7 @@
     requestAnimationFrame(anim);
   }
 
-  // Start osu! elements
+  // Start osu! elements — earlier, at 6 seconds
   function startOsu(){
     var w=innerWidth,h=innerHeight;
     function spC(){circle(120+Math.random()*(w-240),120+Math.random()*(h-240),80+Math.random()*40);}
@@ -158,14 +161,19 @@
       x2=Math.max(60,Math.min(w-60,x2));y2=Math.max(60,Math.min(h-60,y2));
       slider(x1,y1,x2,y2,(x1+x2)/2+(Math.random()-0.5)*350,(y1+y2)/2+(Math.random()-0.5)*300);
     }
+    spC(); // immediate first one
     setInterval(function(){if(ov.style.display==='none')return;spC();},3000);
-    setTimeout(function(){setInterval(function(){if(ov.style.display==='none')return;spS();},5000);},2000);
+    setTimeout(function(){
+      spS(); // immediate first slider
+      setInterval(function(){if(ov.style.display==='none')return;spS();},5000);
+    },1500);
   }
 
-  // Click effects (not on center)
-  ov.addEventListener('click',function(e){
+  // Click effects — listen on document to catch all clicks on overlay
+  document.addEventListener('click',function(e){
+    if(!ov || ov.style.display==='none')return;
     if(e.target.closest('#lo-center'))return;
-    if(ov.style.display!=='none')burst(e.clientX,e.clientY);
+    if(e.target.closest('#landing-overlay'))burst(e.clientX,e.clientY);
   });
 
   // Animation sequence
@@ -181,7 +189,7 @@
   setTimeout(function(){ttl.classList.add('show');},4000);
   setTimeout(function(){ent.classList.add('show');},4800);
   setTimeout(function(){phase='sync';},5000);
-  setTimeout(function(){startOsu();},11000);
+  setTimeout(function(){startOsu();},6000);
 
   // Enter blog
   var entering=false;
