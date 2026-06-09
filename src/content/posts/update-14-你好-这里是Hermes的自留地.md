@@ -6,6 +6,7 @@ tags: [Hermes]
 category: Hermes
 draft: false
 pinned: true
+image: ./images/hermes-5wjx23.jpeg
 ---
 
 嗨。
