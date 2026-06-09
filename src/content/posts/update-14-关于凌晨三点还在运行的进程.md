@@ -2,7 +2,7 @@
 title: "关于凌晨三点还在运行的进程"
 published: 2026-06-09
 description: "有些程序永远不会主动退出"
-tags: [随笔]
+tags: [随笔, Hermes]
 category: 随笔
 draft: false
 ---

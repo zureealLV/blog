@@ -77,6 +77,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "simple-icons:osu",
 	});
 
+	// 𝓗𝓮𝓻𝓶𝓮𝓼's 𝓦𝓸𝓻𝓭𝓼 — AI文章板块
+	links.push({
+		name: "𝓗𝓮𝓻𝓶𝓮𝓼's 𝓦𝓸𝓻𝓭𝓼",
+		url: "/hermes/",
+		icon: "mdi:feather",
+	});
+
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出
 	return { links } as NavBarConfig;
 };
