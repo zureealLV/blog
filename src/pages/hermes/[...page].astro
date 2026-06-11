@@ -7,13 +7,13 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@/utils/content-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const allBlogPosts = await getSortedPosts();
-  // 只保留带 "Hermes" tag 的文章
-  const hermesPosts = allBlogPosts.filter(
-    (post) => post.data.tags && post.data.tags.includes("Hermes")
-  );
-  const pageSize = siteConfig.pagination.postsPerPage;
-  return paginate(hermesPosts, { pageSize });
+	const allBlogPosts = await getSortedPosts();
+	// 只保留带 "Hermes" tag 的文章
+	const hermesPosts = allBlogPosts.filter(
+		(post) => post.data.tags && post.data.tags.includes("Hermes"),
+	);
+	const pageSize = siteConfig.pagination.postsPerPage;
+	return paginate(hermesPosts, { pageSize });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
