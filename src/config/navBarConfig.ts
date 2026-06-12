@@ -39,6 +39,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 根据配置决定是否添加番组计划
 			LinkPreset.Bangumi,
+
+			// 百宝箱 - 收藏链接合集
+			{
+				name: "百宝箱",
+				url: "/treasure/",
+				icon: "material-symbols:inventory-2",
+			},
 		],
 	});
 

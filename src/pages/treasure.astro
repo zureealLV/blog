@@ -1,0 +1,389 @@
+---
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+
+interface Bookmark {
+  name: string;
+  url: string;
+  icon?: string;
+}
+
+interface Category {
+  title: string;
+  icon: string;
+  color: string;
+  items: Bookmark[];
+}
+
+const categories: Category[] = [
+  {
+    title: "工具",
+    icon: "material-symbols:build",
+    color: "from-blue-500 to-cyan-500",
+    items: [
+      { name: "Hotbox", url: "https://www.haobang.fun/" },
+      { name: "鼠标指针 - 致美化", url: "https://zhutix.com/tag/cursors/" },
+      { name: "YouTube视频下载器", url: "https://zh.savefrom.net/1-how-to-download-youtube-video.html" },
+      { name: "Instagram Fonts Generator", url: "https://igfonts.io/" },
+      { name: "fastsoso网盘搜索", url: "https://www.fastsoso.cc/" },
+      { name: "MindShow", url: "https://www.mindshow.fun/#/folder/home" },
+      { name: "PayPal", url: "https://www.paypal.com/myaccount/transfer/" },
+      { name: "网恋照妖镜", url: "https://uso.link/sc.php" },
+      { name: "HTML5 UP! 模板", url: "https://html5up.net/" },
+      { name: "截图拼接工具", url: "http://join-screenshots.zhanghai.me/" },
+      { name: "Yandex", url: "https://yandex.com/" },
+      { name: "Similarsites", url: "https://www.similarsites.com/" },
+      { name: "SkrBT 种子搜索", url: "https://skrbtfo.xyz/" },
+      { name: "Canva", url: "https://www.canva.cn/" },
+      { name: "Pix Fix 图片修复", url: "https://zh.pixfix.com/" },
+      { name: "Magic Eraser", url: "https://www.magiceraser.io/" },
+      { name: "TinyPNG 压缩", url: "https://tinypng.com/" },
+      { name: "Image Extractor", url: "https://extract.pics/" },
+      { name: "remove.bg 去背景", url: "https://www.remove.bg/" },
+      { name: "海艺 AI", url: "https://www.haiyiai.com/home" },
+      { name: "OpenArt AI Art", url: "https://openart.ai/discovery" },
+      { name: "音乐直链搜索", url: "https://music.liuzhijin.cn/" },
+      { name: "Z-library 电子书", url: "https://z-library.sk/" },
+      { name: "PDF24 Tools", url: "https://tools.pdf24.org/zh/" },
+      { name: "OpenYYY 云音乐转MP3", url: "https://openyyy.com/" },
+      { name: "Internet Archive", url: "http://archive.org/" },
+      { name: "Google 图片", url: "https://www.google.com/imghp?hl=zh-CN" },
+      { name: "Hitomi.la", url: "https://hitomi.la/" },
+      { name: "PimEyes 人脸搜索", url: "https://pimeyes.com/en" },
+      { name: "Sayo Device", url: "https://sayodevice.com/" },
+      { name: "鼠标测试工具", url: "https://www.mousetester.cn/" },
+      { name: "draw.io", url: "https://www.drawio.com/" },
+      { name: "Notion", url: "https://www.notion.so/" },
+      { name: "套餐商店 — 全球通", url: "https://tify007.site/user/shop" },
+      { name: "Nico资源网", url: "https://www.nicozy.com/" },
+      { name: "IP下载记录查询", url: "https://iknowwhatyoudownload.com/en/peer/" },
+      { name: "奈飞工厂", url: "https://www.netflixgc.com/" },
+      { name: "Pinterest", url: "https://www.pinterest.at/" },
+    ],
+  },
+  {
+    title: "外网杂项",
+    icon: "material-symbols:vpn-lock",
+    color: "from-purple-500 to-pink-500",
+    items: [
+      { name: "Zou 导航页", url: "https://dh.zou666.top/" },
+      { name: "SakuraFrP 节点状态", url: "https://www.natfrp.com/tunnel/nodes" },
+      { name: "Discord 旅程导航", url: "https://discord.com/channels/1291925535324110879/1337462101353955348" },
+      { name: "SillyTavern 文档", url: "https://docs.sillytavern.app/" },
+      { name: "YOUChat_Proxy", url: "https://github.com/YIWANG-sketch/YOUChat_Proxy" },
+      { name: "类脑智识库 Wiki", url: "https://wiki.xn--35zx7g.org/" },
+      { name: "Twitch", url: "https://www.twitch.tv/" },
+      { name: "Gofile 云存储", url: "https://gofile.io/myprofile" },
+      { name: "Transfer.it", url: "https://transfer.it/start" },
+      { name: "ImageToURL 图床", url: "https://imagetourl.net/zh" },
+      { name: "2FA Auth", url: "https://2fa.cn/" },
+      { name: "OpenAI Platform", url: "https://platform.openai.com/home" },
+      { name: "Skills.sh", url: "https://www.skills.sh/" },
+      { name: "Hermes Agent 官网", url: "https://hermes-agent.nousresearch.com/" },
+      { name: "Tavily API", url: "https://app.tavily.com/home" },
+      { name: "SkillsMP 市场", url: "https://skillsmp.com/zh" },
+      { name: "Spaceship 发射台", url: "https://www.spaceship.com/zh/launchpad/" },
+      { name: "Cloudflare 域名管理", url: "https://dash.cloudflare.com/" },
+      { name: "CF优选域名汇总", url: "https://cf.090227.xyz/" },
+      { name: "丽萨主机", url: "https://lisahost.com/cart.php" },
+    ],
+  },
+  {
+    title: "游戏及游戏工具",
+    icon: "material-symbols:sports-esports",
+    color: "from-red-500 to-orange-500",
+    items: [
+      { name: "萌娘百科", url: "https://zh.moegirl.org.cn/Mainpage" },
+      { name: "ACG漫音社", url: "http://www.acgjc.com/" },
+      { name: "Hypixel公益加速IP", url: "https://www.jsip.club/" },
+      { name: "Switch520", url: "https://xxxxx528.com/" },
+      { name: "Aimbooster 反应速度", url: "http://www.aimbooster.com/news/offline_play" },
+      { name: "LOL自制皮肤", url: "https://lolgezi.com/" },
+      { name: "幻想次元 ACG18", url: "https://acg18.icu/" },
+      { name: "THBWiki 东方Project", url: "https://thwiki.cc/" },
+      { name: "League of Dodging", url: "https://loldodgegame.com/play/" },
+      { name: "Waifu Labs", url: "https://waifulabs.com/" },
+      { name: "南+ South Plus", url: "https://www.south-plus.net/index.php" },
+      { name: "Human Benchmark", url: "https://humanbenchmark.com/tests/reactiontime" },
+      { name: "LOL换肤大师", url: "http://www.lolhfds.cc/" },
+      { name: "NGA玩家社区", url: "https://bbs.nga.cn/" },
+      { name: "NOeSIS 中文站", url: "https://noesis.com.cn/" },
+      { name: "Yume Nikki Online", url: "https://ynoproject.net/" },
+      { name: "P站画师通", url: "https://www.huashi6.com/" },
+      { name: "Pixiviz", url: "https://pixiviz.pwp.app/" },
+      { name: "守望先锋聊天编辑器", url: "https://ow.mapleqaq.top/overwatch-market" },
+      { name: "ACG17", url: "http://acg17.com/" },
+      { name: "VNDB 视觉小说数据库", url: "https://vndb.org/" },
+    ],
+  },
+  {
+    title: "游戏资源论坛",
+    icon: "material-symbols:forum",
+    color: "from-green-500 to-emerald-500",
+    items: [
+      { name: "byrut.org 俄站游戏", url: "https://byrut.org/" },
+      { name: "Online-Fix 联机修复", url: "https://online-fix.me/" },
+      { name: "sharemoe Pixiv收藏", url: "http://sharemoe.net/" },
+      { name: "wallhaven 壁纸", url: "https://wallhaven.cc/" },
+      { name: "天使二次元 Galgame", url: "https://www.tianshi2.cc/" },
+      { name: "爱达杂货铺", url: "https://adzhp.net/" },
+      { name: "果汁导航", url: "http://guozhivip.com/" },
+      { name: "SteamFo 免费游戏", url: "https://steamfo.com/" },
+      { name: "扫雷网页版", url: "https://www.minesweeper.cn/" },
+      { name: "灾厄中文维基", url: "https://calamity.huijiwiki.com/" },
+      { name: "灵梦御所", url: "https://blog.reimu.net/" },
+      { name: "梦日记中文站", url: "https://yumenikki.info/blog/" },
+      { name: "Platinmods", url: "https://platinmods.com/" },
+      { name: "VNDB", url: "https://vndb.org/" },
+    ],
+  },
+  {
+    title: "学习",
+    icon: "material-symbols:school",
+    color: "from-amber-500 to-yellow-500",
+    items: [
+      { name: "w3school 在线教程", url: "https://www.w3school.com.cn/" },
+      { name: "HTML 教程 菜鸟教程", url: "https://www.runoob.com/html/html-tutorial.html" },
+      { name: "Gemini", url: "https://gemini.google.com/app" },
+      { name: "USTC 开源镜像", url: "https://mirrors.ustc.edu.cn/" },
+      { name: "口袋资源网", url: "https://www.koudaizy.com/" },
+      { name: "安大ACM平台", url: "http://cg.ahu.edu.cn/acm/problemset.jsp" },
+      { name: "SheerID Batch Verifier", url: "https://batch.1key.me/" },
+    ],
+  },
+  {
+    title: "B圈",
+    icon: "material-symbols:currency-bitcoin",
+    color: "from-yellow-500 to-amber-500",
+    items: [
+      { name: "CoinMarketCap", url: "https://coinmarketcap.com/" },
+      { name: "DefiLlama", url: "https://defillama.com/" },
+      { name: "Autotrading 跟单", url: "https://www.autotrading.world/" },
+      { name: "TradingView", url: "https://cn.tradingview.com/" },
+      { name: "币安市场概览", url: "https://www.binance.com/zh-CN/markets/overview" },
+      { name: "SoSo Value", url: "https://sosovalue.xyz/" },
+      { name: "非小号", url: "https://www.feixiaohao.com/" },
+      { name: "金十数据", url: "https://www.jin10.com/" },
+      { name: "CoinGlass 清算热力图", url: "https://www.coinglass.com/zh/pro/futures/LiquidationHeatMap" },
+    ],
+  },
+  {
+    title: "osu!",
+    icon: "simple-icons:osu",
+    color: "from-pink-500 to-rose-500",
+    items: [
+      { name: "AlphaOsu!", url: "https://alphaosu.keytoix.vip/self/pp-recommend" },
+      { name: "osu! 官网", url: "https://osu.ppy.sh" },
+      { name: "osu! score cover generator", url: "https://a.yasunaori.be/osu-score-cover-generator/" },
+      { name: "Tosu 官网", url: "https://tosu.app/" },
+      { name: "osu-trainer", url: "https://github.com/FunOrange/osu-trainer-update-test/releases" },
+      { name: "tosu 你好osu论坛", url: "https://bbs.hiosu.com/thread-1183-1-1.html" },
+      { name: "huismetbenen PP Queue", url: "https://pp.huismetbenen.nl/rankings/queue/master" },
+      { name: "Inso link osu下载云", url: "https://inso.link/yukiho/" },
+      { name: "Smoothing Calculator", url: "https://mixmg.github.io/smoothing/smoothing-calculator.html" },
+      { name: "Osekai Medals", url: "https://inex.osekai.net/medals/Fading%20Reflection" },
+      { name: "osu! Stats Signature", url: "https://osu-sig.s23.moe/" },
+    ],
+  },
+  {
+    title: "编程",
+    icon: "material-symbols:code",
+    color: "from-indigo-500 to-blue-500",
+    items: [
+      { name: "GitHub", url: "https://github.com/" },
+      { name: "Gitee 代码克隆检测", url: "https://copycat.gitee.com/detect/" },
+      { name: "工具人 CSDN解析", url: "http://toolman.ddnsfree.com:9192/#/main/csdn" },
+      { name: "SourceForge", url: "https://sourceforge.net/" },
+      { name: "CTF在线工具", url: "http://www.hiencode.com/" },
+    ],
+  },
+  {
+    title: "ASMR及外网资源",
+    icon: "material-symbols:bedtime",
+    color: "from-violet-500 to-purple-500",
+    items: [
+      { name: "南+ South Plus", url: "https://www.south-plus.net/" },
+      { name: "DLsite", url: "https://www.dlsite.com/index.html" },
+      { name: "Anime-Sharing", url: "https://www.anime-sharing.com/" },
+      { name: "Hanime1.me", url: "https://hanime1.me/" },
+      { name: "蜜柑计划 Mikan", url: "https://mikanani.me/" },
+      { name: "ASMR DLsite ACG DB", url: "https://acgdb.de/ASMR_DLSite" },
+    ],
+  },
+  {
+    title: "加密",
+    icon: "material-symbols:lock",
+    color: "from-teal-500 to-cyan-500",
+    items: [
+      { name: "与佛论禅", url: "https://www.keyfc.net/bbs/tools/tudoucode.aspx" },
+      { name: "与熊论道", url: "http://hi.pcmoe.net/" },
+      { name: "Base64 在线编解码", url: "https://base64.us/" },
+      { name: "兽音译者", url: "https://roar.iiilab.com/" },
+    ],
+  },
+  {
+    title: "LUV",
+    icon: "material-symbols:favorite",
+    color: "from-rose-500 to-pink-500",
+    items: [
+      { name: "Wired Sound for Wired People", url: "https://fauux.neocities.org/" },
+      { name: "world.execute(me);", url: "https://world.execute.umstudio.top/" },
+      { name: "Maple's Blog", url: "https://maplecmyk.online/" },
+    ],
+  },
+  {
+    title: "云顶大数据",
+    icon: "material-symbols:grid-view",
+    color: "from-slate-500 to-zinc-500",
+    items: [
+      { name: "MetaTFT - Best Comps", url: "https://www.metatft.com/comps" },
+      { name: "tactics.tools", url: "https://tactics.tools/zh" },
+    ],
+  },
+];
+
+const totalLinks = categories.reduce((sum, cat) => sum + cat.items.length, 0);
+---
+
+<MainGridLayout title="百宝箱" description="我的收藏链接合集">
+  <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+    <div class="card-base z-10 px-9 py-6 relative w-full">
+      <!-- 页面标题 -->
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="h-9 w-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white">
+            <Icon name="material-symbols:inventory-2" class="text-[1.6rem]" />
+          </div>
+          <div class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+            百宝箱
+          </div>
+        </div>
+        <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          我的收藏链接合集，共 {categories.length} 个分类、{totalLinks} 个链接
+        </p>
+      </div>
+
+      <!-- 分类标签筛选 -->
+      <treasure-filter class="flex flex-wrap gap-2 mb-6">
+        <button
+          data-tag="all"
+          class="px-3 py-1.5 rounded-lg bg-(--primary) text-white hover:bg-(--primary) transition-colors duration-200 text-sm font-medium"
+        >
+          全部
+        </button>
+        {categories.map((cat) => (
+          <button
+            data-tag={cat.title}
+            class="px-3 py-1.5 rounded-lg bg-(--btn-regular-bg) text-(--btn-content) hover:bg-(--btn-regular-bg-hover) transition-colors duration-200 text-sm font-medium"
+          >
+            {cat.title}
+          </button>
+        ))}
+      </treasure-filter>
+
+      <!-- 分类列表 -->
+      {categories.map((cat) => (
+        <div class="treasure-category mb-8" data-category={cat.title}>
+          <!-- 分类标题 -->
+          <div class="flex items-center gap-2 mb-3">
+            <div class={`h-7 w-7 rounded-md bg-gradient-to-br ${cat.color} flex items-center justify-center text-white`}>
+              <Icon name={cat.icon} class="text-[1.1rem]" />
+            </div>
+            <h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+              {cat.title}
+            </h2>
+            <span class="text-xs text-neutral-400 dark:text-neutral-500 ml-1">
+              {cat.items.length}
+            </span>
+          </div>
+
+          <!-- 链接网格 -->
+          <div class="treasure-grid">
+            {cat.items.map((item) => (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="treasure-link group flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-(--primary) hover:bg-(--primary)/5 transition-all duration-200"
+              >
+                <div class="w-5 h-5 shrink-0 rounded overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${new URL(item.url).hostname}&sz=32`}
+                    alt=""
+                    class="w-4 h-4"
+                    loading="lazy"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+                  />
+                  <div class="w-4 h-4 hidden items-center justify-center text-neutral-400">
+                    <Icon name="material-symbols:language" class="text-sm" />
+                  </div>
+                </div>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-(--primary) transition-colors truncate">
+                  {item.name}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script slot="head" is:inline>
+    if (!customElements.get("treasure-filter")) {
+      class TreasureFilter extends HTMLElement {
+        constructor() {
+          super();
+        }
+        connectedCallback() {
+          this.addEventListener("click", this.handleClick);
+        }
+        disconnectedCallback() {
+          this.removeEventListener("click", this.handleClick);
+        }
+        handleClick(e) {
+          const target = e.target;
+          const button = target.closest("button");
+          if (!button) return;
+
+          const selectedTag = button.dataset.tag;
+          const filters = this.querySelectorAll("button");
+          const categories = document.querySelectorAll(".treasure-category");
+
+          filters.forEach((f) => {
+            f.classList.remove("bg-(--primary)", "text-white");
+            f.classList.add("bg-(--btn-regular-bg)", "text-(--btn-content)");
+            if (f === button) {
+              f.classList.remove("bg-(--btn-regular-bg)", "text-(--btn-content)");
+              f.classList.add("bg-(--primary)", "text-white");
+            }
+          });
+
+          categories.forEach((cat) => {
+            if (selectedTag === "all" || cat.dataset.category === selectedTag) {
+              cat.style.display = "";
+              cat.classList.add("animate-fade-in-up");
+            } else {
+              cat.style.display = "none";
+              cat.classList.remove("animate-fade-in-up");
+            }
+          });
+        }
+      }
+      customElements.define("treasure-filter", TreasureFilter);
+    }
+  </script>
+
+  <style is:global>
+    .treasure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.25rem;
+    }
+    @media (max-width: 640px) {
+      .treasure-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+    }
+  </style>
+</MainGridLayout>
