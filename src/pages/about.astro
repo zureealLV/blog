@@ -1,5 +1,4 @@
 ---
-
 import { getEntry, render } from "astro:content";
 import Markdown from "@components/common/Markdown.astro";
 import I18nKey from "@/i18n/i18nKey";
@@ -7,19 +6,401 @@ import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 
 const aboutPost = await getEntry("spec", "about");
-
 if (!aboutPost) {
 	throw new Error("About page content not found");
 }
-
 const { Content } = await render(aboutPost);
 ---
+
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
-    </div>
+	<!-- 3D Perspective Container -->
+	<div class="perspective-container">
+		<!-- Floating Geometric Shapes -->
+		<div class="floating-shapes">
+			<div class="shape shape-1"></div>
+			<div class="shape shape-2"></div>
+			<div class="shape shape-3"></div>
+			<div class="shape shape-4"></div>
+			<div class="shape shape-5"></div>
+		</div>
+
+		<!-- Hero Section with 3D Profile Card -->
+		<div class="hero-section">
+			<div class="profile-card-3d" id="profile-card">
+				<div class="card-inner">
+					<div class="card-front">
+						<div class="profile-avatar-ring">
+							<img src="/assets/images/avatar.jpg" alt="Profile" class="profile-avatar-img" />
+						</div>
+						<h1 class="profile-name">zureealLV</h1>
+						<p class="profile-subtitle">osu! player / blogger / 想玩 OSU 的人</p>
+						<div class="profile-tags">
+							<span class="tag">🎮 osu!</span>
+							<span class="tag">📝 博客</span>
+							<span class="tag">🎵 音乐</span>
+							<span class="tag">💻 赛博</span>
+						</div>
+						<div class="flip-hint">hover to flip →</div>
+					</div>
+					<div class="card-back">
+						<div class="back-content">
+							<h2 style="color:var(--primary);margin-bottom:12px;">About Me</h2>
+							<p style="color:var(--text-secondary);line-height:1.8;font-size:14px;">
+								很帅的阴郁长发男<br/>
+								osu! ID: 37641269<br/>
+								Blog: zureeallv.com<br/>
+								<br/>
+								"啦啦啦啦啦，好想玩OSU！"
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- osu! Stats - 3D Hover Cards -->
+		<div class="stats-section">
+			<h2 class="section-title">
+				<span class="title-icon">🎮</span>
+				<em>osu!</em> Stats
+			</h2>
+			<div class="stats-grid" id="stats-grid">
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-pp">4,684</div>
+					<div class="stat-label">Performance Points</div>
+					<div class="stat-icon">⚡</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-rank">#128,994</div>
+					<div class="stat-label">Global Rank</div>
+					<div class="stat-icon">🌍</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-acc">96.62%</div>
+					<div class="stat-label">Accuracy</div>
+					<div class="stat-icon">🎯</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-pc">16,585</div>
+					<div class="stat-label">Play Count</div>
+					<div class="stat-icon">🔄</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-level">100</div>
+					<div class="stat-label">Level</div>
+					<div class="stat-icon">⭐</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-combo">1,526</div>
+					<div class="stat-label">Max Combo</div>
+					<div class="stat-icon">🔗</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-grades">0 / 70 / 906</div>
+					<div class="stat-label">SS / S / A</div>
+					<div class="stat-icon">🏆</div>
+				</div>
+				<div class="stat-card-3d" data-tilt>
+					<div class="stat-value" id="stat-score">9.7B</div>
+					<div class="stat-label">Ranked Score</div>
+					<div class="stat-icon">💎</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Content Section -->
+		<div class="content-section">
+			<div class="card-base z-10 px-9 py-6 relative w-full">
+				<Markdown class="mt-2">
+					<Content />
+				</Markdown>
+			</div>
+		</div>
+	</div>
 </MainGridLayout>
+
+<style>
+	/* ===== 3D Perspective ===== */
+	.perspective-container {
+		perspective: 1200px;
+		position: relative;
+	}
+
+	/* ===== Floating Shapes ===== */
+	.floating-shapes {
+		position: fixed;
+		top: 0; left: 0; right: 0; bottom: 0;
+		pointer-events: none;
+		z-index: 0;
+		overflow: hidden;
+	}
+	.shape {
+		position: absolute;
+		border: 2px solid var(--primary);
+		opacity: 0.08;
+		animation: floatShape 20s ease-in-out infinite;
+	}
+	.shape-1 { width:60px;height:60px;border-radius:50%;top:10%;left:5%;animation-delay:0s; }
+	.shape-2 { width:40px;height:40px;top:30%;right:8%;animation-delay:-4s;transform:rotate(45deg); }
+	.shape-3 { width:80px;height:80px;border-radius:50%;bottom:20%;left:10%;animation-delay:-8s; }
+	.shape-4 { width:30px;height:30px;top:60%;right:15%;animation-delay:-12s;transform:rotate(30deg); }
+	.shape-5 { width:50px;height:50px;border-radius:12px;bottom:10%;right:5%;animation-delay:-16s; }
+
+	@keyframes floatShape {
+		0%, 100% { transform: translateY(0) rotate(0deg); }
+		25% { transform: translateY(-30px) rotate(90deg); }
+		50% { transform: translateY(-15px) rotate(180deg); }
+		75% { transform: translateY(-40px) rotate(270deg); }
+	}
+
+	/* ===== Hero Section ===== */
+	.hero-section {
+		display: flex;
+		justify-content: center;
+		padding: 40px 0 30px;
+		position: relative;
+		z-index: 1;
+	}
+
+	/* ===== 3D Profile Card (Flip) ===== */
+	.profile-card-3d {
+		width: 320px;
+		height: 380px;
+		perspective: 1000px;
+		cursor: pointer;
+	}
+	.card-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		transform-style: preserve-3d;
+	}
+	.profile-card-3d:hover .card-inner {
+		transform: rotateY(180deg);
+	}
+	.card-front, .card-back {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden;
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background: var(--card-bg, #1a1a2e);
+		border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+		box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+		padding: 24px;
+	}
+	.card-back {
+		transform: rotateY(180deg);
+	}
+
+	.profile-avatar-ring {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		padding: 3px;
+		background: conic-gradient(var(--primary), #ff6b9d, #7c3aed, var(--primary));
+		margin-bottom: 16px;
+		animation: ringRotate 4s linear infinite;
+	}
+	@keyframes ringRotate {
+		from { background: conic-gradient(var(--primary), #ff6b9d, #7c3aed, var(--primary)); }
+		to { background: conic-gradient(#7c3aed, var(--primary), #ff6b9d, #7c3aed); }
+	}
+	.profile-avatar-img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 3px solid var(--card-bg, #1a1a2e);
+	}
+
+	.profile-name {
+		font-size: 24px;
+		font-weight: 700;
+		color: var(--primary);
+		margin-bottom: 4px;
+	}
+	.profile-subtitle {
+		font-size: 13px;
+		color: var(--text-secondary);
+		margin-bottom: 16px;
+	}
+	.profile-tags {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.tag {
+		font-size: 12px;
+		padding: 4px 10px;
+		border-radius: 20px;
+		background: color-mix(in srgb, var(--primary) 10%, transparent);
+		color: var(--primary);
+		border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+	}
+	.flip-hint {
+		margin-top: 16px;
+		font-size: 11px;
+		color: var(--text-secondary);
+		opacity: 0.5;
+	}
+
+	/* ===== Stats Grid ===== */
+	.stats-section {
+		padding: 20px 0;
+		position: relative;
+		z-index: 1;
+	}
+	.section-title {
+		text-align: center;
+		font-size: 22px;
+		font-weight: 700;
+		color: var(--primary);
+		margin-bottom: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
+	.title-icon {
+		font-size: 28px;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 12px;
+		max-width: 700px;
+		margin: 0 auto;
+	}
+
+	.stat-card-3d {
+		background: var(--card-bg, #1a1a2e);
+		border: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
+		border-radius: 12px;
+		padding: 16px 12px;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		transform-style: preserve-3d;
+	}
+	.stat-card-3d:hover {
+		transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+		box-shadow: 0 12px 24px rgba(0,0,0,0.3),
+					0 0 20px color-mix(in srgb, var(--primary) 15%, transparent);
+	}
+	.stat-card-3d::before {
+		content: '';
+		position: absolute;
+		top: 0; left: -100%;
+		width: 100%; height: 100%;
+		background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--primary) 8%, transparent), transparent);
+		transition: left 0.5s;
+	}
+	.stat-card-3d:hover::before {
+		left: 100%;
+	}
+
+	.stat-value {
+		font-size: 20px;
+		font-weight: 700;
+		color: var(--primary);
+		margin-bottom: 4px;
+	}
+	.stat-label {
+		font-size: 11px;
+		color: var(--text-secondary);
+		font-weight: 500;
+	}
+	.stat-icon {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		font-size: 16px;
+		opacity: 0.3;
+	}
+
+	/* ===== Content Section ===== */
+	.content-section {
+		padding: 20px 0;
+		position: relative;
+		z-index: 1;
+	}
+
+	/* ===== Animations ===== */
+	.hero-section, .stats-section, .content-section {
+		animation: fadeInUp 0.8s ease-out backwards;
+	}
+	.stats-section { animation-delay: 0.2s; }
+	.content-section { animation-delay: 0.4s; }
+
+	@keyframes fadeInUp {
+		from { opacity: 0; transform: translateY(30px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	/* ===== Responsive ===== */
+	@media (max-width: 640px) {
+		.profile-card-3d { width: 280px; height: 340px; }
+		.stats-grid { grid-template-columns: repeat(2, 1fr); }
+		.stat-value { font-size: 16px; }
+	}
+</style>
+
+<script is:inline>
+(function() {
+	// Load stats from osu-stats.json
+	fetch('/osu-stats.json')
+		.then(function(r) { return r.json(); })
+		.then(function(d) {
+			var set = function(cls, val) {
+				var el = document.getElementById(cls);
+				if (el) el.textContent = val;
+			};
+			set('stat-pp', d.pp.toLocaleString());
+			set('stat-rank', '#' + d.global_rank.toLocaleString());
+			set('stat-acc', d.accuracy + '%');
+			set('stat-pc', d.play_count.toLocaleString());
+			set('stat-level', d.level);
+			set('stat-combo', d.max_combo.toLocaleString());
+			set('stat-grades', (d.grade_ss||0) + ' / ' + (d.grade_s||0) + ' / ' + (d.grade_a||0));
+			set('stat-score', (d.ranked_score / 1e9).toFixed(1) + 'B');
+		})
+		.catch(function() {});
+
+	// 3D tilt effect on stat cards
+	var cards = document.querySelectorAll('[data-tilt]');
+	cards.forEach(function(card) {
+		card.addEventListener('mousemove', function(e) {
+			var rect = card.getBoundingClientRect();
+			var x = e.clientX - rect.left;
+			var y = e.clientY - rect.top;
+			var centerX = rect.width / 2;
+			var centerY = rect.height / 2;
+			var rotateX = (y - centerY) / centerY * -8;
+			var rotateY = (x - centerX) / centerX * 8;
+			card.style.transform = 'translateY(-4px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+		});
+		card.addEventListener('mouseleave', function() {
+			card.style.transform = '';
+		});
+	});
+
+	// Parallax floating shapes on scroll
+	var shapes = document.querySelectorAll('.shape');
+	window.addEventListener('scroll', function() {
+		var scrollY = window.scrollY;
+		shapes.forEach(function(shape, i) {
+			var speed = 0.02 + i * 0.01;
+			shape.style.transform = 'translateY(' + (scrollY * speed * -1) + 'px) rotate(' + (scrollY * 0.05 * (i+1)) + 'deg)';
+		});
+	});
+})();
+</script>
