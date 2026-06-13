@@ -61,11 +61,17 @@ import { url } from "@/utils/url-utils";
 
 <script is:inline>
 (function() {
+    function initTerminal() {
     var output = document.getElementById("terminal-output");
     var inputLine = document.getElementById("input-line");
     var input = document.getElementById("terminal-input");
     var body = document.getElementById("terminal-body");
     if (!output || !input || !inputLine) return;
+
+    // Clear previous state
+    output.innerHTML = "";
+    inputLine.style.display = "none";
+    input.value = "";
 
     // ========== Loading Sequence ==========
     var introLines = [
@@ -280,5 +286,20 @@ import { url } from "@/utils/url-utils";
     body.addEventListener("click", function() { input.focus(); });
 
     setTimeout(processIntro, 500);
+    } // end initTerminal
+
+    // Auto-init on first load
+    initTerminal();
+
+    // Re-init on Swup page navigation
+    if (window.swup) {
+        window.swup.on("contentReplaced", function() {
+            setTimeout(initTerminal, 100);
+        });
+    } else {
+        document.addEventListener("swup:contentReplaced", function() {
+            setTimeout(initTerminal, 100);
+        });
+    }
 })();
 </script>
