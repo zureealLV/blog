@@ -39,7 +39,7 @@
 通过 osu! API v2 实时获取游戏数据，展示 PP、排名、准确率、游戏次数等。
 
 <div align="center">
-<img src="docs/images/osu-stats.png" alt="osu! 数据卡片" width="40%" />
+<img src="docs/images/osu-stats.png" alt="osu! 数据卡片" width="90%" />
 </div>
 
 ---
