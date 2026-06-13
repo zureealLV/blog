@@ -1,142 +1,281 @@
-# 𝓞𝓢𝓤！𝓣𝓥 — zureealLV Blog
+<div align="center">
 
-> **AI Agent 驱动的个人博客自动化搭建与运维**
->
-> 本项目展示如何通过自然语言对话，让 AI Agent 自主完成博客的全生命周期管理——从零搭建、内容迁移、个性化配置、API 集成，到持续运维。
+# ✦ 𝓩𝓤𝓡𝓔𝓔𝓐𝓛 ✦ Personal Blog
 
-🌐 **在线访问**: [https://zureeallv.com](https://zureeallv.com)
+**基于 Firefly 主题的 Astro 静态博客 · AI 驱动 · 持续进化**
 
----
+[![Astro](https://img.shields.io/badge/Astro-6.3-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 项目背景
+🌐 **[在线访问](https://zureeallv.com)** · 📖 **[文章归档](https://zureeallv.com/archive)** · 💬 **[留言板](https://zureeallv.com/guestbook)**
 
-传统个人博客搭建需要手动编写配置文件、逐篇迁移文章、手动配置 CI/CD 流水线。整个过程繁琐且容易出错。
+<img src="docs/images/homepage.png" alt="博客首页预览" width="100%" />
 
-本项目探索了一种新范式：**用户只需要用自然语言描述需求，AI Agent 自主完成所有技术实现**。
-
----
-
-## Agent 能力展示
-
-### 1. 零代码博客搭建与配置
-
-**指令**: 「帮我搭建博客」
-
-Agent 自主完成：
-- 阅读 Firefly 主题文档（`web_extract`）
-- 修改 22 个配置文件（`siteConfig`、`profileConfig`、`navBarConfig`...）
-- 部署 Twikoo 评论系统并配置自建后端
-- 集成 Bangumi 番组计划
-- 配置音乐播放器、导航栏、友链系统
-
-```
-自然语言指令 → Hermes Agent (DeepSeek-V4)
-    ├── 理解意图
-    ├── 阅读文档 → 分析配置结构
-    ├── 逐一修改 → 验证正确性
-    └── 反馈结果
-```
-
-### 2. 34 篇文章全自动迁移
-
-**指令**: 「把桌面上的文章合集上传到博客」
-
-Agent 自主完成：
-- 解析 `.docx` 文件，提取 13 篇新文章 + 配图
-- 从旧 GitHub Pages 抓取 21 篇文章并格式化
-- 生成完整 frontmatter（标题/日期/标签/封面图）
-- 下载并关联所有配图
-- 修复 YAML 嵌套引号导致的构建失败
-
-### 3. osu! API v2 实时数据集成
-
-**指令**: 「搞个 osu! 实时数据卡片」
-
-Agent 自主设计并实现了完整的数据管道：
-
-```
-每次 push → GitHub Actions
-    ├── OAuth 2.0 获取 Token
-    ├── 调用 osu! API v2 拉取数据
-    ├── 生成 JSON 存入静态资源
-    └── 前端卡片动态渲染
-```
-
-- 编写 Shell 脚本 (`scripts/fetch-osu-stats.sh`)
-- 修改 GitHub Actions deploy workflow 注入定时抓取步骤
-- 设计侧边栏卡片 UI 组件（联动主题色相、暗色适配）
-- 安全存储 API Secret 于 GitHub Secrets
-
-### 4. 生日彩蛋特效
-
-**指令**: 「5月26是我生日，搞个特效」
-
-Agent 自主实现：
-- Canvas Confetti 彩带动画
-- 公告栏动态替换为生日祝福
-- 首页横幅字体改为 🎂 Happy Birthday 🎂
-- Canvas 蛋糕雨动画（🎂 emoji 旋转飘落）
-- 头像悬浮蛋糕装饰
-
-### 5. 跨平台操作能力
-
-Agent 自主处理多种异构环境：
-- WSL (Linux) ↔ Windows (PowerShell) 文件路径映射
-- GitHub Actions CI/CD 调试与修复
-- Biome 代码格式化冲突解决
-- CDN 资源下载与本地化
+</div>
 
 ---
 
-## 技术栈
+## ✨ 特性
 
-| 层 | 技术 |
+| 特性 | 说明 |
 |------|------|
-| **框架** | Astro 6.3 + Svelte 5 + Tailwind CSS 4 |
-| **语言** | TypeScript 5.9 |
-| **AI Agent** | Hermes Agent (Nous Research) + DeepSeek-V4 |
-| **评论** | Twikoo v1.7.9 (自建 Vercel 后端) |
-| **数据** | osu! API v2 (OAuth 2.0) |
+| 🎨 **精美主题** | 基于 [Firefly](https://github.com/CuteLeaf/Firefly) 主题，支持亮色/暗色/跟随系统三种模式 |
+| 🎵 **音乐播放器** | 内置 Meting API 音乐播放器，支持网易云音乐歌单 |
+| 🎮 **osu! 数据卡片** | 通过 osu! API v2 实时获取游戏数据，展示在侧边栏 |
+| 📺 **Bangumi 番组计划** | 集成 Bangumi API，展示追番、游戏、书籍和音乐进度 |
+| 💬 **评论系统** | 集成 Twikoo 评论系统，支持自建后端 |
+| 🔍 **全文搜索** | 基于 Pagefind 的静态全文搜索，无需外部服务 |
+| 📱 **响应式设计** | 完美适配桌面端和移动端 |
+| 🚀 **极致性能** | Lighthouse 四项全绿：性能 97 / 无障碍 97 / 最佳实践 100 / SEO 100 |
+| 📸 **分享海报** | 文章页一键生成精美分享海报 |
+| 🎂 **生日彩蛋** | 特定日期自动触发 Canvas 动画特效 |
+
+---
+
+## 📸 截图预览
+
+<div align="center">
+
+### 首页
+<img src="docs/images/homepage.png" alt="首页" width="90%" />
+
+### Lighthouse 性能
+<img src="docs/images/Lighthouse.png" alt="Lighthouse 性能测试" width="60%" />
+
+</div>
+
+---
+
+## 🛠️ 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| **框架** | [Astro](https://astro.build) 6.3 + [Svelte](https://svelte.dev) 5 |
+| **样式** | [Tailwind CSS](https://tailwindcss.com) 4 |
+| **语言** | [TypeScript](https://www.typescriptlang.org) 5.9 |
+| **评论** | [Twikoo](https://twikoo.js.org) v1.7.9 |
+| **数据** | osu! API v2 (OAuth 2.0) · Bangumi API · Meting API |
 | **部署** | GitHub Pages + GitHub Actions |
-| **自托管** | 字体 CDN、音乐播放器 (Meting API) |
+| **搜索** | [Pagefind](https://pagefind.app) 静态全文搜索 |
+| **包管理** | [pnpm](https://pnpm.io) |
 
 ---
 
-## Agent 操作统计
+## 🚀 快速开始
 
-| 指标 | 数据 |
+### 前置要求
+
+- [Node.js](https://nodejs.org/) >= 18
+- [pnpm](https://pnpm.io/) >= 9
+
+### 安装与运行
+
+```bash
+# 克隆仓库
+git clone https://github.com/zureealLV/blog.git
+cd blog
+
+# 安装依赖
+pnpm install
+
+# 启动开发服务器
+pnpm dev
+```
+
+访问 `http://localhost:4321` 即可预览。
+
+### 构建与部署
+
+```bash
+# 构建静态站点
+pnpm build
+
+# 本地预览构建结果
+pnpm preview
+```
+
+---
+
+## ⚙️ 配置指南
+
+### 站点配置
+
+编辑 `src/config/siteConfig.ts`：
+
+```typescript
+export const siteConfig: {
+  title: "你的站点标题",        // 导航栏标题
+  subtitle: "你的站点副标题",    // 首页副标题
+  site_url: "https://your-domain.com",  // 站点 URL
+  description: "站点描述",      // 用于 SEO
+  themeColor: {
+    hue: 200,                  // 主题色相 (0-360)
+    defaultMode: "system",     // "light" | "dark" | "system"
+  },
+}
+```
+
+### 个人资料
+
+编辑 `src/config/profileConfig.ts` 配置头像、社交链接等。
+
+### 导航栏
+
+编辑 `src/config/navBarConfig.ts` 自定义导航菜单。
+
+### 音乐播放器
+
+在 `siteConfig.ts` 中配置 Meting API 参数，支持网易云音乐、QQ 音乐等平台。
+
+### osu! 数据卡片
+
+1. 在 [osu! API](https://osu.ppy.sh/home/account/edit) 创建 OAuth 应用
+2. 在 GitHub Secrets 中添加 `OSU_CLIENT_SECRET`
+3. GitHub Actions 会自动在每次部署时拉取最新数据
+
+### Bangumi 番组计划
+
+在 `siteConfig.ts` 中配置 `bangumi.userId` 即可自动展示你的追番、游戏、书籍和音乐。
+
+---
+
+## 📁 项目结构
+
+```
+blog/
+├── src/
+│   ├── components/       # UI 组件 (Svelte + Astro)
+│   ├── config/           # 站点配置文件
+│   │   ├── siteConfig.ts     # 站点基础配置
+│   │   ├── profileConfig.ts  # 个人资料配置
+│   │   ├── navBarConfig.ts   # 导航栏配置
+│   │   ├── friendsConfig.ts  # 友链配置
+│   │   └── fontConfig.ts     # 字体配置
+│   ├── content/
+│   │   ├── posts/        # 博客文章 (Markdown)
+│   │   └── spec/         # 特殊页面 (关于/友链/留言)
+│   ├── layouts/          # 页面布局
+│   ├── pages/            # 路由页面
+│   └── styles/           # 全局样式
+├── public/
+│   ├── assets/           # 静态资源 (图片/头像)
+│   └── osu-stats.json    # osu! 数据缓存 (自动生成)
+├── scripts/
+│   └── fetch-osu-stats.sh  # osu! API 数据拉取脚本
+├── docs/
+│   └── images/           # README 文档图片
+├── .github/
+│   └── workflows/
+│       ├── deploy.yml    # 自动部署到 GitHub Pages
+│       ├── build.yml     # 构建检查
+│       └── biome.yml     # 代码质量检查
+├── astro.config.mjs      # Astro 配置
+└── package.json
+```
+
+---
+
+## 📝 写文章
+
+在 `src/content/posts/` 目录下创建 Markdown 文件：
+
+```markdown
+---
+title: 文章标题
+published: 2026-06-14
+description: 文章简介
+image: /assets/images/cover.jpg   # 可选，封面图
+tags: [标签1, 标签2]
+category: 分类名
+draft: false                      # true 为草稿，不会发布
+---
+
+文章正文内容...
+```
+
+---
+
+## 🚢 部署到 GitHub Pages
+
+1. Fork 或克隆本仓库
+2. 在 GitHub 仓库设置中启用 Pages（Source: `pages` 分支）
+3. 在 GitHub Secrets 中添加 `OSU_CLIENT_SECRET`（如果需要 osu! 数据）
+4. 推送到 `master` 分支，GitHub Actions 会自动构建并部署
+
+自定义域名：在 `public/CNAME` 文件中修改为你的域名，并在 DNS 中配置 CNAME 记录指向 `zureeallv.github.io`。
+
+---
+
+## 🎨 自定义
+
+### 修改主题色
+
+在 `siteConfig.ts` 中调整 `themeColor.hue`（0-360 色相值）：
+
+| 色相 | 颜色 |
 |------|------|
-| 配置文件修改 | 22+ 个 |
-| 文章迁移 | 34 篇 (21 旧博客 + 13 新文章) |
-| 工具调用 | 单次任务平均 15+ 工具 |
-| 跨平台操作 | WSL / Windows / GitHub Actions |
-| 集成服务 | osu! API, Twikoo, Bangumi, Meting |
-| 特效开发 | Canvas Confetti + 蛋糕雨 + 头像装饰 |
+| 0 | 🔴 红色 |
+| 120 | 🟢 绿色 |
+| 200 | 🔵 蓝色 |
+| 250 | 🟣 蓝紫色 |
+| 345 | 🩷 粉色 |
+| 165 | 🟢 青绿色（默认） |
 
----
+### 修改字体
 
-## 项目结构
+编辑 `src/config/fontConfig.ts` 自定义中英文字体。
 
-```
-src/
-├── config/           ← Agent 逐一修改的 22 个配置
-├── content/
-│   ├── posts/        ← 34 篇 Agent 生成的 markdown
-│   └── spec/         ← 关于/友链/留言板
-├── components/       ← UI 组件
-├── pages/            ← 路由页面
-└── styles/           ← 样式
-public/
-├── osu-stats.json    ← Agent 设计的 API 数据缓存
-└── assets/           ← 静态资源
-scripts/
-└── fetch-osu-stats.sh ← Agent 编写的 osu! API 脚本
-.github/workflows/    ← Agent 修改的 CI/CD 流水线
+### 开启/关闭页面
+
+在 `siteConfig.ts` 的 `pages` 配置中控制各页面的开关：
+
+```typescript
+pages: {
+  friends: true,    // 友链页面
+  guestbook: true,  // 留言板
+  bangumi: true,    // 番组计划
+  gallery: true,    // 相册
+  sponsor: false,   // 赞助页面
+}
 ```
 
 ---
 
-## 致谢
+## 📊 Lighthouse 性能
 
-- 博客主题基于 [Firefly](https://github.com/CuteLeaf/Firefly)（基于 [Fuwari](https://github.com/saicaca/fuwari)）
-- AI Agent 由 [Hermes Agent](https://github.com/NousResearch/hermes-agent) 驱动
+<div align="center">
+<img src="docs/images/Lighthouse.png" alt="Lighthouse 性能测试" width="50%" />
+</div>
+
+| 指标 | 得分 |
+|------|------|
+| 🚀 Performance | **97** / 100 |
+| ♿ Accessibility | **97** / 100 |
+| ✅ Best Practices | **100** / 100 |
+| 🔍 SEO | **100** / 100 |
+
+---
+
+## 🤝 致谢
+
+- 博客主题：[Firefly](https://github.com/CuteLeaf/Firefly)（基于 [Fuwari](https://github.com/saicaca/fuwari)）
+- AI 助手：[Hermes Agent](https://github.com/NousResearch/hermes-agent)（Nous Research）
+- 评论系统：[Twikoo](https://twikoo.js.org)
+- 搜索引擎：[Pagefind](https://pagefind.app)
+
+---
+
+## 📄 License
+
+本项目基于 [MIT License](LICENSE) 开源。
+
+---
+
+<div align="center">
+
+**如果觉得不错，给个 ⭐ 吧~**
+
+</div>
