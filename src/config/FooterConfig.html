@@ -112,12 +112,21 @@
   wrapper.className = "onload-animation";
   wrapper.style.animationDelay = "300ms";
   wrapper.appendChild(card.cloneNode(true));
-  // Insert after the music player widget (not at the end)
-  var musicWidget = sidebar.querySelector(".music-player-widget");
-  if (musicWidget && musicWidget.parentElement) {
-    musicWidget.parentElement.insertBefore(wrapper, musicWidget.nextSibling);
-  } else {
-    sidebar.appendChild(wrapper);
+  // Insert as an independent sidebar card, right after the music player
+  var sidebarSticky = document.getElementById("left-sidebar-sticky");
+  if (sidebarSticky) {
+    // Find the music widget — it's a direct child of the sticky container
+    var musicWidget = sidebarSticky.querySelector(".music-player-widget");
+    if (musicWidget && musicWidget.parentElement === sidebarSticky) {
+      // Insert after the music widget inside the sticky container
+      if (musicWidget.nextSibling) {
+        sidebarSticky.insertBefore(wrapper, musicWidget.nextSibling);
+      } else {
+        sidebarSticky.appendChild(wrapper);
+      }
+    } else {
+      sidebarSticky.appendChild(wrapper);
+    }
   }
   tpl.remove();
 
@@ -662,22 +671,48 @@ fetch("/osu-stats.json")
     setTimeout(processIntro, 500);
   }
 
+  // ========== About Page osu! Stats Loader (survives Swup navigation) ==========
+  function loadOsuStats() {
+    // Only run on about page
+    var statEl = document.getElementById('stat-pp');
+    if (!statEl) return;
+    if (statEl.dataset.loaded === 'done') return;
+    statEl.dataset.loaded = 'done';
+    fetch('/osu-stats.json')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var set = function(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
+        set('stat-pp', d.pp.toLocaleString());
+        set('stat-rank', '#' + d.global_rank.toLocaleString());
+        set('stat-acc', d.accuracy + '%');
+        set('stat-pc', d.play_count.toLocaleString());
+        set('stat-level', d.level);
+        set('stat-combo', d.max_combo.toLocaleString());
+        set('stat-grades', (d.grade_ss||0) + ' / ' + (d.grade_s||0) + ' / ' + (d.grade_a||0));
+        set('stat-score', (d.ranked_score / 1e9).toFixed(1) + 'B');
+      })
+      .catch(function() {});
+  }
+
   // Global listener — fires on every Swup navigation (persists across pages)
   // @swup/astro dispatches 'astro:page-load' on page:view hook
   document.addEventListener("astro:page-load", function() {
     setTimeout(init404Terminal, 100);
+    setTimeout(loadOsuStats, 200);
   });
 
   // Also listen to swup events directly as fallback
   document.addEventListener("swup:contentReplaced", function() {
     setTimeout(init404Terminal, 100);
+    setTimeout(loadOsuStats, 200);
   });
 
   // Direct load (no Swup)
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function() { init404Terminal(); });
+    document.addEventListener("DOMContentLoaded", function() { init404Terminal(); loadOsuStats(); });
   } else {
     init404Terminal();
+    loadOsuStats();
   }
 })();
 </script>
