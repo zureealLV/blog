@@ -189,6 +189,19 @@
     }
   }
 
+  // Get theme color as RGB string (handles oklch/hex/hsl via temp element)
+  var primaryRGB = (function() {
+    var tmp = document.createElement("div");
+    tmp.style.color = "var(--primary)";
+    tmp.style.position = "absolute";
+    tmp.style.visibility = "hidden";
+    document.body.appendChild(tmp);
+    var computed = getComputedStyle(tmp).color;
+    document.body.removeChild(tmp);
+    var m = computed.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    return m ? m[1] + "," + m[2] + "," + m[3] : "0,200,150";
+  })();
+
   function drawBars() {
     requestAnimationFrame(drawBars);
 
@@ -204,18 +217,14 @@
 
     ctx2d.clearRect(0, 0, W, H);
 
-    // Get theme color
-    var style = getComputedStyle(document.documentElement);
-    var primary = style.getPropertyValue("--primary").trim() || "0,200,150";
-
     for (var i = 0; i < BAR_COUNT; i++) {
       var barHeight = bars[i] * H * 0.9;
       var x = i * (barW + gap);
       var y = H - barHeight;
 
       var grad = ctx2d.createLinearGradient(x, y, x, H);
-      grad.addColorStop(0, "rgba(" + primary + ",0.9)");
-      grad.addColorStop(1, "rgba(" + primary + ",0.15)");
+      grad.addColorStop(0, "rgba(" + primaryRGB + ",0.9)");
+      grad.addColorStop(1, "rgba(" + primaryRGB + ",0.15)");
       ctx2d.fillStyle = grad;
 
       ctx2d.beginPath();
