@@ -4,12 +4,15 @@ import Markdown from "@components/common/Markdown.astro";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import osuStats from "../../public/osu-stats.json";
 
 const aboutPost = await getEntry("spec", "about");
 if (!aboutPost) {
 	throw new Error("About page content not found");
 }
 const { Content } = await render(aboutPost);
+
+const s = osuStats;
 ---
 
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
@@ -66,42 +69,42 @@ const { Content } = await render(aboutPost);
 			</h2>
 			<div class="stats-grid" id="stats-grid">
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-pp">4,702</div>
+					<div class="stat-value" id="stat-pp">{s.pp.toLocaleString()}</div>
 					<div class="stat-label">Performance Points</div>
 					<div class="stat-icon">⚡</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-rank">#125,845</div>
+					<div class="stat-value" id="stat-rank">#{s.global_rank.toLocaleString()}</div>
 					<div class="stat-label">Global Rank</div>
 					<div class="stat-icon">🌍</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-acc">96.63%</div>
+					<div class="stat-value" id="stat-acc">{s.accuracy}%</div>
 					<div class="stat-label">Accuracy</div>
 					<div class="stat-icon">🎯</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-pc">16,955</div>
+					<div class="stat-value" id="stat-pc">{s.play_count.toLocaleString()}</div>
 					<div class="stat-label">Play Count</div>
 					<div class="stat-icon">🔄</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-level">100</div>
+					<div class="stat-value" id="stat-level">{s.level}</div>
 					<div class="stat-label">Level</div>
 					<div class="stat-icon">⭐</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-combo">1,526</div>
+					<div class="stat-value" id="stat-combo">{s.max_combo.toLocaleString()}</div>
 					<div class="stat-label">Max Combo</div>
 					<div class="stat-icon">🔗</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-grades">0 / 71 / 909</div>
+					<div class="stat-value" id="stat-grades">{s.grade_ss ?? 0} / {s.grade_s ?? 0} / {s.grade_a ?? 0}</div>
 					<div class="stat-label">SS / S / A</div>
 					<div class="stat-icon">🏆</div>
 				</div>
 				<div class="stat-card-3d" data-tilt>
-					<div class="stat-value" id="stat-score">9.8B</div>
+					<div class="stat-value" id="stat-score">{(s.ranked_score / 1e9).toFixed(1)}B</div>
 					<div class="stat-label">Ranked Score</div>
 					<div class="stat-icon">💎</div>
 				</div>
