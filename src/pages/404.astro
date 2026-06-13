@@ -61,7 +61,10 @@ import { url } from "@/utils/url-utils";
 
 <script is:inline>
 (function() {
+    var terminalInitialized = false;
+
     function initTerminal() {
+    terminalInitialized = true;
     var output = document.getElementById("terminal-output");
     var inputLine = document.getElementById("input-line");
     var input = document.getElementById("terminal-input");
@@ -288,18 +291,37 @@ import { url } from "@/utils/url-utils";
     setTimeout(processIntro, 500);
     } // end initTerminal
 
-    // Auto-init on first load
-    initTerminal();
+    // Detect Swup and hook into its lifecycle
+    var sw = window.swup;
 
-    // Re-init on Swup page navigation
-    if (window.swup) {
-        window.swup.on("contentReplaced", function() {
-            setTimeout(initTerminal, 100);
+    // If Swup exists, we're on a client-side nav — wait for page:view (content already injected)
+    if (sw) {
+        sw.on("page:view", function() {
+            if (!terminalInitialized) {
+                setTimeout(initTerminal, 80);
+            }
+        });
+        // Also guard against contentReplaced firing before page:view
+        sw.on("contentReplaced", function() {
+            if (!terminalInitialized) {
+                setTimeout(initTerminal, 50);
+            }
+        });
+        return; // Don't auto-init — let the event fire it
+    }
+
+    // If Swup isn't ready yet (script loaded before swup init), listen for the DOM event
+    document.addEventListener("swup:page:view", function() {
+        if (!terminalInitialized) setTimeout(initTerminal, 80);
+    }, { once: true });
+
+    // Direct load fallback (no Swup, or first page load)
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!terminalInitialized) initTerminal();
         });
     } else {
-        document.addEventListener("swup:contentReplaced", function() {
-            setTimeout(initTerminal, 100);
-        });
+        initTerminal();
     }
 })();
 </script>
