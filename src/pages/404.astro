@@ -1,74 +1,288 @@
 ---
-import { Icon } from "astro-icon/components";
-import I18nKey from "@/i18n/i18nKey";
-import { i18n } from "@/i18n/translation";
 import MainGridLayout from "@/layouts/MainGridLayout.astro";
 import { url } from "@/utils/url-utils";
 ---
 
-<MainGridLayout title={i18n(I18nKey.notFound)} description={i18n(I18nKey.notFoundDescription)}>
-    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-96">
-        <div class="card-base z-10 px-9 py-12 relative w-full flex flex-col items-center justify-center text-center">
-            <!-- 404 大号数字 -->
-            <div class="text-8xl md:text-9xl font-bold text-(--primary) opacity-20 mb-4">
-                {i18n(I18nKey.notFound)}
+<MainGridLayout title="404 - Page Not Found" description="This page has vanished into the void">
+    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-[500px]">
+        <div class="card-base z-10 relative w-full" style="background:#0a0a0a;padding:0;overflow:hidden;">
+            <!-- CRT Scanlines -->
+            <div class="crt-overlay"></div>
+            
+            <!-- Terminal Window -->
+            <div class="terminal-window">
+                <!-- Title Bar -->
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title">zureeal@osu-tv: ~</span>
+                </div>
+                
+                <!-- Terminal Body -->
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-output" id="terminal-output"></div>
+                    <div class="terminal-line" id="terminal-prompt" style="display:none;">
+                        <span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+                        <span class="cursor-block" id="cursor">_</span>
+                    </div>
+                </div>
             </div>
             
-            <!-- 404 图标 -->
-            <div class="mb-6">
-                <Icon name="material-symbols:error-outline" class="text-6xl text-(--primary)" />
-            </div>
-            
-            <!-- 标题 -->
-            <div class="text-3xl md:text-4xl font-bold mb-4 text-90">
-                {i18n(I18nKey.notFoundTitle)}
-            </div>
-            
-            <!-- 描述 -->
-            <p class="text-lg text-75 mb-8 max-w-md">
-                {i18n(I18nKey.notFoundDescription)}
-            </p>
-            
-            <!-- 返回首页按钮 -->
-            <a 
-                href={url("/")}
-                class="inline-flex items-center gap-2 px-6 py-3 bg-(--primary) text-white rounded-(--radius-large) hover:bg-(--btn-content) transition-colors duration-200 font-medium"
-            >
-                <Icon name="material-symbols:home" class="text-xl" />
-                {i18n(I18nKey.backToHome)}
-            </a>
-            
-            <!-- 装饰性元素 -->
-            <div class="absolute top-4 left-4 opacity-10">
-                <Icon name="material-symbols:sentiment-sad" class="text-4xl text-(--primary)" />
-            </div>
-            <div class="absolute bottom-4 right-4 opacity-10">
-                <Icon name="material-symbols:search-off" class="text-4xl text-(--primary)" />
-            </div>
+            <!-- 404 ASCII Art (hidden, shown by JS) -->
+            <pre class="ascii-404" id="ascii-404">
+ ____   ___  _  _    ___  _  _
+|___ \ / _ \| || |  / _ \/ |___ \
+  __) | | | | || |_| | | | | __) |
+ / __/| |_| |__   _| |_| | |/ __/
+|_____|\___/   |_|  \___/|_|_____|
+            </pre>
         </div>
     </div>
 </MainGridLayout>
 
 <style>
-    /* 添加一些动画效果 */
-    .card-base {
-        animation: fadeInUp 0.6s ease-out;
+    .crt-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0,0,0,0.08) 2px,
+            rgba(0,0,0,0.08) 4px
+        );
+        pointer-events: none;
+        z-index: 20;
     }
     
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .terminal-window {
+        font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        padding: 0;
+        min-height: 500px;
+        display: flex;
+        flex-direction: column;
     }
     
-    /* 按钮悬停效果 */
-    a:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+    .terminal-bar {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        background: #1a1a2e;
+        border-bottom: 1px solid #2a2a4a;
+        gap: 8px;
+    }
+    
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    
+    .terminal-title {
+        color: #888;
+        font-size: 12px;
+        margin-left: 8px;
+    }
+    
+    .terminal-body {
+        flex: 1;
+        padding: 20px;
+        color: var(--primary);
+        overflow-y: auto;
+        min-height: 440px;
+    }
+    
+    .terminal-output {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    
+    .terminal-line {
+        margin-top: 4px;
+    }
+    
+    .prompt-user { color: #28c840; font-weight: bold; }
+    .prompt-at { color: #888; }
+    .prompt-host { color: #569cd6; font-weight: bold; }
+    .prompt-colon { color: #888; }
+    .prompt-path { color: #dcdcaa; }
+    .prompt-dollar { color: var(--primary); margin-right: 8px; }
+    
+    .cursor-block {
+        display: inline-block;
+        animation: blink 1s step-end infinite;
+        color: var(--primary);
+        font-weight: bold;
+    }
+    
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+    }
+    
+    .ascii-404 {
+        display: none;
+        color: var(--primary);
+        font-size: 11px;
+        line-height: 1.2;
+        margin: 8px 0;
+        opacity: 0.8;
+    }
+    
+    .cmd-line {
+        margin-bottom: 2px;
+    }
+    .cmd-input { color: var(--primary); }
+    .cmd-output { color: #ccc; }
+    .cmd-error { color: #ff6b6b; }
+    .cmd-success { color: #28c840; }
+    .cmd-warning { color: #febc2e; }
+    .cmd-info { color: #569cd6; }
+    .cmd-dim { color: #666; }
+    
+    .home-link {
+        color: #569cd6;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .home-link:hover {
+        color: var(--primary);
+    }
+    
+    /* Glitch effect on the whole terminal */
+    .terminal-window {
+        animation: terminalFlicker 0.15s ease-in-out;
+    }
+    @keyframes terminalFlicker {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
     }
 </style>
+
+<script is:inline>
+(function() {
+    var output = document.getElementById('terminal-output');
+    var prompt = document.getElementById('terminal-prompt');
+    var ascii = document.getElementById('ascii-404');
+    var body = document.getElementById('terminal-body');
+    
+    if (!output || !prompt) return;
+    
+    var lines = [
+        { text: 'Last login: ' + new Date().toLocaleString() + ' on ttys000', cls: 'cmd-dim', delay: 100 },
+        { text: '', delay: 50 },
+        { text: 'zureeal@osu-tv ~ $ curl -s https://zureeallv.com' + location.pathname, cls: 'cmd-input', delay: 600 },
+        { text: '', delay: 200 },
+        { text: '> Connecting to zureeallv.com...', cls: 'cmd-dim', delay: 400 },
+        { text: '> HTTP/1.1 404 Not Found', cls: 'cmd-error', delay: 300 },
+        { text: '> Content-Type: text/html; charset=utf-8', cls: 'cmd-dim', delay: 200 },
+        { text: '> X-Powered-By: Astro + Firefly', cls: 'cmd-dim', delay: 150 },
+        { text: '', delay: 100 },
+        { text: 'ERROR: Page not found in this universe.', cls: 'cmd-error', delay: 400 },
+        { text: '', delay: 100 },
+        { text: 'Possible causes:', cls: 'cmd-warning', delay: 300 },
+        { text: '  - The page was eaten by a osu! slider', cls: 'cmd-output', delay: 200 },
+        { text: '  - It eloped with a 403 Forbidden', cls: 'cmd-output', delay: 200 },
+        { text: '  - Hermes accidentally deleted it (blame the AI)', cls: 'cmd-output', delay: 200 },
+        { text: '  - You typed the URL while playing DT', cls: 'cmd-output', delay: 200 },
+        { text: '', delay: 150 },
+        { text: 'ASCIIART_404', cls: 'ascii-block', delay: 400 },
+        { text: '', delay: 200 },
+        { text: 'zureeal@osu-tv ~ $ echo "where am i?"', cls: 'cmd-input', delay: 500 },
+        { text: 'The void. You are in the void.', cls: 'cmd-output', delay: 300 },
+        { text: '', delay: 100 },
+        { text: 'zureeal@osu-tv ~ $ man osu', cls: 'cmd-input', delay: 500 },
+        { text: 'No manual entry for osu. Just play more.', cls: 'cmd-output', delay: 400 },
+        { text: '', delay: 100 },
+        { text: 'zureeal@osu-tv ~ $ cd /home', cls: 'cmd-input', delay: 500 },
+        { text: 'Redirecting to homepage...', cls: 'cmd-success', delay: 300 },
+        { text: '', delay: 100 },
+        { text: 'HOMELINK', cls: 'home-link-block', delay: 200 },
+    ];
+    
+    var lineIndex = 0;
+    
+    function addLine(line) {
+        var div = document.createElement('div');
+        div.className = 'cmd-line';
+        
+        if (line.cls === 'ascii-block') {
+            div.textContent = ascii.textContent;
+            div.style.color = 'var(--primary)';
+            div.style.fontSize = '11px';
+            div.style.lineHeight = '1.2';
+            div.style.opacity = '0.8';
+            div.style.fontFamily = 'monospace';
+            div.style.whiteSpace = 'pre';
+        } else if (line.cls === 'home-link-block') {
+            var a = document.createElement('a');
+            a.href = '/';
+            a.className = 'home-link';
+            a.textContent = '>>> Click here to go home, or stay in the void forever <<<';
+            a.style.display = 'block';
+            a.style.textAlign = 'center';
+            a.style.marginTop = '8px';
+            div.appendChild(a);
+        } else if (line.cls === 'cmd-input') {
+            var userSpan = document.createElement('span');
+            userSpan.className = 'prompt-user';
+            userSpan.textContent = 'zureeal';
+            var atSpan = document.createElement('span');
+            atSpan.className = 'prompt-at';
+            atSpan.textContent = '@';
+            var hostSpan = document.createElement('span');
+            hostSpan.className = 'prompt-host';
+            hostSpan.textContent = 'osu-tv';
+            var pathSpan = document.createElement('span');
+            pathSpan.className = 'prompt-path';
+            pathSpan.textContent = ' ~ $ ';
+            var cmdSpan = document.createElement('span');
+            cmdSpan.className = line.cls;
+            cmdSpan.textContent = line.text;
+            div.appendChild(userSpan);
+            div.appendChild(atSpan);
+            div.appendChild(hostSpan);
+            div.appendChild(pathSpan);
+            div.appendChild(cmdSpan);
+        } else {
+            var span = document.createElement('span');
+            span.className = line.cls || 'cmd-output';
+            span.textContent = line.text;
+            div.appendChild(span);
+        }
+        
+        output.appendChild(div);
+        body.scrollTop = body.scrollHeight;
+    }
+    
+    function processLine() {
+        if (lineIndex >= lines.length) {
+            prompt.style.display = 'block';
+            body.scrollTop = body.scrollHeight;
+            return;
+        }
+        
+        var line = lines[lineIndex];
+        lineIndex++;
+        addLine(line);
+        setTimeout(processLine, line.delay || 100);
+    }
+    
+    // Start the sequence
+    setTimeout(processLine, 500);
+})();
+</script>
