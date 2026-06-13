@@ -20,7 +20,7 @@ import { url } from "@/utils/url-utils";
                     <div class="terminal-output" id="terminal-output"></div>
                     <div class="terminal-input-line" id="input-line" style="display:none;">
                         <span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
-                        <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" autofocus />
+                        <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" />
                     </div>
                 </div>
             </div>
@@ -29,80 +29,34 @@ import { url } from "@/utils/url-utils";
 </MainGridLayout>
 
 <style>
-    .crt-overlay {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
-        pointer-events: none;
-        z-index: 20;
-    }
-    .terminal-window {
-        font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
-        font-size: 14px;
-        line-height: 1.6;
-        min-height: 500px;
-        display: flex;
-        flex-direction: column;
-    }
-    .terminal-bar {
-        display: flex;
-        align-items: center;
-        padding: 10px 16px;
-        background: #1a1a2e;
-        border-bottom: 1px solid #2a2a4a;
-        gap: 8px;
-    }
-    .terminal-dots { display: flex; gap: 6px; }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-red { background: #ff5f57; }
-    .dot-yellow { background: #febc2e; }
-    .dot-green { background: #28c840; }
-    .terminal-title { color: #888; font-size: 12px; margin-left: 8px; }
-    .terminal-body {
-        flex: 1;
-        padding: 20px;
-        color: var(--primary);
-        overflow-y: auto;
-        min-height: 440px;
-        display: flex;
-        flex-direction: column;
-    }
-    .terminal-output { white-space: pre-wrap; word-break: break-all; flex: 1; }
-    .terminal-input-line {
-        display: flex;
-        align-items: center;
-        margin-top: 4px;
-        gap: 0;
-        flex-shrink: 0;
-    }
-    .prompt-user { color: #28c840; font-weight: bold; }
-    .prompt-at { color: #888; }
-    .prompt-host { color: #569cd6; font-weight: bold; }
-    .prompt-colon { color: #888; }
-    .prompt-path { color: #dcdcaa; }
-    .prompt-dollar { color: var(--primary); margin-right: 8px; }
-    .terminal-input {
-        background: transparent;
-        border: none;
-        outline: none;
-        color: var(--primary);
-        font-family: inherit;
-        font-size: inherit;
-        flex: 1;
-        caret-color: var(--primary);
-    }
-    .cmd-line { margin-bottom: 2px; }
-    .cmd-input { color: var(--primary); }
-    .cmd-output { color: #ccc; }
-    .cmd-error { color: #ff6b6b; }
-    .cmd-success { color: #28c840; }
-    .cmd-warning { color: #febc2e; }
-    .cmd-info { color: #569cd6; }
-    .cmd-dim { color: #666; }
-    .home-link { color: #569cd6; text-decoration: underline; cursor: pointer; }
-    .home-link:hover { color: var(--primary); }
-    .terminal-window { animation: terminalFlicker 0.15s ease-in-out; }
-    @keyframes terminalFlicker { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+    .crt-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:20}
+    .terminal-window{font-family:'Cascadia Code','Fira Code','JetBrains Mono','Consolas',monospace;font-size:14px;line-height:1.6;min-height:500px;display:flex;flex-direction:column}
+    .terminal-bar{display:flex;align-items:center;padding:10px 16px;background:#1a1a2e;border-bottom:1px solid #2a2a4a;gap:8px}
+    .terminal-dots{display:flex;gap:6px}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .dot-red{background:#ff5f57}.dot-yellow{background:#febc2e}.dot-green{background:#28c840}
+    .terminal-title{color:#888;font-size:12px;margin-left:8px}
+    .terminal-body{flex:1;padding:20px;color:var(--primary);overflow-y:auto;min-height:440px;display:flex;flex-direction:column}
+    .terminal-output{white-space:pre-wrap;word-break:break-all;flex:1}
+    .terminal-input-line{display:flex;align-items:center;margin-top:4px;flex-shrink:0}
+    .prompt-user{color:#28c840;font-weight:bold}
+    .prompt-at{color:#888}
+    .prompt-host{color:#569cd6;font-weight:bold}
+    .prompt-colon{color:#888}
+    .prompt-path{color:#dcdcaa}
+    .prompt-dollar{color:var(--primary);margin-right:8px}
+    .terminal-input{background:transparent;border:none;outline:none;color:var(--primary);font-family:inherit;font-size:inherit;flex:1;caret-color:var(--primary)}
+    .cmd-line{margin-bottom:2px}
+    .cmd-input{color:var(--primary)}
+    .cmd-output{color:#ccc}
+    .cmd-error{color:#ff6b6b}
+    .cmd-success{color:#28c840}
+    .cmd-warning{color:#febc2e}
+    .cmd-info{color:#569cd6}
+    .cmd-dim{color:#666}
+    .cmd-ascii{color:var(--primary);font-size:11px;line-height:1.2;opacity:0.8;font-family:monospace;white-space:pre}
+    .terminal-window{animation:terminalFlicker 0.15s ease-in-out}
+    @keyframes terminalFlicker{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
 </style>
 
 <script is:inline>
@@ -113,14 +67,38 @@ import { url } from "@/utils/url-utils";
     var body = document.getElementById("terminal-body");
     if (!output || !input || !inputLine) return;
 
+    // ========== Loading Sequence ==========
     var introLines = [
         { text: "Last login: " + new Date().toLocaleString() + " on ttys000", cls: "cmd-dim", delay: 100 },
         { text: "", delay: 50 },
-        { text: "Welcome to the void. Type anything. I dare you.", cls: "cmd-info", delay: 400 },
-        { text: 'Type "help" for a list of commands.', cls: "cmd-dim", delay: 300 },
+        { text: "zureeal@osu-tv ~ $ curl -s https://zureeallv.com" + location.pathname, cls: "cmd-input", delay: 600 },
+        { text: "", delay: 200 },
+        { text: "> Connecting to zureeallv.com...", cls: "cmd-dim", delay: 400 },
+        { text: "> HTTP/1.1 404 Not Found", cls: "cmd-error", delay: 300 },
+        { text: "> Content-Type: text/html; charset=utf-8", cls: "cmd-dim", delay: 200 },
+        { text: "> X-Powered-By: Astro + Firefly", cls: "cmd-dim", delay: 150 },
+        { text: "", delay: 100 },
+        { text: "ERROR: Page not found in this universe.", cls: "cmd-error", delay: 400 },
+        { text: "", delay: 100 },
+        { text: "Possible causes:", cls: "cmd-warning", delay: 300 },
+        { text: "  - The page was eaten by a osu! slider", cls: "cmd-output", delay: 200 },
+        { text: "  - It eloped with a 403 Forbidden", cls: "cmd-output", delay: 200 },
+        { text: "  - Hermes accidentally deleted it (blame the AI)", cls: "cmd-output", delay: 200 },
+        { text: "  - You typed the URL while playing DT", cls: "cmd-output", delay: 200 },
+        { text: "", delay: 150 },
+        { text: " ____   ___  _  _    ___  _  _\n|___ \\ / _ \\| || |  / _ \\/ |___ \\ \n  __) | | | | || |_| | | | | __) |\n / __/| |_| |__   _| |_| | |/ __/\n|_____|\\___/   |_|  \\___/|_|_____|", cls: "cmd-ascii", delay: 400 },
+        { text: "", delay: 200 },
+        { text: "zureeal@osu-tv ~ $ echo \"where am i?\"", cls: "cmd-input", delay: 500 },
+        { text: "The void. You are in the void.", cls: "cmd-output", delay: 300 },
+        { text: "", delay: 100 },
+        { text: "zureeal@osu-tv ~ $ man osu", cls: "cmd-input", delay: 500 },
+        { text: "No manual entry for osu. Just play more.", cls: "cmd-output", delay: 400 },
+        { text: "", delay: 100 },
+        { text: 'Type "help" for available commands.', cls: "cmd-info", delay: 300 },
         { text: "", delay: 100 },
     ];
 
+    // ========== Command Responses ==========
     var responses = {
         "help": [
             { text: "Available commands:", cls: "cmd-warning" },
@@ -141,10 +119,10 @@ import { url } from "@/utils/url-utils";
             { text: "Motto: 感谢你的庇佑🙏", cls: "cmd-info" },
         ],
         "osu": [
-            { text: "  ___  ", cls: "cmd-output" },
-            { text: " / _ \\ ", cls: "cmd-output" },
-            { text: "| (_) |", cls: "cmd-output" },
-            { text: " \\___/ ", cls: "cmd-output" },
+            { text: "  ___  ", cls: "cmd-ascii" },
+            { text: " / _ \\ ", cls: "cmd-ascii" },
+            { text: "| (_) |", cls: "cmd-ascii" },
+            { text: " \\___/ ", cls: "cmd-ascii" },
             { text: "", cls: "cmd-output" },
             { text: "PP: 4,684 | Rank: #128,994 | Just play more.", cls: "cmd-info" },
         ],
@@ -155,7 +133,7 @@ import { url } from "@/utils/url-utils";
             { text: "Yes, you're still here.", cls: "cmd-dim" },
         ],
         "sudo": [
-            { text: "[sudo] password for zureeal: ", cls: "cmd-output" },
+            { text: "[sudo] password for zureeal: ********", cls: "cmd-output" },
             { text: "Nice try. This isn't that kind of server.", cls: "cmd-error" },
             { text: "Also, you're on a 404 page. What did you expect?", cls: "cmd-dim" },
         ],
@@ -166,15 +144,9 @@ import { url } from "@/utils/url-utils";
             { text: "This is the void. The void is forever.", cls: "cmd-dim" },
         ],
         "clear": "clear",
-        "ls": [
-            { text: "404.html  void.txt  regrets.log  osu-scores.csv", cls: "cmd-output" },
-        ],
-        "pwd": [
-            { text: "/dev/null", cls: "cmd-output" },
-        ],
-        "whoami": [
-            { text: "You are lost.", cls: "cmd-error" },
-        ],
+        "ls": [{ text: "404.html  void.txt  regrets.log  osu-scores.csv", cls: "cmd-output" }],
+        "pwd": [{ text: "/dev/null", cls: "cmd-output" }],
+        "whoami": [{ text: "You are lost.", cls: "cmd-error" }],
         "cat": [
             { text: "Meow. 🐱", cls: "cmd-output" },
             { text: "Wait, you meant cat(1)? Too bad.", cls: "cmd-dim" },
@@ -183,18 +155,14 @@ import { url } from "@/utils/url-utils";
             { text: "rm: cannot remove '404': Permission denied", cls: "cmd-error" },
             { text: "Nice try though.", cls: "cmd-dim" },
         ],
-        "cd": [
-            { text: "There is nowhere to go. You are in the void.", cls: "cmd-error" },
-        ],
+        "cd": [{ text: "There is nowhere to go. You are in the void.", cls: "cmd-error" }],
         "ping": [
             { text: "PING void (0.0.0.0): 56 data bytes", cls: "cmd-output" },
             { text: "Request timeout for icmp_seq 0", cls: "cmd-error" },
             { text: "Request timeout for icmp_seq 1", cls: "cmd-error" },
             { text: "The void does not respond.", cls: "cmd-dim" },
         ],
-        "curl": [
-            { text: "curl: (6) Could not resolve host: this-page-does-not-exist", cls: "cmd-error" },
-        ],
+        "curl": [{ text: "curl: (6) Could not resolve host: this-page-does-not-exist", cls: "cmd-error" }],
         "neofetch": [
             { text: "    OS: Void Linux x86_64", cls: "cmd-output" },
             { text: "  Host: zureealLV's blog", cls: "cmd-output" },
@@ -205,22 +173,29 @@ import { url } from "@/utils/url-utils";
         ],
     };
 
+    // ========== Bilingual Default Responses ==========
     var defaultResponses = [
-        [
-            { text: "404: Command not found. Just like this page.", cls: "cmd-error" },
-        ],
-        [
-            { text: 'Unknown command. Type "help" if you\'re lost.', cls: "cmd-warning" },
-        ],
-        [
-            { text: "bash: $CMD$: command not found", cls: "cmd-error" },
-            { text: "Everything is 404 here. Even your commands.", cls: "cmd-dim" },
-        ],
-        [
-            { text: "The void does not understand: $CMD$", cls: "cmd-error" },
-        ],
+        // English
+        [{ text: "404: Command not found. Just like this page.", cls: "cmd-error" }],
+        [{ text: 'Unknown command. Type "help" if you\'re lost.', cls: "cmd-warning" }],
+        [{ text: "bash: $CMD$: command not found", cls: "cmd-error" }, { text: "Everything is 404 here. Even your commands.", cls: "cmd-dim" }],
+        [{ text: "The void does not understand: $CMD$", cls: "cmd-error" }],
+        [{ text: "You typed '$CMD$' into a 404 page. Think about your life choices.", cls: "cmd-error" }],
+        [{ text: "Command '$CMD$' not found. Neither is this page.", cls: "cmd-dim" }],
+        // Chinese
+        [{ text: "404：命令未找到，就像这个页面一样不存在。", cls: "cmd-error" }],
+        [{ text: "你在 404 页面敲命令？你是不是 osu! 打多了脑子瓦特了？", cls: "cmd-warning" }],
+        [{ text: "bash: $CMD$: 未找到命令。你迷路了，亲。", cls: "cmd-error" }],
+        [{ text: "虚空听不懂你说什么：$CMD$", cls: "cmd-error" }],
+        [{ text: "这个页面和你的 osu! 排名一样——不存在。", cls: "cmd-dim" }],
+        [{ text: "你输入了 '$CMD$'。勇敢，但没用。", cls: "cmd-error" }],
+        [{ text: "404 Not Found。你打的命令也是 404。双重 404，恭喜。", cls: "cmd-error" }],
+        [{ text: "别敲了，这里什么都没有。就像你的 SS 数量一样。", cls: "cmd-dim" }],
+        [{ text: "Error: 找不到命令 '$CMD$'，也找不到这个页面，也找不到你的人生方向。", cls: "cmd-error" }],
+        [{ text: "你在虚空里打字，没人会回应你。就像你给 crush 发的消息。", cls: "cmd-warning" }],
     ];
 
+    // ========== Engine ==========
     var lineIndex = 0;
     var defaultIndex = 0;
 
@@ -238,7 +213,8 @@ import { url } from "@/utils/url-utils";
     function addPromptLine(cmd) {
         var div = document.createElement("div");
         div.className = "cmd-line";
-        div.innerHTML = '<span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-path"> ~ $ </span><span class="cmd-input">' + cmd.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+        var escaped = cmd.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        div.innerHTML = '<span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-path"> ~ $ </span><span class="cmd-input">' + escaped + '</span>';
         output.appendChild(div);
     }
 
@@ -258,13 +234,9 @@ import { url } from "@/utils/url-utils";
     function handleCommand(cmd) {
         cmd = cmd.trim().toLowerCase();
         if (!cmd) return;
-
         addPromptLine(cmd);
 
-        if (cmd === "clear") {
-            output.innerHTML = "";
-            return;
-        }
+        if (cmd === "clear") { output.innerHTML = ""; return; }
 
         if (cmd === "home" || cmd === "cd /" || cmd === "cd ~") {
             addLine("cmd-success", "Redirecting to homepage...");
@@ -284,11 +256,12 @@ import { url } from "@/utils/url-utils";
                 addLine(resp[i].cls, resp[i].text);
             }
         } else {
-            var defaults = defaultResponses[defaultIndex % defaultResponses.length];
+            // Random bilingual response
+            var chosen = defaultResponses[defaultIndex % defaultResponses.length];
             defaultIndex++;
-            for (var j = 0; j < defaults.length; j++) {
-                var text = defaults[j].text.replace("$CMD$", cmd);
-                addLine(defaults[j].cls, text);
+            for (var j = 0; j < chosen.length; j++) {
+                var text = chosen[j].text.replace(/\$CMD\$/g, cmd);
+                addLine(chosen[j].cls, text);
             }
         }
 
@@ -304,10 +277,7 @@ import { url } from "@/utils/url-utils";
         }
     });
 
-    // Focus input when clicking anywhere on the terminal
-    body.addEventListener("click", function() {
-        input.focus();
-    });
+    body.addEventListener("click", function() { input.focus(); });
 
     setTimeout(processIntro, 500);
 })();

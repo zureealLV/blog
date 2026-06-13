@@ -40,12 +40,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 留言板
 			...(siteConfig.pages.guestbook ? [LinkPreset.Guestbook] : []),
 
-			// 404 NF
-			{
-				name: "404 NF",
-				url: "/404/",
-				icon: "mdi:alert-circle-outline",
-			},
 		],
 	});
 
