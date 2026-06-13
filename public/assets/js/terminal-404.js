@@ -73,7 +73,7 @@
             { text: "| (_) |", cls: "cmd-ascii" },
             { text: " \\___/ ", cls: "cmd-ascii" },
             { text: "", cls: "cmd-output" },
-            { text: "PP: 4,684 | Rank: #128,994 | Just play more.", cls: "cmd-info" },
+            { text: "PP: 4,702 | Rank: #125,845 | Just play more.", cls: "cmd-info" },
         ],
         "404": [
             { text: "404 Not Found", cls: "cmd-error" },
