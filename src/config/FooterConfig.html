@@ -10,23 +10,36 @@
         <span style="font-size:20px;">🎮</span>
         <span style="color:var(--primary);font-size:15px;font-weight:bold;">𝓞𝓢𝓤！𝓣𝓥</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;">
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:13px;">
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
           <div style="color:var(--primary);font-size:10px;font-weight:600;">PP</div>
           <div class="osu-pp" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
-          <div style="color:var(--primary);font-size:10px;font-weight:600;">Global Rank</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Rank</div>
           <div class="osu-rank" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
-          <div style="color:var(--primary);font-size:10px;font-weight:600;">Accuracy</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Acc</div>
           <div class="osu-acc" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
-        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:7px 8px;text-align:center;">
-          <div style="color:var(--primary);font-size:10px;font-weight:600;">Play Count</div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Play</div>
           <div class="osu-pc" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
         </div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Lv</div>
+          <div class="osu-level" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
+        </div>
+        <div style="background:var(--btn-plain-bg);border-radius:6px;padding:6px 8px;text-align:center;">
+          <div style="color:var(--primary);font-size:10px;font-weight:600;">Combo</div>
+          <div class="osu-combo" style="font-weight:bold;color:var(--primary);font-size:15px;">--</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-top:6px;font-size:11px;">
+        <span style="color:var(--primary);font-weight:600;">SS <span class="osu-ss">0</span></span>
+        <span style="color:var(--primary);font-weight:600;">S <span class="osu-s">0</span></span>
+        <span style="color:var(--primary);font-weight:600;">A <span class="osu-a">0</span></span>
       </div>
       <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--primary);opacity:0.8;">点击查看完整主页 →</div>
     </a>
@@ -142,6 +155,16 @@ fetch("/osu-stats.json")
     if (rank) rank.textContent = "#" + d.global_rank.toLocaleString();
     if (acc) acc.textContent = d.accuracy + "%";
     if (pc) pc.textContent = d.play_count.toLocaleString();
+    var level = document.querySelector(".osu-level");
+    var combo = document.querySelector(".osu-combo");
+    var ss = document.querySelector(".osu-ss");
+    var s = document.querySelector(".osu-s");
+    var a = document.querySelector(".osu-a");
+    if (level) level.textContent = d.level || "--";
+    if (combo) combo.textContent = (d.max_combo || 0).toLocaleString();
+    if (ss) ss.textContent = (d.grade_ss || 0);
+    if (s) s.textContent = (d.grade_s || 0);
+    if (a) a.textContent = (d.grade_a || 0);
   })
   .catch(function() {});
 
