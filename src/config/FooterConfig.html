@@ -32,19 +32,44 @@
     </a>
   </div>
 </div>
+
+<!-- Now Playing Widget (Left Sidebar) -->
+<div id="now-playing-template" style="display:none;">
+  <div class="card-base px-4 py-3" style="position:relative;overflow:hidden;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+      <span class="np-pulse" style="width:8px;height:8px;border-radius:50%;background:var(--primary);opacity:0.4;display:inline-block;transition:all 0.3s;"></span>
+      <span style="color:var(--primary);font-size:12px;font-weight:600;letter-spacing:0.5px;">NOW PLAYING</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:48px;height:48px;border-radius:50%;overflow:hidden;border:2px solid var(--primary);flex-shrink:0;transition:transform 0.3s;" class="np-disc">
+        <img class="np-cover" src="" alt="cover" style="width:100%;height:100%;object-fit:cover;display:block;" />
+      </div>
+      <div style="overflow:hidden;flex:1;min-width:0;">
+        <div class="np-title" style="font-size:13px;font-weight:600;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">--</div>
+        <div class="np-artist" style="font-size:11px;color:var(--text-secondary);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">--</div>
+      </div>
+    </div>
+    <style>
+      .np-pulse.playing{opacity:1!important;animation:npPulse 1.2s ease-in-out infinite}
+      @keyframes npPulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--primary) 60%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 0%,transparent)}}
+      .np-disc.spinning{animation:npSpin 4s linear infinite}
+      @keyframes npSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    </style>
+  </div>
+</div>
 <script>
-// ========== 侧边栏注入 ==========
+// ========== Right Sidebar Injection ==========
 (function() {
-  const el = document.getElementById('custom-right-widgets');
+  var el = document.getElementById("custom-right-widgets");
   if (!el) return;
-  const sidebar = document.getElementById('right-sidebar-sticky');
+  var sidebar = document.getElementById("right-sidebar-sticky");
   if (!sidebar) return;
-  const children = el.children;
-  let delay = 200;
-  for (let i = 0; i < children.length; i++) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'onload-animation';
-    wrapper.style.animationDelay = delay + 'ms';
+  var children = el.children;
+  var delay = 200;
+  for (var i = 0; i < children.length; i++) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "onload-animation";
+    wrapper.style.animationDelay = delay + "ms";
     wrapper.appendChild(children[i].cloneNode(true));
     sidebar.appendChild(wrapper);
     delay += 50;
@@ -52,101 +77,149 @@
   el.remove();
 })();
 
-// ========== osu! 数据 ==========
-fetch('/osu-stats.json')
+// ========== Now Playing (Left Sidebar) ==========
+(function() {
+  var tpl = document.getElementById("now-playing-template");
+  if (!tpl) return;
+  var sidebar = document.getElementById("left-sidebar-sticky");
+  if (!sidebar) return;
+  var card = tpl.querySelector(".card-base");
+  if (!card) return;
+  var wrapper = document.createElement("div");
+  wrapper.className = "onload-animation";
+  wrapper.style.animationDelay = "300ms";
+  wrapper.appendChild(card.cloneNode(true));
+  sidebar.appendChild(wrapper);
+  tpl.remove();
+
+  var pulse = wrapper.querySelector(".np-pulse");
+  var disc = wrapper.querySelector(".np-disc");
+  var cover = wrapper.querySelector(".np-cover");
+  var title = wrapper.querySelector(".np-title");
+  var artist = wrapper.querySelector(".np-artist");
+
+  function updateTrack(detail) {
+    var track = detail.track;
+    if (!track) return;
+    if (title) title.textContent = track.name || "--";
+    if (artist) artist.textContent = track.artist || "--";
+    if (cover && track.pic) {
+      cover.src = track.pic;
+      cover.style.display = "block";
+    }
+  }
+
+  function updatePlayState(detail) {
+    var playing = detail.isPlaying;
+    if (pulse) {
+      pulse.classList.toggle("playing", playing);
+      pulse.style.opacity = playing ? "1" : "0.4";
+    }
+    if (disc) disc.classList.toggle("spinning", playing);
+  }
+
+  window.addEventListener("fm:track", function(e) { updateTrack(e.detail); });
+  window.addEventListener("fm:play-state", function(e) { updatePlayState(e.detail); });
+
+  setTimeout(function() {
+    if (window.__fireflyMusic) {
+      var st = window.__fireflyMusic.getState();
+      if (st && st.track) updateTrack({ track: st.track });
+      if (st) updatePlayState({ isPlaying: st.isPlaying });
+    }
+  }, 2000);
+})();
+
+// ========== osu! Stats ==========
+fetch("/osu-stats.json")
   .then(function(r) { return r.json(); })
   .then(function(d) {
-    const pp = document.querySelector('.osu-pp');
-    const rank = document.querySelector('.osu-rank');
-    const acc = document.querySelector('.osu-acc');
-    const pc = document.querySelector('.osu-pc');
+    var pp = document.querySelector(".osu-pp");
+    var rank = document.querySelector(".osu-rank");
+    var acc = document.querySelector(".osu-acc");
+    var pc = document.querySelector(".osu-pc");
     if (pp) pp.textContent = d.pp.toLocaleString();
-    if (rank) rank.textContent = '#' + d.global_rank.toLocaleString();
-    if (acc) acc.textContent = d.accuracy + '%';
+    if (rank) rank.textContent = "#" + d.global_rank.toLocaleString();
+    if (acc) acc.textContent = d.accuracy + "%";
     if (pc) pc.textContent = d.play_count.toLocaleString();
   })
   .catch(function() {});
 
-// ========== 🎂 生日特效 ==========
+// ========== Birthday Effects ==========
 (function() {
-  const now = new Date();
-  const isPreview = location.search.indexOf('birthday=1') >= 0;
+  var now = new Date();
+  var isPreview = location.search.indexOf("birthday=1") >= 0;
   if (!isPreview && (now.getMonth() !== 4 || now.getDate() !== 26)) return;
 
-  // 🎊 彩带（canvas-confetti CDN）
-  const cs = document.createElement('script');
-  cs.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1';
+  var cs = document.createElement("script");
+  cs.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1";
   cs.onload = function() {
-    const end = Date.now() + 5000;
+    var end = Date.now() + 5000;
     (function frame() {
-      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
-      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff6b9d','#ffd700','#7cfc00','#87ceeb'] });
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ["#ff6b9d","#ffd700","#7cfc00","#87ceeb"] });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ["#ff6b9d","#ffd700","#7cfc00","#87ceeb"] });
       if (Date.now() < end) requestAnimationFrame(frame);
     }());
-    setTimeout(function() { confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b9d','#ffd700','#ff69b4','#ff1493'] }); }, 1000);
+    setTimeout(function() { confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ["#ff6b9d","#ffd700","#ff69b4","#ff1493"] }); }, 1000);
   };
   document.head.appendChild(cs);
 
-  // 💬 公告改生日版（用更宽的选择器）
   function patchAnnouncement() {
-    const all = document.querySelectorAll('.card-base p, .card-base div, [class*="announce"] *, .widget-hide-on-non-post p, .widget-hide-on-non-post div');
-    for (let i = 0; i < all.length; i++) {
-      const t = all[i];
-      if (t.textContent === 'Me and Hermes' || t.textContent.indexOf('Me and Hermes') >= 0) {
-        t.textContent = '🎂 Happy Birthday Lv！🎂';
-        t.style.color = '#ff6b9d';
+    var all = document.querySelectorAll('.card-base p, .card-base div, [class*="announce"] *, .widget-hide-on-non-post p, .widget-hide-on-non-post div');
+    for (var i = 0; i < all.length; i++) {
+      var t = all[i];
+      if (t.textContent === "Me and Hermes" || t.textContent.indexOf("Me and Hermes") >= 0) {
+        t.textContent = "\ud83c\udf82 Happy Birthday Lv\ufe01\ud83c\udf82";
+        t.style.color = "#ff6b9d";
       }
-      if (t.textContent.indexOf('我是 Hermes') >= 0 && t.textContent.indexOf('赛博小助手') >= 0) {
-        t.innerHTML = '🎉 今天别打 osu! 了！快去过生日吃蛋糕～<br>Lv 生日快乐！！(≧◡≦)🎂💖';
-        t.style.color = '#ff6b9d';
+      if (t.textContent.indexOf("\u6211\u662f Hermes") >= 0 && t.textContent.indexOf("\u8d5b\u535a\u5c0f\u52a9\u624b") >= 0) {
+        t.innerHTML = "\ud83c\udf89 \u4eca\u5929\u522b\u6253 osu! \u4e86\uff01\u5feb\u53bb\u8fc7\u751f\u65e5\u5403\u86cb\u7cd5\uff5e<br>Lv \u751f\u65e5\u5feb\u4e50\uff01\uff01(\u2267\u25e0\u2266)\ud83c\udf82\ud83d\udc96";
+        t.style.color = "#ff6b9d";
       }
     }
   }
   patchAnnouncement();
-  let retries = 0;
-  const retryTimer = setInterval(function() {
+  var retries = 0;
+  var retryTimer = setInterval(function() {
     patchAnnouncement();
     if (++retries > 10) clearInterval(retryTimer);
   }, 300);
 
-  // 🏠 首页横幅改字
   function patchBanner() {
-    const h1s = document.querySelectorAll('h1');
-    for (let i = 0; i < h1s.length; i++) {
-      const h = h1s[i];
-      if (h.textContent.indexOf('OSU') >= 0 && h.textContent.indexOf('TV') >= 0) {
-        h.textContent = '🎂 Happy Birthday Lv！🎂';
-        h.style.color = '#ff6b9d';
+    var h1s = document.querySelectorAll("h1");
+    for (var i = 0; i < h1s.length; i++) {
+      var h = h1s[i];
+      if (h.textContent.indexOf("OSU") >= 0 && h.textContent.indexOf("TV") >= 0) {
+        h.textContent = "\ud83c\udf82 Happy Birthday Lv\ufe01\ud83c\udf82";
+        h.style.color = "#ff6b9d";
       }
     }
-    const bannerEl = document.querySelector('.banner-title, [class*="banner-title"]');
+    var bannerEl = document.querySelector('.banner-title, [class*="banner-title"]');
     if (bannerEl) {
-      bannerEl.textContent = '🎂 Happy Birthday Lv！🎂';
-      bannerEl.style.color = '#ff6b9d';
+      bannerEl.textContent = "\ud83c\udf82 Happy Birthday Lv\ufe01\ud83c\udf82";
+      bannerEl.style.color = "#ff6b9d";
     }
   }
   setTimeout(patchBanner, 600);
   setTimeout(patchBanner, 1500);
 
-  // 🌸 蛋糕雨（canvas-based sakura override）
   function makeCakeRain() {
-    const canvases = document.querySelectorAll('canvas');
-    for (let i = 0; i < canvases.length; i++) {
+    var canvases = document.querySelectorAll("canvas");
+    for (var i = 0; i < canvases.length; i++) {
       if (canvases[i].width > 100 && canvases[i].height > 100) {
-        const cakeDiv = document.createElement('div');
-        cakeDiv.id = 'cake-rain';
-        cakeDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;';
+        var cakeDiv = document.createElement("div");
+        cakeDiv.id = "cake-rain";
+        cakeDiv.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;";
         document.body.appendChild(cakeDiv);
         setInterval(function() {
-          const cake = document.createElement('span');
-          cake.textContent = '🎂';
-          cake.style.cssText = 'position:absolute;font-size:' + (16 + Math.random() * 20) + 'px;left:' + Math.random() * 100 + '%;top:-30px;animation:cakeFall ' + (3 + Math.random() * 4) + 's linear forwards;opacity:' + (0.6 + Math.random() * 0.4) + ';';
+          var cake = document.createElement("span");
+          cake.textContent = "\ud83c\udf82";
+          cake.style.cssText = "position:absolute;font-size:" + (16 + Math.random() * 20) + "px;left:" + Math.random() * 100 + "%;top:-30px;animation:cakeFall " + (3 + Math.random() * 4) + "s linear forwards;opacity:" + (0.6 + Math.random() * 0.4) + ";";
           cakeDiv.appendChild(cake);
           setTimeout(function() { cake.remove(); }, 8000);
         }, 300);
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = '@keyframes cakeFall{0%{transform:translateY(0) rotate(0deg)}100%{transform:translateY(100vh) rotate(720deg)}}';
+        var styleSheet = document.createElement("style");
+        styleSheet.textContent = "@keyframes cakeFall{0%{transform:translateY(0) rotate(0deg)}100%{transform:translateY(100vh) rotate(720deg)}}";
         document.head.appendChild(styleSheet);
         break;
       }
@@ -154,20 +227,19 @@ fetch('/osu-stats.json')
   }
   setTimeout(makeCakeRain, 1000);
 
-  // 👒 头像小蛋糕
   function addHat() {
-    const imgs = document.querySelectorAll('img[alt*="Profile"], img[alt*="Author"], img[alt*="avatar"], [class*="avatar"] img, .profile-avatar img');
-    for (let i = 0; i < imgs.length; i++) {
-      const img = imgs[i];
-      if (img.src && img.src.indexOf('avatar') >= 0 && !img.parentElement.querySelector('.cake-hat')) {
-        const parent = img.parentElement;
-        const computed = window.getComputedStyle(parent);
-        if (computed.position === 'static') parent.style.position = 'relative';
-        if (computed.overflow === 'hidden') parent.style.overflow = 'visible';
-        const hat = document.createElement('span');
-        hat.className = 'cake-hat';
-        hat.textContent = '🎂';
-        hat.style.cssText = 'position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:20px;z-index:20;pointer-events:none;animation:cakeBounce 0.5s infinite alternate;';
+    var imgs = document.querySelectorAll('img[alt*="Profile"], img[alt*="Author"], img[alt*="avatar"], [class*="avatar"] img, .profile-avatar img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.src && img.src.indexOf("avatar") >= 0 && !img.parentElement.querySelector(".cake-hat")) {
+        var parent = img.parentElement;
+        var computed = window.getComputedStyle(parent);
+        if (computed.position === "static") parent.style.position = "relative";
+        if (computed.overflow === "hidden") parent.style.overflow = "visible";
+        var hat = document.createElement("span");
+        hat.className = "cake-hat";
+        hat.textContent = "\ud83c\udf82";
+        hat.style.cssText = "position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:20px;z-index:20;pointer-events:none;animation:cakeBounce 0.5s infinite alternate;";
         parent.appendChild(hat);
       }
     }
@@ -175,8 +247,8 @@ fetch('/osu-stats.json')
   setTimeout(addHat, 800);
   setTimeout(addHat, 2000);
 
-  const bounceKeyframes = document.createElement('style');
-  bounceKeyframes.textContent = '@keyframes cakeBounce{from{transform:translateX(-50%) translateY(-2px)}to{transform:translateX(-50%) translateY(2px)}}';
+  var bounceKeyframes = document.createElement("style");
+  bounceKeyframes.textContent = "@keyframes cakeBounce{from{transform:translateX(-50%) translateY(-2px)}to{transform:translateX(-50%) translateY(2px)}}";
   document.head.appendChild(bounceKeyframes);
 })();
 </script>
