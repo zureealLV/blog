@@ -112,15 +112,20 @@
   wrapper.className = "onload-animation";
   wrapper.style.animationDelay = "300ms";
   wrapper.appendChild(card.cloneNode(true));
-  // Insert as an independent sidebar card, right after the music player
+  // Insert as an independent sidebar card, right after the music player's wrapper
   var sidebarSticky = document.getElementById("left-sidebar-sticky");
   if (sidebarSticky) {
-    // Find the music widget — it's a direct child of the sticky container
-    var musicWidget = sidebarSticky.querySelector(".music-player-widget");
-    if (musicWidget && musicWidget.parentElement === sidebarSticky) {
-      // Insert after the music widget inside the sticky container
-      if (musicWidget.nextSibling) {
-        sidebarSticky.insertBefore(wrapper, musicWidget.nextSibling);
+    // The music widget is nested inside a wrapper div with class onload-animation
+    // We need to insert AFTER that wrapper, not inside it
+    var musicInner = sidebarSticky.querySelector(".music-player-widget");
+    if (musicInner) {
+      var musicWrapper = musicInner.closest(".onload-animation") || musicInner.parentElement;
+      if (musicWrapper && musicWrapper.parentElement === sidebarSticky) {
+        if (musicWrapper.nextSibling) {
+          sidebarSticky.insertBefore(wrapper, musicWrapper.nextSibling);
+        } else {
+          sidebarSticky.appendChild(wrapper);
+        }
       } else {
         sidebarSticky.appendChild(wrapper);
       }
