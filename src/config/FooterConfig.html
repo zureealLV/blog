@@ -149,6 +149,86 @@
       if (st) updatePlayState({ isPlaying: st.isPlaying });
     }
   }, 2000);
+
+  // ========== Frequency Bars Visualization ==========
+  var canvas = wrapper.querySelector(".np-bars");
+  if (!canvas) return;
+  var ctx2d = canvas.getContext("2d");
+  if (!ctx2d) return;
+
+  var audioCtx = null;
+  var analyser = null;
+  var connected = false;
+
+  function setupAudio() {
+    if (connected) return;
+    var audio = document.querySelector("audio");
+    if (!audio) return;
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var src = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      analyser.smoothingTimeConstant = 0.75;
+      src.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      connected = true;
+      drawBars();
+    } catch (e) {
+      console.warn("Audio viz setup failed:", e);
+    }
+  }
+
+  function drawBars() {
+    if (!analyser || !ctx2d) return;
+    requestAnimationFrame(drawBars);
+    var data = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(data);
+
+    var w = canvas.width;
+    var h = canvas.height;
+    ctx2d.clearRect(0, 0, w, h);
+
+    var barCount = data.length;
+    var barWidth = (w / barCount) * 0.7;
+    var gap = (w / barCount) * 0.3;
+
+    // Get theme color from CSS variable
+    var style = getComputedStyle(document.documentElement);
+    var primary = style.getPropertyValue("--primary").trim() || "0,200,150";
+
+    for (var i = 0; i < barCount; i++) {
+      var barHeight = (data[i] / 255) * h * 0.9;
+      var x = i * (barWidth + gap);
+      var y = h - barHeight;
+
+      // Gradient from primary to transparent
+      var grad = ctx2d.createLinearGradient(x, y, x, h);
+      grad.addColorStop(0, "rgba(" + primary + ",0.9)");
+      grad.addColorStop(1, "rgba(" + primary + ",0.2)");
+      ctx2d.fillStyle = grad;
+
+      ctx2d.beginPath();
+      ctx2d.roundRect(x, y, barWidth, barHeight, 2);
+      ctx2d.fill();
+    }
+  }
+
+  // Setup on first user interaction (AudioContext requires user gesture)
+  function onFirstInteraction() {
+    setupAudio();
+    if (connected) {
+      document.removeEventListener("click", onFirstInteraction);
+      document.removeEventListener("touchstart", onFirstInteraction);
+    }
+  }
+  document.addEventListener("click", onFirstInteraction);
+  document.addEventListener("touchstart", onFirstInteraction);
+
+  // Also try setup when music starts playing
+  window.addEventListener("fm:play-state", function(e) {
+    if (e.detail && e.detail.isPlaying) setupAudio();
+  });
 })();
 
 // ========== osu! Stats ==========
