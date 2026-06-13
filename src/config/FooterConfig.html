@@ -445,4 +445,232 @@ fetch("/osu-stats.json")
   bounceKeyframes.textContent = "@keyframes cakeBounce{from{transform:translateX(-50%) translateY(-2px)}to{transform:translateX(-50%) translateY(2px)}}";
   document.head.appendChild(bounceKeyframes);
 })();
+
+// ========== 404 Terminal (global, survives Swup navigation) ==========
+(function() {
+  function init404Terminal() {
+    var output = document.getElementById("terminal-output");
+    var inputLine = document.getElementById("input-line");
+    var input = document.getElementById("terminal-input");
+    var body = document.getElementById("terminal-body");
+    if (!output || !input || !inputLine) return;
+    if (output.dataset.init === "done") return;
+    output.dataset.init = "done";
+
+    output.innerHTML = "";
+    inputLine.style.display = "none";
+    input.value = "";
+
+    var introLines = [
+      { text: "Last login: " + new Date().toLocaleString() + " on ttys000", cls: "cmd-dim", delay: 100 },
+      { text: "", delay: 50 },
+      { text: "zureeal@osu-tv ~ $ curl -s https://zureeallv.com" + location.pathname, cls: "cmd-input", delay: 600 },
+      { text: "", delay: 200 },
+      { text: "> Connecting to zureeallv.com...", cls: "cmd-dim", delay: 400 },
+      { text: "> HTTP/1.1 404 Not Found", cls: "cmd-error", delay: 300 },
+      { text: "> Content-Type: text/html; charset=utf-8", cls: "cmd-dim", delay: 200 },
+      { text: "> X-Powered-By: Astro + Firefly", cls: "cmd-dim", delay: 150 },
+      { text: "", delay: 100 },
+      { text: "ERROR: Page not found in this universe.", cls: "cmd-error", delay: 400 },
+      { text: "", delay: 100 },
+      { text: "Possible causes:", cls: "cmd-warning", delay: 300 },
+      { text: "  - The page was eaten by a osu! slider", cls: "cmd-output", delay: 200 },
+      { text: "  - It eloped with a 403 Forbidden", cls: "cmd-output", delay: 200 },
+      { text: "  - Hermes accidentally deleted it (blame the AI)", cls: "cmd-output", delay: 200 },
+      { text: "  - You typed the URL while playing DT", cls: "cmd-output", delay: 200 },
+      { text: "", delay: 150 },
+      { text: " ____   ___  _  _    ___  _  _\n|___ \\ / _ \\| || |  / _ \\/ |___ \\ \n  __) | | | | || |_| | | | | __) |\n / __/| |_| |__   _| |_| | |/ __/\n|_____|\\___/   |_|  \\___/|_|_____|", cls: "cmd-ascii", delay: 400 },
+      { text: "", delay: 200 },
+      { text: "zureeal@osu-tv ~ $ echo \"where am i?\"", cls: "cmd-input", delay: 500 },
+      { text: "The void. You are in the void.", cls: "cmd-output", delay: 300 },
+      { text: "", delay: 100 },
+      { text: "zureeal@osu-tv ~ $ man osu", cls: "cmd-input", delay: 500 },
+      { text: "No manual entry for osu. Just play more.", cls: "cmd-output", delay: 400 },
+      { text: "", delay: 100 },
+      { text: 'Type "help" for available commands.', cls: "cmd-info", delay: 300 },
+      { text: "", delay: 100 },
+    ];
+
+    var responses = {
+      "help": [
+        { text: "Available commands:", cls: "cmd-warning" },
+        { text: "  help     - You just used it. Congratulations.", cls: "cmd-output" },
+        { text: "  home     - Escape the void (coward)", cls: "cmd-output" },
+        { text: "  about    - Who is this zureeal person?", cls: "cmd-output" },
+        { text: "  osu      - osu! related nonsense", cls: "cmd-output" },
+        { text: "  404      - Echo chamber", cls: "cmd-output" },
+        { text: "  sudo     - Nice try", cls: "cmd-output" },
+        { text: "  exit     - You can't leave", cls: "cmd-output" },
+        { text: "  clear    - Clear the screen", cls: "cmd-output" },
+      ],
+      "home": "redirect",
+      "about": [
+        { text: "Name: zureealLV", cls: "cmd-output" },
+        { text: "Title: osu! player / poet / cyber psycho", cls: "cmd-output" },
+        { text: "Status: Probably playing osu! right now", cls: "cmd-output" },
+        { text: "Motto: 感谢你的庇佑🙏", cls: "cmd-info" },
+      ],
+      "osu": [
+        { text: "  ___  ", cls: "cmd-ascii" },
+        { text: " / _ \\ ", cls: "cmd-ascii" },
+        { text: "| (_) |", cls: "cmd-ascii" },
+        { text: " \\___/ ", cls: "cmd-ascii" },
+        { text: "", cls: "cmd-output" },
+        { text: "PP: 4,684 | Rank: #128,994 | Just play more.", cls: "cmd-info" },
+      ],
+      "404": [
+        { text: "404 Not Found", cls: "cmd-error" },
+        { text: "404 Not Found", cls: "cmd-error" },
+        { text: "404 Not Found", cls: "cmd-error" },
+        { text: "Yes, you're still here.", cls: "cmd-dim" },
+      ],
+      "sudo": [
+        { text: "[sudo] password for zureeal: ********", cls: "cmd-output" },
+        { text: "Nice try. This isn't that kind of server.", cls: "cmd-error" },
+        { text: "Also, you're on a 404 page. What did you expect?", cls: "cmd-dim" },
+      ],
+      "exit": [
+        { text: "logout", cls: "cmd-output" },
+        { text: "Connection to osu-tv closed.", cls: "cmd-dim" },
+        { text: "Just kidding. You can never leave.", cls: "cmd-error" },
+        { text: "This is the void. The void is forever.", cls: "cmd-dim" },
+      ],
+      "clear": "clear",
+      "ls": [{ text: "404.html  void.txt  regrets.log  osu-scores.csv", cls: "cmd-output" }],
+      "pwd": [{ text: "/dev/null", cls: "cmd-output" }],
+      "whoami": [{ text: "You are lost.", cls: "cmd-error" }],
+      "cat": [
+        { text: "Meow. 🐱", cls: "cmd-output" },
+        { text: "Wait, you meant cat(1)? Too bad.", cls: "cmd-dim" },
+      ],
+      "rm": [
+        { text: "rm: cannot remove '404': Permission denied", cls: "cmd-error" },
+        { text: "Nice try though.", cls: "cmd-dim" },
+      ],
+      "cd": [{ text: "There is nowhere to go. You are in the void.", cls: "cmd-error" }],
+      "ping": [
+        { text: "PING void (0.0.0.0): 56 data bytes", cls: "cmd-output" },
+        { text: "Request timeout for icmp_seq 0", cls: "cmd-error" },
+        { text: "Request timeout for icmp_seq 1", cls: "cmd-error" },
+        { text: "The void does not respond.", cls: "cmd-dim" },
+      ],
+      "curl": [{ text: "curl: (6) Could not resolve host: this-page-does-not-exist", cls: "cmd-error" }],
+      "neofetch": [
+        { text: "    OS: Void Linux x86_64", cls: "cmd-output" },
+        { text: "  Host: zureealLV's blog", cls: "cmd-output" },
+        { text: "Kernel: 404.0-NOT-FOUND", cls: "cmd-output" },
+        { text: "  Shell: void-sh 0.0.0", cls: "cmd-output" },
+        { text: "  Theme: Cyber Depressed", cls: "cmd-info" },
+        { text: "  Music: タイムパラドックス", cls: "cmd-info" },
+      ],
+    };
+
+    var defaultResponses = [
+      [{ text: "404: Command not found. Just like this page.", cls: "cmd-error" }],
+      [{ text: 'Unknown command. Type "help" if you\'re lost.', cls: "cmd-warning" }],
+      [{ text: "bash: $CMD$: command not found", cls: "cmd-error" }, { text: "Everything is 404 here. Even your commands.", cls: "cmd-dim" }],
+      [{ text: "The void does not understand: $CMD$", cls: "cmd-error" }],
+      [{ text: "You typed '$CMD$' into a 404 page. Think about your life choices.", cls: "cmd-error" }],
+      [{ text: "Command '$CMD$' not found. Neither is this page.", cls: "cmd-dim" }],
+      [{ text: "404：命令未找到，就像这个页面一样不存在。", cls: "cmd-error" }],
+      [{ text: "你在 404 页面敲命令？你是不是 osu! 打多了脑子瓦特了？", cls: "cmd-warning" }],
+      [{ text: "bash: $CMD$: 未找到命令。你迷路了，亲。", cls: "cmd-error" }],
+      [{ text: "虚空听不懂你说什么：$CMD$", cls: "cmd-error" }],
+      [{ text: "这个页面和你的 osu! 排名一样——不存在。", cls: "cmd-dim" }],
+      [{ text: "你输入了 '$CMD$'。勇敢，但没用。", cls: "cmd-error" }],
+      [{ text: "404 Not Found。你打的命令也是 404。双重 404，恭喜。", cls: "cmd-error" }],
+      [{ text: "别敲了，这里什么都没有。就像你的 SS 数量一样。", cls: "cmd-dim" }],
+      [{ text: "Error: 找不到命令 '$CMD$'，也找不到这个页面，也找不到你的人生方向。", cls: "cmd-error" }],
+      [{ text: "你在虚空里打字，没人会回应你。就像你给 crush 发的消息。", cls: "cmd-warning" }],
+    ];
+
+    var lineIndex = 0;
+    var defaultIndex = 0;
+
+    function addLine(cls, text) {
+      var div = document.createElement("div");
+      div.className = "cmd-line";
+      var span = document.createElement("span");
+      span.className = cls || "cmd-output";
+      span.textContent = text;
+      div.appendChild(span);
+      output.appendChild(div);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function addPromptLine(cmd) {
+      var div = document.createElement("div");
+      div.className = "cmd-line";
+      var escaped = cmd.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      div.innerHTML = '<span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-path"> ~ $ </span><span class="cmd-input">' + escaped + '</span>';
+      output.appendChild(div);
+    }
+
+    function processIntro() {
+      if (lineIndex >= introLines.length) {
+        inputLine.style.display = "flex";
+        input.focus();
+        body.scrollTop = body.scrollHeight;
+        return;
+      }
+      var line = introLines[lineIndex];
+      lineIndex++;
+      addLine(line.cls, line.text);
+      setTimeout(processIntro, line.delay || 100);
+    }
+
+    function handleCommand(cmd) {
+      cmd = cmd.trim().toLowerCase();
+      if (!cmd) return;
+      addPromptLine(cmd);
+      if (cmd === "clear") { output.innerHTML = ""; return; }
+      if (cmd === "home" || cmd === "cd /" || cmd === "cd ~") {
+        addLine("cmd-success", "Redirecting to homepage...");
+        setTimeout(function() { window.location.href = "/"; }, 800);
+        return;
+      }
+      var resp = responses[cmd];
+      if (resp === "redirect") {
+        addLine("cmd-success", "Redirecting to homepage...");
+        setTimeout(function() { window.location.href = "/"; }, 800);
+        return;
+      }
+      if (resp && resp.length) {
+        for (var i = 0; i < resp.length; i++) { addLine(resp[i].cls, resp[i].text); }
+      } else {
+        var chosen = defaultResponses[defaultIndex % defaultResponses.length];
+        defaultIndex++;
+        for (var j = 0; j < chosen.length; j++) {
+          addLine(chosen[j].cls, chosen[j].text.replace(/\$CMD\$/g, cmd));
+        }
+      }
+      addLine("", "");
+      body.scrollTop = body.scrollHeight;
+    }
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { var cmd = input.value; input.value = ""; handleCommand(cmd); }
+    });
+    body.addEventListener("click", function() { input.focus(); });
+    setTimeout(processIntro, 500);
+  }
+
+  // Global listener — fires on every Swup navigation (persists across pages)
+  // @swup/astro dispatches 'astro:page-load' on page:view hook
+  document.addEventListener("astro:page-load", function() {
+    setTimeout(init404Terminal, 100);
+  });
+
+  // Also listen to swup events directly as fallback
+  document.addEventListener("swup:contentReplaced", function() {
+    setTimeout(init404Terminal, 100);
+  });
+
+  // Direct load (no Swup)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() { init404Terminal(); });
+  } else {
+    init404Terminal();
+  }
+})();
 </script>
