@@ -85,6 +85,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:feather",
 	});
 	
+	// 404 NF
+	links.push({
+		name: "404 NF",
+		url: "/404/",
+		icon: "mdi:alert-circle-outline",
+	});
+	
 
 
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出
