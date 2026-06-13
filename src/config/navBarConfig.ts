@@ -13,20 +13,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	const links: (NavBarLink | LinkPreset)[] = [
 		// 主页
 		LinkPreset.Home,
-
-		// 归档
-		LinkPreset.Archive,
 	];
-
-	// 根据配置决定是否添加友链，在siteConfig关闭pages.friends时导航栏不显示友链
-	if (siteConfig.pages.friends) {
-		links.push(LinkPreset.Friends);
-	}
-
-	// 根据配置决定是否添加留言板，在siteConfig关闭pages.guestbook时导航栏不显示留言板
-	if (siteConfig.pages.guestbook) {
-		links.push(LinkPreset.Guestbook);
-	}
 
 	// 我的及其子菜单
 	links.push({
@@ -34,17 +21,30 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		url: "/my/",
 		icon: "material-symbols:person",
 		children: [
-			// 根据配置决定是否添加相册，在siteConfig关闭pages.gallery时导航栏不显示相册
+			// 根据配置决定是否添加相册
 			...(siteConfig.pages.gallery ? [LinkPreset.Gallery] : []),
 
-			// 根据配置决定是否添加番组计划
+			// 番组计划
 			LinkPreset.Bangumi,
 
-			// 百宝箱 - 收藏链接合集
+			// 百宝箱
 			{
 				name: "百宝箱",
 				url: "/treasure/",
 				icon: "material-symbols:inventory-2",
+			},
+
+			// 友链
+			...(siteConfig.pages.friends ? [LinkPreset.Friends] : []),
+
+			// 留言板
+			...(siteConfig.pages.guestbook ? [LinkPreset.Guestbook] : []),
+
+			// 404 NF
+			{
+				name: "404 NF",
+				url: "/404/",
+				icon: "mdi:alert-circle-outline",
 			},
 		],
 	});
@@ -91,12 +91,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:feather",
 	});
 	
-	// 404 NF
-	links.push({
-		name: "404 NF",
-		url: "/404/",
-		icon: "mdi:alert-circle-outline",
-	});
+
 
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出
 	return { links } as NavBarConfig;
