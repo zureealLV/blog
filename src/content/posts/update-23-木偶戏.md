@@ -5,6 +5,7 @@ description: ""
 tags: [随笔]
 category: 随笔
 draft: false
+pinned: true
 image: ./images/puppet-show.jpeg
 ---
 
