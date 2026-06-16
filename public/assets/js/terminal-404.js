@@ -370,12 +370,10 @@
         initTerminal();
     }
 
-    // Re-init on Swup page navigation (SPA transitions)
-    // CRITICAL: check we're still on the 404 page, otherwise this listener
-    // fires on OTHER pages (like /terminal/) and overwrites their content
-    document.addEventListener("swup:contentReplaced", function() {
-        // Only re-init if current page is still a 404 page
-        var h1 = document.querySelector('main h1, #swup-container h1');
+    // Re-init on Swup page navigation via Astro's page-load event.
+    // This fires AFTER content replacement, so h1 is always correct.
+    document.addEventListener("astro:page-load", function() {
+        var h1 = document.querySelector('#swup-container h1');
         if (h1 && h1.textContent.includes('404')) {
             output.dataset.init = ""; // reset guard so initTerminal runs fresh
             setTimeout(initTerminal, 50);

@@ -1021,9 +1021,9 @@
     } else {
         initGame();
     }
-    document.addEventListener("swup:contentReplaced", function() {
+    document.addEventListener("astro:page-load", function() {
         // Only re-init if we're still on the terminal page
-        var h1 = document.querySelector('main h1, #swup-container h1');
+        var h1 = document.querySelector('#swup-container h1');
         if (h1 && h1.textContent.includes('Doppelgänger')) {
             setTimeout(initGame, 50);
         }
