@@ -1017,6 +1017,9 @@
         initGame();
     }
     document.addEventListener("swup:contentReplaced", function() {
-        setTimeout(initGame, 50);
+        // Only re-init if we're still on the terminal page
+        if (document.title.includes("Doppelgänger")) {
+            setTimeout(initGame, 50);
+        }
     });
 })();

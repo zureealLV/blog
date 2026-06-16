@@ -366,7 +366,13 @@
     }
 
     // Re-init on Swup page navigation (SPA transitions)
+    // CRITICAL: check we're still on the 404 page, otherwise this listener
+    // fires on OTHER pages (like /terminal/) and overwrites their content
     document.addEventListener("swup:contentReplaced", function() {
-        setTimeout(initTerminal, 50);
+        // Only re-init if current page is still a 404 page
+        if (document.title.includes("404")) {
+            output.dataset.init = ""; // reset guard so initTerminal runs fresh
+            setTimeout(initTerminal, 50);
+        }
     });
 })();
