@@ -6,6 +6,7 @@ tags: [交互, 赛博, 实验]
 category: 随笔
 draft: false
 pinned: true
+image: ./images/doppelganger-cover.jpg
 ---
 
 ```
