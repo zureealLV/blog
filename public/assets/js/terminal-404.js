@@ -120,6 +120,23 @@
             { text: "  Theme: Cyber Depressed", cls: "cmd-info" },
             { text: "  Music: タイムパラドックス", cls: "cmd-info" },
         ],
+        "matrix": "matrix",
+        "fortune": "fortune",
+        "vim": [
+            { text: "~", cls: "cmd-dim" },
+            { text: "~", cls: "cmd-dim" },
+            { text: "~                              VIM - Vi IMproved", cls: "cmd-info" },
+            { text: "", cls: "cmd-output" },
+            { text: "You opened vim on a 404 page.", cls: "cmd-warning" },
+            { text: "You cannot exit vim.", cls: "cmd-error" },
+            { text: "Nobody can exit vim.", cls: "cmd-error" },
+            { text: "vim exits you.", cls: "cmd-dim" },
+            { text: "", cls: "cmd-output" },
+            { text: "(:q! does not work here)", cls: "cmd-dim" },
+        ],
+        "play": "play",
+        "date": "date",
+        "echo": "echo",
     };
 
     // ========== Bilingual Default Responses ==========
@@ -217,6 +234,116 @@
         addLine("", "");
         body.scrollTop = body.scrollHeight;
     }
+
+    // ========== Fortune Quotes ==========
+    var fortunes = [
+        "重复是最不原创的行为，但坚持重复本身，却成了一种独特的存在方式。",
+        "意识到自己是一具皮象的真理，一种由感官拼凑，由记忆驱动的肉质机器。",
+        "创伤的语言是无意识的沟壑，组成神经元的构型。",
+        "当你持续凝视一个物体，附着于其的表象就开始裂解。",
+        "我们在振荡中往复，没人能逃出自身的沟壑。",
+        "我有些时候因为异质的痛苦而清醒，这种痛苦驱使我写作。",
+        "在一片吵闹的雨夜中给你写信。",
+        "月光只是单纯的照着。",
+        "流亡意味着短暂的窃取一段生活。",
+        "雨声是我的旧录音带。",
+        "重复是一种温柔的暴力。",
+        "你好，这里是虚空。这里什么都没有，但你还是来了。",
+    ];
+
+    function showFortune() {
+        var q = fortunes[Math.floor(Math.random() * fortunes.length)];
+        addLine("cmd-info", "  " + q);
+        addLine("cmd-dim", "  —— from the void");
+    }
+
+    // ========== Matrix Rain ==========
+    function showMatrix() {
+        var canvas = document.createElement("canvas");
+        canvas.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9999;background:#000";
+        document.body.appendChild(canvas);
+        var ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var cols = Math.floor(canvas.width / 14);
+        var drops = [];
+        for (var i = 0; i < cols; i++) drops[i] = 1;
+        var chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF";
+        var frame = 0;
+        var maxFrames = 300;
+        function draw() {
+            ctx.fillStyle = "rgba(0,0,0,0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = "14px monospace";
+            for (var i = 0; i < drops.length; i++) {
+                var text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillStyle = Math.random() > 0.98 ? "#fff" : "#0f0";
+                ctx.fillText(text, i * 14, drops[i] * 14);
+                if (drops[i] * 14 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+            frame++;
+            if (frame < maxFrames) requestAnimationFrame(draw);
+            else canvas.remove();
+        }
+        draw();
+    }
+
+    // ========== Command Handler Extension ==========
+    var originalHandleCommand = handleCommand;
+    handleCommand = function(cmd) {
+        cmd = cmd.trim().toLowerCase();
+        if (!cmd) return;
+        addPromptLine(cmd);
+
+        if (cmd === "clear") { output.innerHTML = ""; return; }
+        if (cmd === "matrix") { showMatrix(); return; }
+        if (cmd === "fortune") { showFortune(); addLine("", ""); body.scrollTop = body.scrollHeight; return; }
+        if (cmd === "play") {
+            addLine("cmd-success", "Initializing Doppelgänger protocol...");
+            addLine("cmd-dim", "Connecting to server...");
+            setTimeout(function() { window.location.href = "/terminal"; }, 1200);
+            return;
+        }
+        if (cmd === "date") {
+            var now = new Date();
+            addLine("cmd-output", now.toString());
+            var quotes = [
+                "Time is a flat circle. —— Nietzsche",
+                "The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion. —— Camus",
+                "We are all just walking each other home. —— Ram Dass",
+                "I think therefore I am? Prove it. —— The Void",
+            ];
+            addLine("cmd-dim", "  " + quotes[Math.floor(Math.random() * quotes.length)]);
+            addLine("", "");
+            body.scrollTop = body.scrollHeight;
+            return;
+        }
+        if (cmd.startsWith("echo ")) {
+            var text = cmd.substring(5);
+            var tamper = Math.random() > 0.7;
+            if (tamper) {
+                var glitches = ["[REDACTED]", "...", "void", "404", "█".repeat(text.length), text.split("").reverse().join(""), "who are you?"];
+                addLine("cmd-error", glitches[Math.floor(Math.random() * glitches.length)]);
+                addLine("cmd-dim", "(The void has its own opinions.)");
+            } else {
+                addLine("cmd-output", text);
+            }
+            addLine("", "");
+            body.scrollTop = body.scrollHeight;
+            return;
+        }
+        if (cmd === "echo") {
+            addLine("cmd-warning", "echo: what do you want to say?");
+            addLine("", "");
+            body.scrollTop = body.scrollHeight;
+            return;
+        }
+
+        // fallback to original
+        originalHandleCommand(cmd);
+    };
 
     input.addEventListener("keydown", function(e) {
         if (e.key === "Enter") {

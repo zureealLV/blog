@@ -84,6 +84,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:feather",
 	});
 
+	// ??? — Doppelgänger
+	links.push({
+		name: "???",
+		url: "/terminal/",
+		icon: "mdi:ghost",
+	});
+
 	// 404 NF
 	links.push({
 		name: "404 NF",

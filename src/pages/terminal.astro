@@ -1,0 +1,62 @@
+---
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+---
+
+<MainGridLayout title="Doppelgänger" description="A terminal story about someone who wanted to disappear">
+    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-[600px]">
+        <div class="card-base z-10 relative w-full" style="background:#0a0a0a;padding:0;overflow:hidden;">
+            <div class="crt-overlay"></div>
+            <div class="terminal-window">
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="dot dot-red"></span>
+                        <span class="dot dot-yellow"></span>
+                        <span class="dot dot-green"></span>
+                    </div>
+                    <span class="terminal-title">doppelganger-server: ~</span>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-output" id="terminal-output"></div>
+                    <div class="terminal-input-line" id="input-line" style="display:none;">
+                        <span class="prompt-user">guest</span><span class="prompt-at">@</span><span class="prompt-host">doppelganger</span><span class="prompt-colon">:</span><span class="prompt-path" id="current-path">~</span><span class="prompt-dollar">$</span>
+                        <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</MainGridLayout>
+
+<style>
+    .crt-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:20}
+    .terminal-window{font-family:'Cascadia Code','Fira Code','JetBrains Mono','Consolas',monospace;font-size:14px;line-height:1.6;min-height:600px;display:flex;flex-direction:column}
+    .terminal-bar{display:flex;align-items:center;padding:10px 16px;background:#1a1a2e;border-bottom:1px solid #2a2a4a;gap:8px}
+    .terminal-dots{display:flex;gap:6px}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .dot-red{background:#ff5f57}.dot-yellow{background:#febc2e}.dot-green{background:#28c840}
+    .terminal-title{color:#888;font-size:12px;margin-left:8px}
+    .terminal-body{flex:1;padding:20px;color:var(--primary);overflow-y:auto;min-height:540px;display:flex;flex-direction:column}
+    .terminal-output{white-space:pre-wrap;word-break:break-all;flex:1}
+    .terminal-input-line{display:flex;align-items:center;margin-top:4px;flex-shrink:0}
+    .prompt-user{color:#28c840;font-weight:bold}
+    .prompt-at{color:#888}
+    .prompt-host{color:#569cd6;font-weight:bold}
+    .prompt-colon{color:#888}
+    .prompt-path{color:#dcdcaa}
+    .prompt-dollar{color:var(--primary);margin-right:8px}
+    .terminal-input{background:transparent;border:none;outline:none;color:var(--primary);font-family:inherit;font-size:inherit;flex:1;caret-color:var(--primary)}
+    .cmd-line{margin-bottom:2px}
+    .cmd-input{color:var(--primary)}
+    .cmd-output{color:#ccc}
+    .cmd-error{color:#ff6b6b}
+    .cmd-success{color:#28c840}
+    .cmd-warning{color:#febc2e}
+    .cmd-info{color:#569cd6}
+    .cmd-dim{color:#666}
+    .cmd-ascii{color:var(--primary);font-size:11px;line-height:1.2;opacity:0.8;font-family:monospace;white-space:pre}
+    .cmd-secret{color:#9966ff}
+    .terminal-window{animation:terminalFlicker 0.15s ease-in-out}
+    @keyframes terminalFlicker{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+</style>
+
+<script src="/assets/js/terminal-doppelganger.js" data-swup-reload-script></script>
