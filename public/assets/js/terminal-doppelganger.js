@@ -1,5 +1,19 @@
 /* Doppelgänger - Terminal Game Engine */
 (function() {
+    // Force cleanup any previous terminal state (including 404 script)
+    var _cleanupDone = false;
+    function forceCleanup() {
+        if (_cleanupDone) return;
+        _cleanupDone = true;
+        var output = document.getElementById("terminal-output");
+        if (output) {
+            output.innerHTML = "";
+            output.dataset.init = "done";
+        }
+    }
+    // Run cleanup immediately
+    forceCleanup();
+
     function initGame() {
         var output = document.getElementById("terminal-output");
         var inputLine = document.getElementById("input-line");
@@ -9,7 +23,7 @@
         if (!output || !input || !inputLine) return;
 
         // Always reinitialize - clear any previous state from other scripts
-        output.dataset.init = "done";
+        forceCleanup();
         output.innerHTML = "";
         inputLine.style.display = "none";
         input.value = "";
