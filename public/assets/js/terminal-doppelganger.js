@@ -7,9 +7,9 @@
         var body = document.getElementById("terminal-body");
         var pathDisplay = document.getElementById("current-path");
         if (!output || !input || !inputLine) return;
-        if (output.dataset.init === "done") return;
-        output.dataset.init = "done";
 
+        // Always reinitialize - clear any previous state from other scripts
+        output.dataset.init = "done";
         output.innerHTML = "";
         inputLine.style.display = "none";
         input.value = "";
