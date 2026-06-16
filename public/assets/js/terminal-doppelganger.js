@@ -5,7 +5,7 @@
     function forceCleanup() {
         if (_cleanupDone) return;
         _cleanupDone = true;
-        var output = document.getElementById("terminal-output");
+        var output = document.getElementById("dp-terminal-output");
         if (output) {
             output.innerHTML = "";
             output.dataset.init = "done";
@@ -15,16 +15,11 @@
     forceCleanup();
 
     function initGame() {
-        // Page guard: only run on the Doppelgänger page. Check the h1 header
-        // since it's already in the DOM when ScriptsPlugin re-executes this script.
-        var h1 = document.querySelector('main h1, #swup-container h1');
-        if (!h1 || !h1.textContent.includes('Doppelgänger')) return;
-
-        var output = document.getElementById("terminal-output");
-        var inputLine = document.getElementById("input-line");
-        var input = document.getElementById("terminal-input");
-        var body = document.getElementById("terminal-body");
-        var pathDisplay = document.getElementById("current-path");
+        var output = document.getElementById("dp-terminal-output");
+        var inputLine = document.getElementById("dp-input-line");
+        var input = document.getElementById("dp-terminal-input");
+        var body = document.getElementById("dp-terminal-body");
+        var pathDisplay = document.getElementById("dp-current-path");
         if (!output || !input || !inputLine) return;
 
         // Always reinitialize - clear any previous state from other scripts
@@ -1021,11 +1016,9 @@
     } else {
         initGame();
     }
-    document.addEventListener("astro:page-load", function() {
-        // Only re-init if we're still on the terminal page
-        var h1 = document.querySelector('#swup-container h1');
-        if (h1 && h1.textContent.includes('Doppelgänger')) {
-            setTimeout(initGame, 50);
-        }
+    document.addEventListener("swup:contentReplaced", function() {
+        _cleanupDone = false;
+        forceCleanup();
+        setTimeout(initGame, 50);
     });
 })();

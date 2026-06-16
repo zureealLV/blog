@@ -1,15 +1,10 @@
 /* 404 Terminal - loaded only on pages that include this script */
 (function() {
     function initTerminal() {
-    // Page guard: only run on 404 pages. Check the h1 header since it's
-    // already in the DOM when ScriptsPlugin re-executes this script.
-    var h1 = document.querySelector('main h1, #swup-container h1');
-    if (!h1 || !h1.textContent.includes('404')) return;
-
-    var output = document.getElementById("terminal-output");
-    var inputLine = document.getElementById("input-line");
-    var input = document.getElementById("terminal-input");
-    var body = document.getElementById("terminal-body");
+    var output = document.getElementById("nf-terminal-output");
+    var inputLine = document.getElementById("nf-input-line");
+    var input = document.getElementById("nf-terminal-input");
+    var body = document.getElementById("nf-terminal-body");
     if (!output || !input || !inputLine) return;
 
     // Prevent double-init
@@ -370,13 +365,10 @@
         initTerminal();
     }
 
-    // Re-init on Swup page navigation via Astro's page-load event.
-    // This fires AFTER content replacement, so h1 is always correct.
-    document.addEventListener("astro:page-load", function() {
-        var h1 = document.querySelector('#swup-container h1');
-        if (h1 && h1.textContent.includes('404')) {
-            output.dataset.init = ""; // reset guard so initTerminal runs fresh
-            setTimeout(initTerminal, 50);
-        }
+    // Re-init on Swup SPA navigation
+    document.addEventListener("swup:contentReplaced", function() {
+        output.dataset.init = "";
+        lineIndex = 0;
+        setTimeout(initTerminal, 50);
     });
 })();

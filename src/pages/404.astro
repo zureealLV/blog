@@ -16,16 +16,18 @@ import { url } from "@/utils/url-utils";
                     </div>
                     <span class="terminal-title">zureeal@osu-tv: ~</span>
                 </div>
-                <div class="terminal-body" id="terminal-body">
-                    <div class="terminal-output" id="terminal-output"></div>
-                    <div class="terminal-input-line" id="input-line" style="display:none;">
+                <div class="terminal-body" id="nf-terminal-body">
+                    <div class="terminal-output" id="nf-terminal-output"></div>
+                    <div class="terminal-input-line" id="nf-input-line" style="display:none;">
                         <span class="prompt-user">zureeal</span><span class="prompt-at">@</span><span class="prompt-host">osu-tv</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
-                        <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false" />
+                        <input type="text" class="terminal-input" id="nf-terminal-input" autocomplete="off" spellcheck="false" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script is:inline src="/assets/js/terminal-404.js" data-swup-reload-script></script>
 </MainGridLayout>
 
 <style>
@@ -58,5 +60,3 @@ import { url } from "@/utils/url-utils";
     .terminal-window{animation:terminalFlicker 0.15s ease-in-out}
     @keyframes terminalFlicker{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
 </style>
-
-<script src="/assets/js/terminal-404.js" data-swup-ignore-script></script>
