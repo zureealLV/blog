@@ -15,6 +15,11 @@
     forceCleanup();
 
     function initGame() {
+        // Page guard: only run on the Doppelgänger page. Check the h1 header
+        // since it's already in the DOM when ScriptsPlugin re-executes this script.
+        var h1 = document.querySelector('main h1, #swup-container h1');
+        if (!h1 || !h1.textContent.includes('Doppelgänger')) return;
+
         var output = document.getElementById("terminal-output");
         var inputLine = document.getElementById("input-line");
         var input = document.getElementById("terminal-input");
@@ -1018,7 +1023,8 @@
     }
     document.addEventListener("swup:contentReplaced", function() {
         // Only re-init if we're still on the terminal page
-        if (document.title.includes("Doppelgänger")) {
+        var h1 = document.querySelector('main h1, #swup-container h1');
+        if (h1 && h1.textContent.includes('Doppelgänger')) {
             setTimeout(initGame, 50);
         }
     });

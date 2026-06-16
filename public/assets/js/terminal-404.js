@@ -1,6 +1,11 @@
 /* 404 Terminal - loaded only on pages that include this script */
 (function() {
     function initTerminal() {
+    // Page guard: only run on 404 pages. Check the h1 header since it's
+    // already in the DOM when ScriptsPlugin re-executes this script.
+    var h1 = document.querySelector('main h1, #swup-container h1');
+    if (!h1 || !h1.textContent.includes('404')) return;
+
     var output = document.getElementById("terminal-output");
     var inputLine = document.getElementById("input-line");
     var input = document.getElementById("terminal-input");
@@ -370,7 +375,8 @@
     // fires on OTHER pages (like /terminal/) and overwrites their content
     document.addEventListener("swup:contentReplaced", function() {
         // Only re-init if current page is still a 404 page
-        if (document.title.includes("404")) {
+        var h1 = document.querySelector('main h1, #swup-container h1');
+        if (h1 && h1.textContent.includes('404')) {
             output.dataset.init = ""; // reset guard so initTerminal runs fresh
             setTimeout(initTerminal, 50);
         }
