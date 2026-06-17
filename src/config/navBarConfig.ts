@@ -39,6 +39,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 			// 留言板
 			...(siteConfig.pages.guestbook ? [LinkPreset.Guestbook] : []),
+
+			// Black Souls Wiki
+			{
+				name: "BS Wiki",
+				url: "/blacksouls/",
+				icon: "material-symbols:menu-book",
+			},
 		],
 	});
 
@@ -68,13 +75,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				icon: "fa7-brands:bilibili",
 			},
 		],
-	});
-
-	// BLACKSOULS Wiki
-	links.push({
-		name: "BS Wiki",
-		url: "/blacksouls/",
-		icon: "material-symbols:menu-book",
 	});
 
 	// 𝓞𝓢𝓤！ 关于页面

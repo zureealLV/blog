@@ -332,7 +332,7 @@ onMount(async () => {
   .wiki-sidebar {
     width: 280px;
     flex-shrink: 0;
-    border-right: 1px solid var(--line-color, rgba(128,128,128,0.15));
+    border-right: 1px solid rgba(128,128,128,0.15);
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -340,7 +340,7 @@ onMount(async () => {
     top: 0;
     height: 100vh;
     overflow-y: auto;
-    background: var(--card-bg, #fff);
+    background: #fff;
   }
 
   .sidebar-header {
@@ -359,10 +359,10 @@ onMount(async () => {
     width: 100%;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--line-color, rgba(128,128,128,0.2));
+    border: 1px solid rgba(128,128,128,0.2);
     background: transparent;
     font-size: 0.875rem;
-    color: var(--text-75, #555);
+    color: #555;
     outline: none;
     transition: border-color 0.2s;
   }
@@ -384,7 +384,7 @@ onMount(async () => {
     padding: 0.4rem 0.5rem;
     border-radius: 0.375rem;
     font-size: 0.875rem;
-    color: var(--text-75, #555);
+    color: #555;
     transition: all 0.15s;
     text-align: left;
     cursor: pointer;
@@ -397,7 +397,7 @@ onMount(async () => {
   .nav-page { padding-left: 2.5rem; font-size: 0.75rem; }
 
   .nav-game:hover, .nav-cat:hover, .nav-page:hover {
-    background: var(--primary-bg, rgba(128,128,128,0.08));
+    background: rgba(128,128,128,0.08);
   }
 
   .nav-game.active { color: var(--primary); font-weight: 600; }
@@ -406,9 +406,9 @@ onMount(async () => {
 
   .sidebar-stats {
     font-size: 0.75rem;
-    color: var(--text-50, #999);
+    color: #999;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--line-color, rgba(128,128,128,0.1));
+    border-top: 1px solid rgba(128,128,128,0.1);
     margin-top: 0.5rem;
   }
 
@@ -442,9 +442,9 @@ onMount(async () => {
     text-align: left;
     cursor: pointer;
     padding: 1.25rem;
-    border-radius: var(--radius-large, 0.75rem);
-    background: var(--card-bg, #fff);
-    border: 1px solid var(--line-color, rgba(128,128,128,0.1));
+    border-radius: 0.75rem;
+    background: #fff;
+    border: 1px solid rgba(128,128,128,0.1);
     transition: all 0.2s;
   }
 
@@ -464,14 +464,12 @@ onMount(async () => {
   .entry-card-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--text-90, #333);
     margin-bottom: 0.5rem;
     line-height: 1.4;
   }
 
   .entry-card-preview {
     font-size: 0.8125rem;
-    color: var(--text-50, #888);
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -487,8 +485,8 @@ onMount(async () => {
     padding: 0.2rem 0.5rem;
     border-radius: 9999px;
     font-size: 0.7rem;
-    background: var(--primary-bg, rgba(128,128,128,0.08));
-    color: var(--text-50, #888);
+    background: rgba(128,128,128,0.08);
+    color: #888;
   }
 
   /* Tags */
@@ -516,6 +514,64 @@ onMount(async () => {
     color: #3b82f6;
   }
 
+  /* Text colors - light mode */
+  .entry-card-title,
+  .entry-title,
+  th {
+    color: #1a1a1a;
+  }
+
+  .entry-card-preview,
+  .entry-content,
+  td,
+  .sidebar-stats,
+  .nav-game, .nav-cat, .nav-page {
+    color: #555;
+  }
+
+  /* Text colors - dark mode */
+  :global(html.dark) .entry-card-title,
+  :global(html.dark) .entry-title,
+  :global(html.dark) th {
+    color: #e5e5e5;
+  }
+
+  :global(html.dark) .entry-card-preview,
+  :global(html.dark) .entry-content,
+  :global(html.dark) td,
+  :global(html.dark) .sidebar-stats,
+  :global(html.dark) .nav-game,
+  :global(html.dark) .nav-cat,
+  :global(html.dark) .nav-page {
+    color: #b3b3b3;
+  }
+
+  :global(html.dark) .entry-card,
+  :global(html.dark) .wiki-sidebar {
+    background: rgba(30, 30, 30, 0.95);
+  }
+
+  :global(html.dark) .table-wrapper {
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  :global(html.dark) thead {
+    background: rgba(255,255,255,0.06);
+  }
+
+  :global(html.dark) .sidebar-input {
+    border-color: rgba(255,255,255,0.15);
+    color: #e5e5e5;
+  }
+
+  :global(html.dark) .back-btn {
+    color: #b3b3b3;
+  }
+
+  :global(html.dark) .back-btn:hover {
+    color: #e5e5e5;
+  }
+
   /* Entry view */
   .entry-view {
     max-width: 900px;
@@ -528,7 +584,7 @@ onMount(async () => {
     padding: 0.4rem 0.75rem;
     border-radius: 0.375rem;
     font-size: 0.8125rem;
-    color: var(--text-50, #888);
+    color: #888;
     transition: all 0.15s;
     margin-bottom: 1rem;
     cursor: pointer;
@@ -537,8 +593,8 @@ onMount(async () => {
   }
 
   .back-btn:hover {
-    color: var(--text-90, #333);
-    background: var(--primary-bg, rgba(128,128,128,0.08));
+    color: #333;
+    background: rgba(128,128,128,0.08);
   }
 
   .entry-breadcrumb {
@@ -552,7 +608,6 @@ onMount(async () => {
   .entry-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-90, #222);
     margin-bottom: 1.5rem;
     line-height: 1.3;
   }
@@ -560,7 +615,6 @@ onMount(async () => {
   .entry-content {
     font-size: 0.9375rem;
     line-height: 1.8;
-    color: var(--text-75, #555);
   }
 
   .entry-content p {
@@ -572,7 +626,7 @@ onMount(async () => {
     overflow-x: auto;
     margin: 1.5rem 0;
     border-radius: 0.5rem;
-    border: 1px solid var(--line-color, rgba(128,128,128,0.15));
+    border: 1px solid rgba(128,128,128,0.15);
   }
 
   table {
@@ -582,22 +636,20 @@ onMount(async () => {
   }
 
   thead {
-    background: var(--primary-bg, rgba(128,128,128,0.06));
+    background: rgba(128,128,128,0.06);
   }
 
   th {
     padding: 0.625rem 0.75rem;
     text-align: left;
     font-weight: 600;
-    color: var(--text-90, #333);
-    border-bottom: 2px solid var(--line-color, rgba(128,128,128,0.15));
+    border-bottom: 2px solid rgba(128,128,128,0.15);
     white-space: nowrap;
   }
 
   td {
     padding: 0.5rem 0.75rem;
-    color: var(--text-75, #555);
-    border-bottom: 1px solid var(--line-color, rgba(128,128,128,0.08));
+    border-bottom: 1px solid rgba(128,128,128,0.08);
     max-width: 400px;
     word-break: break-word;
   }
