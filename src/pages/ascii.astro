@@ -1,0 +1,282 @@
+---
+// Standalone ASCII page — no blog layout
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝓐𝓢𝓒𝓘𝓘 — ASCII Hermes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+body{display:flex;align-items:center;font-family:'Courier New',monospace}
+
+#hero-text{
+  flex-shrink:0;width:380px;padding:0 60px;z-index:50;
+}
+#hero-text h1{
+  font-family:'Playfair Display',Georgia,'Times New Roman',serif;
+  font-weight:900;font-size:52px;line-height:1.05;
+  color:#fff;letter-spacing:-1px;margin-bottom:40px;
+}
+#hero-text h1 span{display:block;color:rgba(200,180,255,0.85)}
+#hero-text .desc{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:14px;line-height:1.8;
+  color:rgba(200,180,255,0.45);margin-bottom:36px;letter-spacing:0.5px;
+}
+#hero-text .link-btn{
+  display:inline-block;padding:14px 36px;
+  border:1px solid rgba(200,162,255,0.4);
+  color:#c8a2ff;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:14px;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;transition:all 0.3s;position:relative;overflow:hidden;
+}
+#hero-text .link-btn::before{
+  content:'';position:absolute;top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(200,162,255,0.1),transparent);
+  transition:left 0.5s;
+}
+#hero-text .link-btn:hover::before{left:100%}
+#hero-text .link-btn:hover{
+  border-color:#c8a2ff;background:rgba(200,162,255,0.05);
+  box-shadow:0 0 20px rgba(200,162,255,0.15);
+}
+
+#right-side{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  position:relative;height:100%;
+}
+
+#scene{transform:scale(var(--scale));transform-origin:center center}
+
+#ascii-wrap{
+  position:relative;display:inline-block;
+  perspective:1000px;transform-style:preserve-3d;
+  transition:transform 0.1s ease-out;transform:scaleX(2);
+}
+#ascii-wrap pre{
+  white-space:pre;font-size:10px;line-height:10px;letter-spacing:1.5px;
+  margin:0;color:#c8a2ff;
+  text-shadow:0 0 10px rgba(200,162,255,0.5),0 0 30px rgba(120,60,200,0.2);
+}
+s{text-decoration:none}
+
+#orb-wrap{position:absolute;z-index:10;pointer-events:all;cursor:pointer}
+#orb-hitbox{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:500px;height:500px;border-radius:50%;cursor:pointer;z-index:2;
+}
+#orb-visual{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  transform:scaleX(0.5);pointer-events:none;
+}
+#orb-core{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#fff8f0 8%,#f0e8ff 20%,#d8d0ff 35%,rgba(200,190,255,0.5) 50%,rgba(180,170,240,0.2) 65%,transparent 80%);
+  box-shadow:0 0 60px rgba(255,255,255,0.7),0 0 120px rgba(240,230,255,0.4),0 0 200px rgba(200,190,255,0.2);
+  animation:orbPulse 2.5s ease-in-out infinite;
+}
+#orb-glow1{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:750px;height:750px;border-radius:50%;
+  background:radial-gradient(circle,rgba(230,210,255,0.3) 0%,rgba(210,190,255,0.15) 30%,rgba(190,170,240,0.05) 50%,transparent 70%);
+  pointer-events:none;animation:glow1Pulse 3s ease-in-out infinite;
+}
+#orb-glow2{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:1350px;height:1350px;border-radius:50%;
+  background:radial-gradient(circle,rgba(210,190,255,0.12) 0%,rgba(190,170,240,0.05) 35%,transparent 70%);
+  pointer-events:none;animation:glow2Pulse 3.5s ease-in-out infinite;
+}
+.orb-ray{
+  position:absolute;top:50%;left:50%;width:3px;
+  background:linear-gradient(to top,rgba(255,255,255,0.9),rgba(230,220,255,0.5),rgba(210,190,255,0.15),transparent);
+  transform-origin:bottom center;animation:rayPulse 2.5s ease-in-out infinite;filter:blur(0.5px);
+}
+
+@keyframes orbPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9}50%{transform:translate(-50%,-50%) scale(1.1);opacity:1}}
+@keyframes glow1Pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
+@keyframes glow2Pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.05);opacity:.8}}
+@keyframes rayPulse{0%,100%{opacity:.4;height:150px}50%{opacity:1;height:280px}}
+
+.shockwave{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  border:2px solid rgba(255,255,255,0.6);border-radius:50%;
+  pointer-events:none;animation:shock 1s ease-out forwards;z-index:3;
+}
+@keyframes shock{0%{width:50px;height:50px;opacity:1}100%{width:1500px;height:1500px;opacity:0}}
+
+.particle{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:#fff;pointer-events:none;opacity:0;z-index:3;
+}
+
+#hud{
+  position:fixed;top:20px;right:20px;
+  color:rgba(200,180,255,0.2);font-size:11px;
+  pointer-events:none;z-index:100;line-height:1.8;text-align:right;
+}
+
+@media (max-width: 900px) {
+  body{flex-direction:column}
+  #hero-text{width:100%;padding:20px 30px;text-align:center}
+  #hero-text h1{font-size:32px;margin-bottom:20px}
+  #hero-text .desc{margin-bottom:20px}
+  #right-side{flex:1;min-height:60vh}
+}
+</style>
+</head>
+<body>
+
+<div id="hud">
+  move mouse → 3d tilt<br>
+  click orb → shockwave
+</div>
+
+<div id="hero-text">
+  <h1>THE AGENT<span>THAT GROWS</span>WITH YOU</h1>
+  <div class="desc">ASCII art meets glowing orbs.<br>An interactive tribute to Hermes Agent.</div>
+  <a class="link-btn" href="https://zureeallv.com/posts/update-14-%E4%BD%A0%E5%A5%BD-%E8%BF%99%E9%87%8C%E6%98%AFhermes%E7%9A%84%E8%87%AA%E7%95%99%E5%9C%B0/" target="_blank">
+    HERMES 自留地 →
+  </a>
+</div>
+
+<div id="right-side">
+  <div id="scene">
+    <div id="ascii-wrap">
+      <pre id="ascii"></pre>
+      <div id="orb-wrap">
+        <div id="orb-hitbox"></div>
+        <div id="orb-visual">
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(0deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(30deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(60deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(90deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(120deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(150deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(180deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(210deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(240deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(270deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(300deg)"></div>
+          <div class="orb-ray" style="transform:translate(-50%,-100%) rotate(330deg)"></div>
+          <div id="orb-glow2"></div>
+          <div id="orb-glow1"></div>
+          <div id="orb-core"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  var GLOBE_X = -330;
+  var GLOBE_Y = -350;
+
+  fetch("/ascii-data.json")
+    .then(function(r) { return r.json(); })
+    .then(function(DATA) {
+      var ROWS = DATA.rows.length;
+
+      function fitScale() {
+        var vh = innerHeight - 40;
+        var rw = innerWidth - 380;
+        if (innerWidth <= 900) rw = innerWidth;
+        var s = Math.min(vh / (ROWS * 10), rw / (150 * 7.5 * 2), 2);
+        document.getElementById("scene").style.setProperty("--scale", Math.max(0.3, s));
+      }
+      fitScale();
+      addEventListener("resize", fitScale);
+
+      var pre = document.getElementById("ascii");
+      var h = "";
+      DATA.rows.forEach(function(seg) {
+        seg.forEach(function(s) {
+          h += s[0] === null ? s[1] : '<s style="color:' + s[0] + '">' + s[1] + '</s>';
+        });
+        h += "\n";
+      });
+      pre.innerHTML = h;
+
+      var ow = document.getElementById("orb-wrap");
+      ow.style.left = (DATA.hand.col * 7.5 + GLOBE_X) + "px";
+      ow.style.top = (DATA.hand.row * 10 + GLOBE_Y) + "px";
+
+      // 3D tilt
+      var wrap = document.getElementById("ascii-wrap");
+      var rx = 0, ry = 0, tx = 0, ty = 0;
+      var idle = true, ia = 0, idleT;
+
+      document.addEventListener("mousemove", function(e) {
+        var cx = innerWidth / 2, cy = innerHeight / 2;
+        ty = ((e.clientX - cx) / cx) * 10;
+        tx = ((e.clientY - cy) / cy) * -6;
+        idle = false;
+        clearTimeout(idleT);
+        idleT = setTimeout(function() { idle = true; }, 3000);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (idle) {
+          ia += 0.003;
+          ty = Math.sin(ia) * 6;
+          tx = Math.cos(ia * 0.7) * 3;
+        }
+        rx += (tx - rx) * 0.05;
+        ry += (ty - ry) * 0.05;
+        wrap.style.transform = "scaleX(2) rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+      }
+      animate();
+
+      // Click orb → shockwave + particles
+      ow.addEventListener("click", function(e) {
+        e.stopPropagation();
+        var sw = document.createElement("div");
+        sw.className = "shockwave";
+        ow.appendChild(sw);
+        sw.addEventListener("animationend", function() { sw.remove(); });
+        for (var i = 0; i < 12; i++) {
+          (function(i) {
+            var p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = "50%"; p.style.top = "50%";
+            p.style.opacity = "1";
+            p.style.background = ["#fff","#e0d0ff","#c8a2ff","#ff88cc","#88ffff"][i % 5];
+            p.style.boxShadow = "0 0 6px " + p.style.background;
+            p.style.width = (3 + Math.random() * 5) + "px";
+            p.style.height = p.style.width;
+            ow.appendChild(p);
+            var angle = (i / 12) * Math.PI * 2;
+            var dist = 100 + Math.random() * 250;
+            var dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;
+            var start = performance.now();
+            function anim(t) {
+              var prog = (t - start) / 1000;
+              if (prog >= 1) { p.remove(); return; }
+              var ease = 1 - (1 - prog) * (1 - prog);
+              p.style.transform = "translate(" + (dx * ease) + "px," + (dy * ease) + "px) scale(" + (1 - prog) + ")";
+              p.style.opacity = String(1 - prog);
+              requestAnimationFrame(anim);
+            }
+            requestAnimationFrame(anim);
+          })(i);
+        }
+      });
+    });
+})();
+</script>
+</body>
+</html>

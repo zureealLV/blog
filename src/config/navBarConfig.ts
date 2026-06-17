@@ -74,6 +74,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				external: true,
 				icon: "fa7-brands:bilibili",
 			},
+			{
+				name: "404 NF",
+				url: "/404/",
+				icon: "mdi:alert-circle-outline",
+			},
 		],
 	});
 
@@ -98,11 +103,11 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:ghost",
 	});
 
-	// 404 NF
+	// 𝓐𝓢𝓒𝓘𝓘 — ASCII Art
 	links.push({
-		name: "404 NF",
-		url: "/404/",
-		icon: "mdi:alert-circle-outline",
+		name: "𝓐𝓢𝓒𝓘𝓘",
+		url: "/ascii/",
+		icon: "mdi:alphabetical-variant",
 	});
 
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出
