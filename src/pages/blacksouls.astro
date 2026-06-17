@@ -1,0 +1,24 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import BsWiki from "@components/pages/BsWiki.svelte";
+
+const title = "Black Souls Wiki";
+const description = "BLACKSOULS系列攻略百科 · 角色 · 道具 · 装备 · 地图 · 攻略";
+---
+
+<MainGridLayout title={title} description={description}>
+  <div class="card-base w-full rounded-(--radius-large) overflow-hidden">
+    <div class="px-6 py-5 md:px-9 md:py-6">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="h-8 w-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+          <span class="text-lg">📖</span>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-90">Black Souls Wiki</h1>
+          <p class="text-sm text-50">BLACKSOULS系列攻略百科</p>
+        </div>
+      </div>
+    </div>
+    <BsWiki client:load />
+  </div>
+</MainGridLayout>

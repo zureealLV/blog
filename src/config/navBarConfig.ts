@@ -70,6 +70,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		],
 	});
 
+	// BLACKSOULS Wiki
+	links.push({
+		name: "BS Wiki",
+		url: "/blacksouls/",
+		icon: "material-symbols:menu-book",
+	});
+
 	// 𝓞𝓢𝓤！ 关于页面
 	links.push({
 		name: "𝓞𝓢𝓤！",
