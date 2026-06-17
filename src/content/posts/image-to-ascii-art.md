@@ -166,6 +166,15 @@ function animate() {
 
 ---
 
+## 相关工具
+
+- [image2ascii](https://github.com/qeesung/image2ascii)：使用 Go 开发的图像转 ASCII 库，提供命令行工具
+- [cfonts](https://github.com/dominikwilkowski/cfonts)：在控制台中显示 ANSI 花式字体的小工具
+- [image-to-ascii-cli](https://github.com/IonicaBizau/image-to-ascii-cli)：使用 Node 开发的终端图像查看器
+- [timg](https://github.com/hzeller/timg)：C++ 开发的终端图像和视频查看器
+
+---
+
 ## 完整代码
 
 完整项目代码见 [GitHub 仓库](https://github.com/zureealLV)，或直接体验 [𝓐𝓢𝓒𝓘Ⓘ 在线版](/ascii/)。
