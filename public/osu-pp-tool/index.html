@@ -32,7 +32,6 @@ html, body {
   line-height: 1.6;
 }
 
-/* ========== 布局 ========== */
 .container {
   max-width: 960px;
   margin: 0 auto;
@@ -48,423 +47,177 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
-.subtitle {
-  color: var(--text2);
-  font-size: 14px;
-  margin-bottom: 32px;
-}
+.subtitle { color: var(--text2); font-size: 14px; margin-bottom: 32px; }
 
 /* ========== 登录区 ========== */
-.login-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 28px;
-}
+.login-row { display: flex; gap: 12px; margin-bottom: 28px; }
 
 .login-row input {
-  flex: 1;
-  padding: 10px 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text);
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
+  flex: 1; padding: 10px 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text); font-size: 15px;
+  outline: none; transition: border-color 0.2s;
 }
-
 .login-row input:focus { border-color: var(--accent); }
-
 .login-row input::placeholder { color: var(--text2); }
 
 .btn {
-  padding: 10px 24px;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  padding: 10px 24px; border: none; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
 }
-
-.btn-primary {
-  background: var(--accent);
-  color: #fff;
-}
+.btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-.btn-sm {
-  padding: 6px 14px;
-  font-size: 12px;
-  border-radius: 6px;
-}
-
-.btn-download {
-  background: var(--green);
-  color: #000;
-}
+.btn-sm { padding: 6px 14px; font-size: 12px; border-radius: 6px; }
+.btn-download { background: var(--green); color: #000; }
 .btn-download:hover { filter: brightness(1.1); }
 
 /* ========== 筛选面板 ========== */
 .filters {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 24px;
 }
-
 .filters h3 {
-  font-size: 14px;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
+  font-size: 14px; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
 }
-
 .filter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: grid; grid-template-columns: 1fr 1fr;
   gap: 20px 32px;
 }
-
-@media (max-width: 640px) {
-  .filter-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 640px) { .filter-grid { grid-template-columns: 1fr; } }
 
 .filter-group label {
-  display: block;
-  font-size: 13px;
-  color: var(--text2);
-  margin-bottom: 8px;
+  display: block; font-size: 13px; color: var(--text2); margin-bottom: 8px;
 }
-
 .filter-group .range-display {
-  font-size: 13px;
-  color: var(--accent);
-  float: right;
-  margin-top: -20px;
+  font-size: 13px; color: var(--accent); float: right; margin-top: -20px;
 }
 
-/* 滑块样式 */
+/* 滑块 */
 input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  background: var(--surface2);
-  border-radius: 3px;
-  outline: none;
-  margin: 8px 0;
+  -webkit-appearance: none; width: 100%; height: 6px;
+  background: var(--surface2); border-radius: 3px; outline: none; margin: 8px 0;
 }
-
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  background: var(--accent);
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(108, 140, 255, 0.4);
-  transition: box-shadow 0.2s;
+  -webkit-appearance: none; width: 18px; height: 18px;
+  background: var(--accent); border-radius: 50%; cursor: pointer;
+  box-shadow: 0 0 8px rgba(108,140,255,0.4); transition: box-shadow 0.2s;
 }
-
 input[type="range"]::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 14px rgba(108, 140, 255, 0.6);
+  box-shadow: 0 0 14px rgba(108,140,255,0.6);
 }
-
-.range-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
+.range-row { display: flex; gap: 12px; align-items: center; }
 .range-row input { flex: 1; }
-
 .range-row span {
-  font-size: 12px;
-  color: var(--text2);
-  min-width: 36px;
-  text-align: center;
+  font-size: 12px; color: var(--text2); min-width: 36px; text-align: center;
 }
 
-/* Toggle 开关 */
+/* Toggle */
 .toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 0;
+  display: flex; align-items: center;
+  justify-content: space-between; padding: 4px 0;
 }
-
-.toggle {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  cursor: pointer;
-}
-
+.toggle { position: relative; width: 44px; height: 24px; cursor: pointer; }
 .toggle input { display: none; }
-
 .toggle .track {
-  position: absolute;
-  inset: 0;
-  background: var(--surface2);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  transition: background 0.3s;
+  position: absolute; inset: 0; background: var(--surface2);
+  border-radius: 12px; border: 1px solid var(--border); transition: background 0.3s;
 }
-
-.toggle input:checked + .track {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
+.toggle input:checked + .track { background: var(--accent); border-color: var(--accent); }
 .toggle .knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 0.3s;
+  position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+  background: #fff; border-radius: 50%; transition: transform 0.3s;
 }
+.toggle input:checked ~ .knob { transform: translateX(20px); }
 
-.toggle input:checked ~ .knob {
-  transform: translateX(20px);
+/* Mod 复选框 — 用 <div> 而不是 <label> 避免默认行为冲突 */
+.mod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.mod-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 13px; transition: all 0.2s; user-select: none;
 }
-
-/* Mod 复选框 */
-.mod-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+.mod-btn:hover { border-color: var(--accent); }
+.mod-btn.active {
+  background: rgba(108,140,255,0.15); border-color: var(--accent); color: var(--accent);
 }
-
-.mod-check {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
-  user-select: none;
+.mod-btn .box {
+  width: 16px; height: 16px; border: 2px solid var(--border);
+  border-radius: 3px; display: flex; align-items: center;
+  justify-content: center; font-size: 11px; transition: all 0.2s;
 }
-
-.mod-check:hover { border-color: var(--accent); }
-
-.mod-check.active {
-  background: rgba(108, 140, 255, 0.15);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.mod-check input { display: none; }
-
-.mod-check .box {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border);
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  transition: all 0.2s;
-}
-
-.mod-check.active .box {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+.mod-btn.active .box {
+  background: var(--accent); border-color: var(--accent); color: #fff;
 }
 
 /* ========== 状态栏 ========== */
 .status {
-  padding: 14px 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 20px;
-  font-size: 13px;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  padding: 14px 20px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 20px; font-size: 13px; color: var(--text2);
+  display: flex; align-items: center; gap: 12px;
 }
-
 .status .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--text2);
-  flex-shrink: 0;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--text2); flex-shrink: 0;
 }
-
 .status .dot.ok { background: var(--green); }
 .status .dot.loading { background: var(--orange); animation: pulse 1s infinite; }
 .status .dot.error { background: var(--red); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.status .count { margin-left: auto; color: var(--accent); font-weight: 600; }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-.status .count {
-  margin-left: auto;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* ========== 结果表格 ========== */
+/* ========== 表格 ========== */
 .table-wrap {
-  overflow-x: auto;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--surface);
+  overflow-x: auto; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface);
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
 thead th {
-  padding: 12px 14px;
-  background: var(--surface2);
-  color: var(--text2);
-  font-weight: 600;
-  text-align: left;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-  position: sticky;
-  top: 0;
+  padding: 12px 14px; background: var(--surface2); color: var(--text2);
+  font-weight: 600; text-align: left; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border); white-space: nowrap; position: sticky; top: 0;
 }
-
-tbody tr {
-  border-bottom: 1px solid rgba(42, 42, 58, 0.5);
-  transition: background 0.15s;
-}
-
-tbody tr:hover { background: rgba(108, 140, 255, 0.06); }
-
-td {
-  padding: 10px 14px;
-  vertical-align: middle;
-}
-
-td.num {
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
+tbody tr { border-bottom: 1px solid rgba(42,42,58,0.5); transition: background 0.15s; }
+tbody tr:hover { background: rgba(108,140,255,0.06); }
+td { padding: 10px 14px; vertical-align: middle; }
+td.num { font-variant-numeric: tabular-nums; text-align: right; }
 td .map-name {
-  font-weight: 500;
-  color: var(--text);
-  text-decoration: none;
-  transition: color 0.2s;
+  font-weight: 500; color: var(--text); text-decoration: none; transition: color 0.2s;
 }
-
 td .map-name:hover { color: var(--accent); }
-
-td .map-meta {
-  font-size: 11px;
-  color: var(--text2);
-  margin-top: 2px;
-}
-
+td .map-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
 .star-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 8px;
-  background: rgba(108, 140, 255, 0.12);
-  border-radius: 4px;
-  font-size: 12px;
-  color: var(--accent);
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 8px; background: rgba(108,140,255,0.12);
+  border-radius: 4px; font-size: 12px; color: var(--accent);
 }
-
-.pp-value {
-  color: var(--green);
-  font-weight: 600;
-}
-
-.pp-inc {
-  color: var(--orange);
-}
-
-.pct-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
+.pp-value { color: var(--green); font-weight: 600; }
+.pp-inc { color: var(--orange); }
+.pct-bar { display: flex; align-items: center; gap: 6px; }
 .pct-bar .bar {
-  width: 50px;
-  height: 4px;
-  background: var(--surface2);
-  border-radius: 2px;
-  overflow: hidden;
+  width: 50px; height: 4px; background: var(--surface2);
+  border-radius: 2px; overflow: hidden;
 }
-
-.pct-bar .bar .fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s;
-}
-
+.pct-bar .bar .fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
 .mod-tag {
-  display: inline-block;
-  padding: 2px 6px;
-  background: rgba(255, 108, 140, 0.12);
-  color: var(--pink);
-  border-radius: 3px;
-  font-size: 11px;
-  font-weight: 600;
+  display: inline-block; padding: 2px 6px;
+  background: rgba(255,108,140,0.12); color: var(--pink);
+  border-radius: 3px; font-size: 11px; font-weight: 600;
 }
 
-/* ========== 空状态 & 加载 ========== */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text2);
-}
-
+/* ========== 空状态 ========== */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text2); }
 .empty-state .icon { font-size: 48px; margin-bottom: 16px; }
 
-.spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ========== 脚注 ========== */
 .footnote {
-  margin-top: 40px;
-  padding: 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.8;
+  margin-top: 40px; padding: 20px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 12px; color: var(--text2); line-height: 1.8;
 }
-
 .footnote a { color: var(--accent); text-decoration: none; }
 .footnote a:hover { text-decoration: underline; }
 </style>
@@ -472,66 +225,53 @@ td .map-meta {
 <body>
 
 <div class="container">
-  <!-- 标题 -->
   <h1>🎵 osu! PP 推荐谱面工具</h1>
   <p class="subtitle">基于 AlphaOsu 机器学习推荐，筛选并下载最适合你的 PP 谱面</p>
 
-  <!-- 登录区 -->
+  <!-- 登录 -->
   <div class="login-row">
     <input type="text" id="username" placeholder="输入 osu! 用户名..." value="">
-    <button class="btn btn-primary" id="btnLoad" onclick="loadRecommendations()">
-      获取推荐
-    </button>
+    <button class="btn btn-primary" id="btnLoad" onclick="loadRecommendations()">获取推荐</button>
   </div>
 
-  <!-- 筛选面板 -->
+  <!-- 筛选 -->
   <div class="filters">
     <h3>🎛️ 筛选条件</h3>
     <div class="filter-grid">
 
-      <!-- 难度星级 -->
       <div class="filter-group">
         <label>⭐ 难度星级</label>
         <div class="range-display" id="starDisplay">5.0 - 7.3</div>
         <div class="range-row">
           <span id="starMinVal">5.0</span>
-          <input type="range" id="starMin" min="0" max="15" step="0.1" value="5"
-                 oninput="updateRange('star')">
-          <input type="range" id="starMax" min="0" max="15" step="0.1" value="7.3"
-                 oninput="updateRange('star')">
+          <input type="range" id="starMin" min="0" max="15" step="0.1" value="5" oninput="onRange('star')">
+          <input type="range" id="starMax" min="0" max="15" step="0.1" value="7.3" oninput="onRange('star')">
           <span id="starMaxVal">7.3</span>
         </div>
       </div>
 
-      <!-- 上榜概率 -->
       <div class="filter-group">
         <label>📊 上榜概率</label>
         <div class="range-display" id="rankDisplay">20% - 100%</div>
         <div class="range-row">
           <span id="rankMinVal">20%</span>
-          <input type="range" id="rankMin" min="0" max="100" step="5" value="20"
-                 oninput="updateRange('rank')">
-          <input type="range" id="rankMax" min="0" max="100" step="5" value="100"
-                 oninput="updateRange('rank')">
+          <input type="range" id="rankMin" min="0" max="100" step="5" value="20" oninput="onRange('rank')">
+          <input type="range" id="rankMax" min="0" max="100" step="5" value="100" oninput="onRange('rank')">
           <span id="rankMaxVal">100%</span>
         </div>
       </div>
 
-      <!-- 破纪录概率 -->
       <div class="filter-group">
         <label>🏆 破纪录概率</label>
         <div class="range-display" id="recordDisplay">20% - 100%</div>
         <div class="range-row">
           <span id="recordMinVal">20%</span>
-          <input type="range" id="recordMin" min="0" max="100" step="5" value="20"
-                 oninput="updateRange('record')">
-          <input type="range" id="recordMax" min="0" max="100" step="5" value="100"
-                 oninput="updateRange('record')">
+          <input type="range" id="recordMin" min="0" max="100" step="5" value="20" oninput="onRange('record')">
+          <input type="range" id="recordMax" min="0" max="100" step="5" value="100" oninput="onRange('record')">
           <span id="recordMaxVal">100%</span>
         </div>
       </div>
 
-      <!-- 隐藏已玩 -->
       <div class="filter-group">
         <label>🎮 其他</label>
         <div class="toggle-row">
@@ -544,74 +284,47 @@ td .map-meta {
         </div>
       </div>
 
-      <!-- Mod 选择 -->
-      <div class="filter-group" style="grid-column: 1 / -1">
+      <div class="filter-group" style="grid-column:1/-1">
         <label>🎯 Mod 筛选</label>
         <div class="mod-grid" id="modGrid">
-          <label class="mod-check active" onclick="toggleMod(this)">
-            <input type="checkbox" value="NM" checked><span class="box">✓</span>NM
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HD"><span class="box"></span>HD
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HR"><span class="box"></span>HR
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="DT"><span class="box"></span>DT
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HDHR"><span class="box"></span>HD+HR
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HDDT"><span class="box"></span>HD+DT
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HRDT"><span class="box"></span>HR+DT
-          </label>
-          <label class="mod-check" onclick="toggleMod(this)">
-            <input type="checkbox" value="HDHRDT"><span class="box"></span>HD+HR+DT
-          </label>
+          <!-- 用 onclick + event.preventDefault() 防止 label 默认行为 -->
+          <div class="mod-btn active" data-mod="NM" onclick="onModClick(this, event)"><span class="box">✓</span>NM</div>
+          <div class="mod-btn" data-mod="HD" onclick="onModClick(this, event)"><span class="box"></span>HD</div>
+          <div class="mod-btn" data-mod="HR" onclick="onModClick(this, event)"><span class="box"></span>HR</div>
+          <div class="mod-btn" data-mod="DT" onclick="onModClick(this, event)"><span class="box"></span>DT</div>
+          <div class="mod-btn" data-mod="HDHR" onclick="onModClick(this, event)"><span class="box"></span>HD+HR</div>
+          <div class="mod-btn" data-mod="HDDT" onclick="onModClick(this, event)"><span class="box"></span>HD+DT</div>
+          <div class="mod-btn" data-mod="HRDT" onclick="onModClick(this, event)"><span class="box"></span>HR+DT</div>
+          <div class="mod-btn" data-mod="HDHRDT" onclick="onModClick(this, event)"><span class="box"></span>HD+HR+DT</div>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- 状态栏 -->
+  <!-- 状态 -->
   <div class="status" id="statusBar">
     <span class="dot" id="statusDot"></span>
     <span id="statusText">输入用户名并点击「获取推荐」开始</span>
     <span class="count" id="statusCount"></span>
   </div>
 
-  <!-- 结果表格 -->
+  <!-- 表格 -->
   <div class="table-wrap" id="tableWrap" style="display:none">
     <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>谱面</th>
-          <th>Mod</th>
-          <th>难度</th>
-          <th>预测 PP</th>
-          <th>期望提升</th>
-          <th>上榜概率</th>
-          <th>破纪录概率</th>
-          <th>下载</th>
-        </tr>
-      </thead>
+      <thead><tr>
+        <th>#</th><th>谱面</th><th>Mod</th><th>难度</th>
+        <th>预测 PP</th><th>期望提升</th><th>上榜概率</th><th>破纪录概率</th><th>下载</th>
+      </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
   </div>
 
-  <!-- 空状态 -->
   <div class="empty-state" id="emptyState">
     <div class="icon">🎯</div>
     <p>输入你的 osu! 用户名，获取 AI 推荐的 PP 谱面</p>
   </div>
 
-  <!-- 脚注 -->
   <div class="footnote">
     <p>数据来源：<a href="https://alphaosu.keytoix.vip/" target="_blank">AlphaOsu!</a> — 使用机器学习技术推荐 PP 谱面</p>
     <p>下载源：<a href="https://sayobot.cn/" target="_blank">Sayobot</a> 镜像 · .osz 文件双击即可导入 osu!</p>
@@ -623,66 +336,81 @@ td .map-meta {
 // ============================================================
 //  全局状态
 // ============================================================
-let allMaps = [];      // API 返回的全部推荐
-let filteredMaps = []; // 筛选后的结果
-let uid = null;        // 登录后的用户 ID
+let allMaps = [];
+let filteredMaps = [];
 
-const API = 'https://alphaosu.keytoix.vip/api/v1';
+// CORS 代理 —— AlphaOsu API 没有跨域头，需要代理转发
+// 优先用自建 Worker，fallback 到公共代理
+const PROXY_CANDIDATES = [
+  // 自建 Cloudflare Worker（如果有的话）
+  // 'https://alphaosu-proxy.your-name.workers.dev',
+  // 公共 CORS 代理
+  (url) => 'https://corsproxy.io/?' + encodeURIComponent(url),
+  (url) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
+];
+
+const API_BASE = 'https://alphaosu.keytoix.vip/api/v1';
 const SAYOBOT = 'https://dl.sayobot.cn/beatmaps/download';
 
 // ============================================================
-//  筛选滑块联动
+//  带 CORS 代理的 fetch
 // ============================================================
-function updateRange(type) {
+async function proxyFetch(url, options) {
+  // 先试直连（同源或 API 开了 CORS 的情况）
+  try {
+    const res = await fetch(url, { ...options, signal: AbortSignal.timeout(5000) });
+    if (res.ok) return res;
+  } catch (e) { /* 跨域被拦，继续走代理 */ }
+
+  // 逐个试代理
+  for (const makeProxy of PROXY_CANDIDATES) {
+    try {
+      const proxyUrl = makeProxy(url);
+      const res = await fetch(proxyUrl, { ...options, signal: AbortSignal.timeout(10000) });
+      if (res.ok) return res;
+    } catch (e) { continue; }
+  }
+  throw new Error('所有请求方式均失败，请检查网络');
+}
+
+// ============================================================
+//  滑块联动
+// ============================================================
+function onRange(type) {
   const minEl = document.getElementById(type + 'Min');
   const maxEl = document.getElementById(type + 'Max');
-  let min = parseFloat(minEl.value);
-  let max = parseFloat(maxEl.value);
-
-  // 确保 min <= max
-  if (min > max) {
-    [min, max] = [max, min];
-    minEl.value = min;
-    maxEl.value = max;
-  }
-
-  // 更新显示文字
-  const suffix = (type === 'star') ? '' : '%';
-  const decimals = (type === 'star') ? 1 : 0;
-  document.getElementById(type + 'MinVal').textContent = min.toFixed(decimals) + suffix;
-  document.getElementById(type + 'MaxVal').textContent = max.toFixed(decimals) + suffix;
+  let min = parseFloat(minEl.value), max = parseFloat(maxEl.value);
+  if (min > max) { [min, max] = [max, min]; minEl.value = min; maxEl.value = max; }
+  const suf = type === 'star' ? '' : '%';
+  const dec = type === 'star' ? 1 : 0;
+  document.getElementById(type + 'MinVal').textContent = min.toFixed(dec) + suf;
+  document.getElementById(type + 'MaxVal').textContent = max.toFixed(dec) + suf;
   document.getElementById(type + 'Display').textContent =
-    min.toFixed(decimals) + (type === 'star' ? '' : '%') + ' - ' +
-    max.toFixed(decimals) + (type === 'star' ? '' : '%');
-
+    min.toFixed(dec) + (type === 'star' ? '' : '%') + ' - ' + max.toFixed(dec) + (type === 'star' ? '' : '%');
   applyFilters();
 }
 
 // ============================================================
-//  Mod 切换
+//  Mod 点击 —— 用 <div> + onclick，没有 label 默认行为干扰
 // ============================================================
-function toggleMod(el) {
-  const cb = el.querySelector('input');
-  // 至少保留一个选中
-  const active = document.querySelectorAll('.mod-check.active');
-  if (active.length === 1 && el.classList.contains('active')) return;
-
+function onModClick(el, e) {
+  e.preventDefault();
+  // 至少保留一个
+  if (el.classList.contains('active') && document.querySelectorAll('.mod-btn.active').length <= 1) return;
   el.classList.toggle('active');
-  cb.checked = el.classList.contains('active');
-  el.querySelector('.box').textContent = cb.checked ? '✓' : '';
+  el.querySelector('.box').textContent = el.classList.contains('active') ? '✓' : '';
   applyFilters();
 }
 
 function getSelectedMods() {
-  return Array.from(document.querySelectorAll('.mod-check.active input'))
-    .map(cb => cb.value);
+  return Array.from(document.querySelectorAll('.mod-btn.active')).map(el => el.dataset.mod);
 }
 
 // ============================================================
 //  API: 登录
 // ============================================================
 async function login(username) {
-  const res = await fetch(API + '/login', {
+  const res = await proxyFetch(API_BASE + '/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username })
@@ -693,52 +421,40 @@ async function login(username) {
 }
 
 // ============================================================
-//  API: 获取推荐（自动翻页）
+//  API: 获取全部推荐（自动翻页）
 // ============================================================
-async function fetchAllRecommendations(uid) {
+async function fetchAll(uid) {
   const all = [];
   let current = 1;
-  const pageSize = 20;
-
   while (true) {
-    const params = new URLSearchParams({
-      uid, gameMode: 0, current, pageSize, rule: 4
-    });
-    const res = await fetch(API + '/self/maps/recommend?' + params);
+    const params = new URLSearchParams({ uid, gameMode: 0, current, pageSize: 20, rule: 4 });
+    const res = await proxyFetch(API_BASE + '/self/maps/recommend?' + params);
     const data = await res.json();
     if (!data.success) throw new Error(data.message);
-
     const { list, total, next } = data.data;
     all.push(...list);
-
-    // 更新状态
-    setStatus('loading', `正在获取第 ${current} 页... (${all.length}/${total})`);
-
+    setStatus('loading', '正在获取推荐... (' + all.length + '/' + total + ')');
     if (next === -1 || all.length >= total) break;
     current = next;
-    await new Promise(r => setTimeout(r, 300)); // 礼貌延迟
+    await new Promise(r => setTimeout(r, 300));
   }
   return all;
 }
 
 // ============================================================
-//  主流程：获取推荐
+//  主流程
 // ============================================================
 async function loadRecommendations() {
   const username = document.getElementById('username').value.trim();
   if (!username) { setStatus('error', '请输入用户名'); return; }
-
   const btn = document.getElementById('btnLoad');
   btn.disabled = true;
-
   try {
     setStatus('loading', '正在登录...');
-    uid = await login(username);
-
+    const uid = await login(username);
     setStatus('loading', '正在获取推荐谱面...');
-    allMaps = await fetchAllRecommendations(uid);
-
-    setStatus('ok', `${username} 的推荐谱面已加载`);
+    allMaps = await fetchAll(uid);
+    setStatus('ok', username + ' 的推荐谱面已加载');
     applyFilters();
   } catch (e) {
     setStatus('error', '错误: ' + e.message);
@@ -748,147 +464,92 @@ async function loadRecommendations() {
 }
 
 // ============================================================
-//  客户端筛选 + 渲染
+//  筛选 + 渲染
 // ============================================================
 function applyFilters() {
   if (!allMaps.length) return;
-
-  const starMin = Math.min(+$('#starMin').value, +$('#starMax').value);
-  const starMax = Math.max(+$('#starMin').value, +$('#starMax').value);
-  const rankMin = Math.min(+$('#rankMin').value, +$('#rankMax').value);
-  const rankMax = Math.max(+$('#rankMin').value, +$('#rankMax').value);
-  const recordMin = Math.min(+$('#recordMin').value, +$('#recordMax').value);
-  const recordMax = Math.max(+$('#recordMin').value, +$('#recordMax').value);
-  const hidePlayed = $('#hidePlayed').checked;
+  const sMin = Math.min(+$('starMin').value, +$('starMax').value);
+  const sMax = Math.max(+$('starMin').value, +$('starMax').value);
+  const rMin = Math.min(+$('rankMin').value, +$('rankMax').value);
+  const rMax = Math.max(+$('rankMin').value, +$('rankMax').value);
+  const cMin = Math.min(+$('recordMin').value, +$('recordMax').value);
+  const cMax = Math.max(+$('recordMin').value, +$('recordMax').value);
+  const hidePlayed = $('hidePlayed').checked;
   const mods = getSelectedMods();
 
   filteredMaps = allMaps.filter(m => {
-    // 星数
-    if (m.difficulty < starMin || m.difficulty > starMax) return false;
-    // 隐藏已玩
+    if (m.difficulty < sMin || m.difficulty > sMax) return false;
     if (hidePlayed && m.currentPP != null) return false;
-    // Mod
-    if (mods.length) {
-      const mapMods = m.mod || [];
-      if (!mods.some(mod => mapMods.includes(mod))) return false;
-    }
-    // 上榜概率
-    if (m.passPercent != null) {
-      const pct = m.passPercent * 100;
-      if (pct < rankMin || pct > rankMax) return false;
-    }
-    // 破纪录概率
-    if (m.newRecordPercent != null) {
-      const pct = m.newRecordPercent * 100;
-      if (pct < recordMin || pct > recordMax) return false;
-    }
+    if (mods.length && !mods.some(mod => (m.mod || []).includes(mod))) return false;
+    if (m.passPercent != null) { const p = m.passPercent * 100; if (p < rMin || p > rMax) return false; }
+    if (m.newRecordPercent != null) { const p = m.newRecordPercent * 100; if (p < cMin || p > cMax) return false; }
     return true;
   });
 
-  // 去重（同一 beatmapset）
-  const seen = new Set();
-  const unique = [];
+  // 去重
+  const seen = new Set(), unique = [];
   for (const m of filteredMaps) {
-    const setId = extractSetId(m.mapCoverUrl);
-    if (setId && !seen.has(setId)) {
-      seen.add(setId);
-      unique.push({ ...m, _setId: setId });
-    }
+    const sid = extractSetId(m.mapCoverUrl);
+    if (sid && !seen.has(sid)) { seen.add(sid); unique.push({ ...m, _setId: sid }); }
   }
-
   renderTable(unique);
-  setStatus('ok', `筛选完成`, `${unique.length} / ${allMaps.length} 个谱面`);
+  setStatus('ok', '筛选完成', unique.length + ' / ' + allMaps.length + ' 个谱面');
 }
 
-// ============================================================
-//  渲染表格
-// ============================================================
 function renderTable(maps) {
-  const tbody = $('#tbody');
-  const tableWrap = $('#tableWrap');
-  const empty = $('#emptyState');
-
+  const tbody = $('tbody'), tw = $('tableWrap'), empty = $('emptyState');
   if (!maps.length) {
-    tableWrap.style.display = 'none';
-    empty.style.display = 'block';
+    tw.style.display = 'none'; empty.style.display = 'block';
     empty.querySelector('.icon').textContent = '😢';
     empty.querySelector('p').textContent = '没有符合筛选条件的谱面';
     return;
   }
-
-  empty.style.display = 'none';
-  tableWrap.style.display = 'block';
-
+  empty.style.display = 'none'; tw.style.display = 'block';
   tbody.innerHTML = maps.map((m, i) => {
     const pp = m.predictPP ? m.predictPP.toFixed(0) : '-';
     const inc = m.ppIncrementExpect ? m.ppIncrementExpect.toFixed(1) : '-';
-    const rankPct = m.passPercent != null ? (m.passPercent * 100) : null;
-    const recordPct = m.newRecordPercent != null ? (m.newRecordPercent * 100) : null;
+    const rp = m.passPercent != null ? m.passPercent * 100 : null;
+    const np = m.newRecordPercent != null ? m.newRecordPercent * 100 : null;
     const mod = (m.mod || ['NM']).join('/');
     const mins = Math.floor(m.length / 60);
-    const secs = Math.floor(m.length % 60).toString().padStart(2, '0');
+    const secs = String(Math.floor(m.length % 60)).padStart(2, '0');
     const bpm = m.bpm ? Math.round(m.bpm) : '?';
-    const dlUrl = `${SAYOBOT}/${m._setId}`;
-
-    return `<tr>
-      <td style="color:var(--text2)">${i + 1}</td>
-      <td>
-        <a class="map-name" href="${m.mapLink}" target="_blank">${esc(m.mapName)}</a>
-        <div class="map-meta">BPM ${bpm} · ${mins}:${secs} · Slider ${(m.sliderRatio * 100).toFixed(0)}%</div>
-      </td>
-      <td><span class="mod-tag">${mod}</span></td>
-      <td><span class="star-badge">★ ${m.difficulty.toFixed(2)}</span></td>
-      <td class="num"><span class="pp-value">${pp}</span></td>
-      <td class="num"><span class="pp-inc">+${inc}pp</span></td>
-      <td class="num">${pctCell(rankPct)}</td>
-      <td class="num">${pctCell(recordPct)}</td>
-      <td><a class="btn btn-sm btn-download" href="${dlUrl}" target="_blank">⬇ .osz</a></td>
-    </tr>`;
+    return '<tr>'
+      + '<td style="color:var(--text2)">' + (i + 1) + '</td>'
+      + '<td><a class="map-name" href="' + m.mapLink + '" target="_blank">' + esc(m.mapName) + '</a>'
+      + '<div class="map-meta">BPM ' + bpm + ' · ' + mins + ':' + secs + ' · Slider ' + (m.sliderRatio * 100).toFixed(0) + '%</div></td>'
+      + '<td><span class="mod-tag">' + mod + '</span></td>'
+      + '<td><span class="star-badge">★ ' + m.difficulty.toFixed(2) + '</span></td>'
+      + '<td class="num"><span class="pp-value">' + pp + '</span></td>'
+      + '<td class="num"><span class="pp-inc">+' + inc + 'pp</span></td>'
+      + '<td class="num">' + pctCell(rp) + '</td>'
+      + '<td class="num">' + pctCell(np) + '</td>'
+      + '<td><a class="btn btn-sm btn-download" href="' + SAYOBOT + '/' + m._setId + '" target="_blank">⬇ .osz</a></td>'
+      + '</tr>';
   }).join('');
 }
 
-// 概率单元格（带小进度条）
 function pctCell(pct) {
   if (pct == null) return '<span style="color:var(--text2)">-</span>';
-  const color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--orange)' : 'var(--red)';
-  return `<div class="pct-bar">
-    <div class="bar"><div class="fill" style="width:${pct}%;background:${color}"></div></div>
-    <span style="color:${color}">${pct.toFixed(0)}%</span>
-  </div>`;
+  const c = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--orange)' : 'var(--red)';
+  return '<div class="pct-bar"><div class="bar"><div class="fill" style="width:' + pct + '%;background:' + c + '"></div></div>'
+    + '<span style="color:' + c + '">' + pct.toFixed(0) + '%</span></div>';
 }
 
 // ============================================================
 //  工具函数
 // ============================================================
 function $(id) { return document.getElementById(id); }
-
-function esc(s) {
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
-
-function extractSetId(url) {
-  const m = url && url.match(/\/beatmaps\/(\d+)\//);
-  return m ? m[1] : null;
-}
-
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function extractSetId(url) { const m = url && url.match(/\/beatmaps\/(\d+)\//); return m ? m[1] : null; }
 function setStatus(type, text, count) {
-  const dot = $('#statusDot');
-  dot.className = 'dot ' + (type === 'ok' ? 'ok' : type === 'loading' ? 'loading' : 'error');
-  $('#statusText').textContent = text;
-  $('#statusCount').textContent = count || '';
+  $('statusDot').className = 'dot ' + (type === 'ok' ? 'ok' : type === 'loading' ? 'loading' : 'error');
+  $('statusText').textContent = text;
+  $('statusCount').textContent = count || '';
 }
 
-// 回车触发搜索
-document.getElementById('username').addEventListener('keydown', e => {
-  if (e.key === 'Enter') loadRecommendations();
-});
-
-// 初始化滑块显示
-updateRange('star');
-updateRange('rank');
-updateRange('record');
+$('username').addEventListener('keydown', e => { if (e.key === 'Enter') loadRecommendations(); });
+onRange('star'); onRange('rank'); onRange('record');
 </script>
 
 </body>
