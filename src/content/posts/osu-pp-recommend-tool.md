@@ -49,11 +49,9 @@ def login(username):
     return result["data"]["uid"]
 ```
 
-### 获取推荐（分页是个坑）
+### 获取推荐（分页）
 
-API 返回的分页字段 `prev`/`next` 是摆设——不管你传什么 `page` 参数，永远返回第一页。
-
-后来在 JS 里找到了真正的分页方式：**Ant Design Table 的 `current` 和 `pageSize` 参数**。
+API 用 `current` + `pageSize` 分页，`next` 字段指向下一页页码，`-1` 表示没有了。
 
 ```python
 def get_all_recommendations(uid, game_mode=0):

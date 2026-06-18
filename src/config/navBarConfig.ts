@@ -46,6 +46,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				url: "/blacksouls/",
 				icon: "material-symbols:menu-book",
 			},
+
+			// osu! PP 工具
+			{
+				name: "osu! PP",
+				url: "/osu-pp-tool/",
+				icon: "simple-icons:osu",
+			},
 		],
 	});
 
@@ -101,13 +108,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		name: "???",
 		url: "/terminal/",
 		icon: "mdi:ghost",
-	});
-
-	// osu! PP 工具
-	links.push({
-		name: "osu! PP",
-		url: "/osu-pp-tool/",
-		icon: "mdi:music-note",
 	});
 
 	// 𝓐𝓢𝓒𝓘𝓘 — ASCII Art
