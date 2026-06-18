@@ -10,6 +10,8 @@ category: 技术
 
 ## 效果预览
 
+![ASCII Hermes 交互效果](./images/hermes-ascii-hero.png)
+
 把一张蓝白线稿风格的插画，转换成彩色 ASCII 字符画，加上 3D 光球和鼠标倾斜交互：
 
 - 紫色调的 ASCII 字符，保留原图的明暗层次

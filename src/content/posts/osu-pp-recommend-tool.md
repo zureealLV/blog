@@ -16,6 +16,10 @@ category: 技术
 
 所以我就逆向了它的 API，做了一个基于 PyWebView 的桌面 GUI 工具——有界面、有封面图、支持筛选和批量下载，还能自定义保存目录。
 
+![AlphaOsu Download Tool 主界面](./images/osu-tool/main.png)
+
+![筛选与批量下载](./images/osu-tool/filter.png)
+
 ---
 
 ## 逆向 API
@@ -235,19 +239,6 @@ def filter_maps(maps, config):
         filtered.append(m)
     return filtered
 ```
-
----
-
-## 为什么不用纯网页版？
-
-一开始其实做了一个纯 HTML/JS 的网页版，但遇到了 **CORS 问题**——浏览器不允许前端直接请求 AlphaOsu 和 Sayobot 的 API。
-
-尝试过的方案：
-- ❌ 纯前端 fetch → 被 CORS 拦截
-- ❌ CORS 代理 → 不稳定，有安全风险
-- ✅ **PyWebView** → 前端在原生窗口里运行，Python 做后端，完美绕过 CORS
-
-PyWebView 的好处是：前端还是用 HTML/CSS/JS 写，开发体验和网页一样，但后端逻辑走 Python，没有跨域问题，还能直接操作文件系统。
 
 ---
 
