@@ -1,12 +1,12 @@
 ---
-title: "osu! PP 推荐谱面批量下载器：从逆向 API 到交互式工具"
+title: "osu! PP 推荐谱面下载工具：从逆向 API 到桌面 GUI"
 published: 2026-06-19
-description: "逆向 AlphaOsu 的 API，写了一个 Python 脚本批量下载 PP 推荐谱面，顺便做了一个带筛选条件的交互式网页工具。"
-tags: [osu, Python, JavaScript, 逆向, API, 前端]
+description: "逆向 AlphaOsu 的 API，开发了一个基于 PyWebView 的桌面 GUI 工具，支持筛选条件、封面预览和批量下载。"
+tags: [osu, Python, PyWebView, 逆向, API, GUI]
 category: 技术
 ---
 
-> **在线体验** → [osu! PP 推荐谱面工具](/osu-pp-tool/)
+> **GitHub** → [AlphaOsu-Download-Tool](https://github.com/zureealLV/AlphaOsu-Download-Tool)
 
 ## 这是什么
 
@@ -14,7 +14,7 @@ category: 技术
 
 但它没有批量下载功能。每次想下谱子，得一个一个点开 osu! 官网再下载，非常痛苦。
 
-所以我就逆向了它的 API，写了一个带 GUI 界面的桌面工具，支持筛选、批量下载。也有一个 Python 命令行版本。
+所以我就逆向了它的 API，做了一个基于 PyWebView 的桌面 GUI 工具——有界面、有封面图、支持筛选和批量下载，还能自定义保存目录。
 
 ---
 
@@ -105,11 +105,58 @@ def get_all_recommendations(uid, game_mode=0):
 }
 ```
 
-注意 `passPercent` 和 `newRecordPercent` 是 0-1 的小数，网页上显示的百分比要乘以 100。
+注意 `passPercent` 和 `newRecordPercent` 是 0-1 的小数，界面上显示的百分比要乘以 100。
 
 ---
 
-## Python 批量下载脚本
+## 桌面 GUI 工具
+
+基于 [PyWebView](https://pywebview.flowrl.com/) 构建，前端用 HTML/CSS/JS 渲染，Python 负责后端逻辑和文件下载。不需要浏览器，直接弹出一个原生窗口。
+
+> **GitHub** → [zureealLV/AlphaOsu-Download-Tool](https://github.com/zureealLV/AlphaOsu-Download-Tool)
+
+### 功能特性
+
+- **谱面卡片**：每首歌显示封面图、曲名、星数、Mod、预测 PP、上榜概率等
+- **多条件筛选**：星数范围、Mod 类型、上榜概率、破纪录概率、隐藏已玩过的
+- **批量下载**：勾选想要的谱面，一键批量下载 .osz 文件
+- **自定义目录**：可以指定保存路径，直接下到 osu! 的 Songs 文件夹
+- **下载源**：使用 Sayobot 国内镜像，免登录、速度快
+
+### 技术架构
+
+```
+┌──────────────────────────────┐
+│         PyWebView 窗口        │
+│  ┌─────────────────────────┐ │
+│  │   HTML/CSS/JS 前端界面   │ │
+│  │   (谱面卡片、筛选控件)    │ │
+│  └────────┬────────────────┘ │
+│           │ pywebview JS API  │
+│  ┌────────▼────────────────┐ │
+│  │   Python 后端            │ │
+│  │   - AlphaOsu API 交互    │ │
+│  │   - Sayobot 下载         │ │
+│  │   - 文件系统操作          │ │
+│  └─────────────────────────┘ │
+└──────────────────────────────┘
+```
+
+PyWebView 在前端 JS 和 Python 之间搭了一座桥：前端调用 `window.pywebview.api.xxx()` 就能触发 Python 后端的函数，实现了登录、获取推荐、下载等操作，同时避免了浏览器环境下的 CORS 限制。
+
+### 安装与运行
+
+```bash
+# 克隆仓库
+git clone https://github.com/zureealLV/AlphaOsu-Download-Tool.git
+cd AlphaOsu-Download-Tool
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 运行
+python main.py
+```
 
 ### 下载源
 
@@ -189,90 +236,25 @@ def filter_maps(maps, config):
     return filtered
 ```
 
-### 使用方式
-
-```bash
-# 默认筛选：5-7.3★, NM, 隐藏已玩, 概率 20-100%
-python osu_pp_downloader.py
-
-# 自定义星数范围
-python osu_pp_downloader.py --min-star 6 --max-star 8
-
-# 显示已玩过的
-python osu_pp_downloader.py --no-hide-played
-
-# 多 mod
-python osu_pp_downloader.py --mod NM DT HD
-
-# 直接下到 osu! 的 Songs 目录
-python osu_pp_downloader.py -o "C:/osu/Songs"
-```
-
 ---
 
-## 交互式网页工具
+## 为什么不用纯网页版？
 
-CLI 对程序员友好，但对普通玩家来说还是太麻烦了。所以做了一个网页版：
+一开始其实做了一个纯 HTML/JS 的网页版，但遇到了 **CORS 问题**——浏览器不允许前端直接请求 AlphaOsu 和 Sayobot 的 API。
 
-![交互式工具截图](/osu-pp-tool/screenshot.png)
+尝试过的方案：
+- ❌ 纯前端 fetch → 被 CORS 拦截
+- ❌ CORS 代理 → 不稳定，有安全风险
+- ✅ **PyWebView** → 前端在原生窗口里运行，Python 做后端，完美绕过 CORS
 
-### 技术栈
-
-纯 HTML + CSS + JS，没有任何框架依赖。整个文件 23KB，一个 `<script>` 搞定。
-
-核心交互逻辑：
-
-```javascript
-// 获取推荐（自动翻页）
-async function fetchAllRecommendations(uid) {
-  const all = [];
-  let current = 1;
-
-  while (true) {
-    const params = new URLSearchParams({
-      uid, gameMode: 0, current, pageSize: 20, rule: 4
-    });
-    const res = await fetch(API + '/self/maps/recommend?' + params);
-    const data = await res.json();
-
-    all.push(...data.data.list);
-
-    // next=-1 表示没有下一页
-    if (data.data.next === -1) break;
-    current = data.data.next;
-
-    // 礼貌延迟，别把人家服务器打爆
-    await new Promise(r => setTimeout(r, 300));
-  }
-  return all;
-}
-
-// 客户端筛选 —— 滑块变化时实时过滤
-function applyFilters() {
-  filteredMaps = allMaps.filter(m => {
-    if (m.difficulty < starMin || m.difficulty > starMax) return false;
-    if (hidePlayed && m.currentPP != null) return false;
-    // ... 其他筛选条件
-    return true;
-  });
-
-  // 去重后渲染表格
-  renderTable(unique);
-}
-```
-
-### 设计细节
-
-- **双滑块**：星数、上榜概率、破纪录概率都是范围选择，拖动即时过滤
-- **Mod 多选**：点击切换，至少保留一个
-- **概率进度条**：用颜色区分——绿(≥70%)、橙(≥40%)、红(<40%)
-- **下载按钮**：直接链接 Sayobot 镜像，点击下载 .osz 文件
-- **暗色主题**：和博客风格统一
+PyWebView 的好处是：前端还是用 HTML/CSS/JS 写，开发体验和网页一样，但后端逻辑走 Python，没有跨域问题，还能直接操作文件系统。
 
 ---
 
 ## 相关链接
 
+- [AlphaOsu-Download-Tool (GitHub)](https://github.com/zureealLV/AlphaOsu-Download-Tool) — 工具源码
 - [AlphaOsu](https://alphaosu.keytoix.vip/) — ML 推荐引擎
 - [Sayobot](https://sayobot.cn/) — 国内 osu! 谱面镜像
+- [PyWebView](https://pywebview.flowrl.com/) — 轻量级跨平台桌面 GUI 框架
 - [osu! 官网](https://osu.ppy.sh/) — 你懂的
