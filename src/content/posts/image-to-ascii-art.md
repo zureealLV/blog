@@ -4,6 +4,7 @@ published: 2026-06-18
 description: "如何用 Python + JavaScript 实现一张图片到彩色 ASCII 字符画的转换，并在浏览器中加上 3D 光球交互效果。"
 tags: [ASCII, Python, JavaScript, Pillow, 前端]
 category: 技术
+image: ./images/hermes-ascii-hero.png
 ---
 
 > **在线体验** → [𝓐𝓢𝓒𝓘𝓘 — ASCII Hermes](/ascii/)

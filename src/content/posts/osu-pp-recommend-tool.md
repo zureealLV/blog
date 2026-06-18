@@ -2,8 +2,9 @@
 title: "osu! PP 推荐谱面下载工具：从逆向 API 到桌面 GUI"
 published: 2026-06-19
 description: "逆向 AlphaOsu 的 API，开发了一个基于 PyWebView 的桌面 GUI 工具，支持筛选条件、封面预览和批量下载。"
-tags: [osu, Python, PyWebView, 逆向, API, GUI]
+tags: [osu, Python, PyWebView GUI, 逆向, API]
 category: 技术
+image: ./images/osu-tool-cover.png
 ---
 
 > **GitHub** → [AlphaOsu-Download-Tool](https://github.com/zureealLV/AlphaOsu-Download-Tool)
