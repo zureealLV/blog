@@ -103,6 +103,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:ghost",
 	});
 
+	// osu! PP 工具
+	links.push({
+		name: "osu! PP",
+		url: "/osu-pp-tool/",
+		icon: "mdi:music-note",
+	});
+
 	// 𝓐𝓢𝓒𝓘𝓘 — ASCII Art
 	links.push({
 		name: "𝓐𝓢𝓒𝓘𝓘",

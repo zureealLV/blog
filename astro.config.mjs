@@ -91,7 +91,7 @@ export default defineConfig({
 				return event.state?.url?.includes("#");
 			},
 			// 让 Swup 彻底忽略对 /ascii/ 路径的接管，避免闪烁博客背景
-			ignoreVisit: (url) => url.startsWith("/ascii/"),
+			ignoreVisit: (url) => ["/ascii/", "/osu-pp-tool/"].some(p => url.startsWith(p)),
 		}),
 		icon({
 			include: {
