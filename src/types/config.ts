@@ -186,6 +186,7 @@ export type NavBarLink = {
 	external?: boolean;
 	icon?: string; // 菜单项图标
 	children?: (NavBarLink | LinkPreset)[]; // 支持子菜单，可以是NavBarLink或LinkPreset
+	swupIgnore?: boolean; // 跳过 Swup 页面切换，直接整页加载（用于 public/ 下的独立 HTML 页面）
 };
 
 export enum NavBarSearchMethod {

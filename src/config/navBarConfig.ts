@@ -108,6 +108,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		name: "𝓐𝓢𝓒𝓘𝓘",
 		url: "/ascii/",
 		icon: "mdi:alphabetical-variant",
+		swupIgnore: true,
 	});
 
 	// 仅返回链接，其它导航搜索相关配置在模块顶层常量中独立导出

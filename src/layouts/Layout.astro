@@ -1336,6 +1336,23 @@ function disableAnimation() {
 
 
   };
+
+  // Mark standalone public/ page links to bypass Swup (avoids transition showing blog background)
+  const SWUP_IGNORE_PATHS = ["/ascii/"];
+  function markSwupIgnoreLinks() {
+    document.querySelectorAll("a[href]").forEach(function(a) {
+      var href = a.getAttribute("href") || "";
+      try {
+        var pathname = new URL(href, window.location.href).pathname;
+        if (SWUP_IGNORE_PATHS.some(function(p) { return pathname === p || pathname === p.replace(/\/$/, ""); })) {
+          a.setAttribute("data-swup-ignore", "");
+        }
+      } catch(e) {}
+    });
+  }
+  markSwupIgnoreLinks();
+  document.addEventListener("swup:contentReplaced", markSwupIgnoreLinks);
+
   if (window?.swup?.hooks) {
     setup();
   } else {
