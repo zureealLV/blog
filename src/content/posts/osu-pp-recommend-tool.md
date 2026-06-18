@@ -14,7 +14,7 @@ category: 技术
 
 但它没有批量下载功能。每次想下谱子，得一个一个点开 osu! 官网再下载，非常痛苦。
 
-所以我就逆向了它的 API，写了一个 Python 脚本批量下载，又做了一个带筛选条件的交互式网页。
+所以我就逆向了它的 API，写了一个带 GUI 界面的桌面工具，支持筛选、批量下载。也有一个 Python 命令行版本。
 
 ---
 
@@ -273,19 +273,8 @@ function applyFilters() {
 
 ---
 
-## 踩坑记录
-
-1. **分页参数**：API 的 `prev`/`next` 字段是假的，真正的分页靠 `current` + `pageSize`
-2. **筛选条件**：API 不做服务端筛选，所有过滤都在客户端完成
-3. **概率单位**：`passPercent` 和 `newRecordPercent` 是 0-1 小数，不是百分比
-4. **Sayobot 302**：下载链接会 302 重定向到实际文件地址，`urllib` 默认跟随重定向所以没问题
-5. **beatmapset ID**：API 返回的是单个难度 ID，需要从封面 URL 提取 beatmapset ID 才能下载
-
----
-
 ## 相关链接
 
 - [AlphaOsu](https://alphaosu.keytoix.vip/) — ML 推荐引擎
 - [Sayobot](https://sayobot.cn/) — 国内 osu! 谱面镜像
 - [osu! 官网](https://osu.ppy.sh/) — 你懂的
-- [在线工具](/osu-pp-tool/) — 交互式网页版
