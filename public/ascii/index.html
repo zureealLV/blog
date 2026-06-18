@@ -72,7 +72,7 @@ s{text-decoration:none}
 <div id="right-side">
   <div id="scene">
     <div id="ascii-wrap">
-      <pre id="ascii" aria-hidden="true" translate="no" spellcheck="false" style="contain:strict"></pre>
+      <pre id="ascii"></pre>
       <div id="orb-wrap">
         <div id="orb-hitbox"></div>
         <div id="orb-visual">
@@ -101,6 +101,9 @@ s{text-decoration:none}
 (function(){
   var GX=-330,GY=-350;
   fetch("/ascii-data.json").then(function(r){return r.json()}).then(function(D){
+    // Fade out loading, fade in content
+    document.getElementById("loading").classList.add("fade");
+    document.getElementById("right-side").classList.add("show");
     var R=D.rows.length;
     function fit(){
       var vh=innerHeight-40,rw=innerWidth-380;
@@ -110,63 +113,50 @@ s{text-decoration:none}
     }
     fit();addEventListener("resize",fit);
 
-    // Time-sliced rendering: 15 rows per frame
-    var preEl=document.getElementById("ascii");
-    var rowCount=D.rows.length;
-    var CHUNK=15,idx=0;
+    // Build ASCII with documentFragment for performance
+    var frag=document.createDocumentFragment();
+    D.rows.forEach(function(seg){
+      seg.forEach(function(s){
+        if(s[0]===null){frag.appendChild(document.createTextNode(s[1]))}
+        else{var el=document.createElement("s");el.style.color=s[0];el.textContent=s[1];frag.appendChild(el)}
+      });
+      frag.appendChild(document.createTextNode("\n"));
+    });
+    document.getElementById("ascii").appendChild(frag);
 
-    function renderChunk(){
-      var frag=document.createDocumentFragment();
-      var end=Math.min(idx+CHUNK,rowCount);
-      for(var i=idx;i<end;i++){
-        D.rows[i].forEach(function(s){
-          if(s[0]===null){frag.appendChild(document.createTextNode(s[1]))}
-          else{var el=document.createElement("s");el.style.color=s[0];el.textContent=s[1];frag.appendChild(el)}
-        });
-        frag.appendChild(document.createTextNode("\n"));
-      }
-      preEl.appendChild(frag);
-      idx=end;
-      if(idx<rowCount){
-        requestAnimationFrame(renderChunk);
-      }else{
-        // All done — hide loading, show content
-        document.getElementById("loading").classList.add("fade");
-        document.getElementById("right-side").classList.add("show");
+    var ow=document.getElementById("orb-wrap");
+    ow.style.left=(D.hand.col*7.5+GX)+"px";
+    ow.style.top=(D.hand.row*10+GY)+"px";
 
-        var ow=document.getElementById("orb-wrap");
-        ow.style.left=(D.hand.col*7.5+GX)+"px";
-        ow.style.top=(D.hand.row*10+GY)+"px";
+    // No 3D tilt — removed for performance
+    // Just static display + click effects
 
-        // Click orb → shockwave + particles
-        ow.addEventListener("click",function(e){
-          e.stopPropagation();
-          var sw=document.createElement("div");sw.className="shockwave";ow.appendChild(sw);
-          sw.addEventListener("animationend",function(){sw.remove()});
-          for(var i=0;i<8;i++){
-            (function(i){
-              var p=document.createElement("div");p.className="particle";
-              p.style.left="50%";p.style.top="50%";
-              p.style.background=["#fff","#e0d0ff","#c8a2ff","#ff88cc"][i%4];
-              p.style.boxShadow="0 0 6px "+p.style.background;
-              var sz=(3+Math.random()*4)+"px";p.style.width=sz;p.style.height=sz;
-              ow.appendChild(p);
-              var a=(i/8)*Math.PI*2,d=80+Math.random()*180;
-              var dx=Math.cos(a)*d,dy=Math.sin(a)*d,st=performance.now();
-              function anim(t){
-                var pr=(t-st)/800;if(pr>=1){p.remove();return}
-                var es=1-(1-pr)*(1-pr);
-                p.style.transform="translate("+(dx*es)+"px,"+(dy*es)+"px) scale("+(1-pr)+")";
-                p.style.opacity=String(1-pr);
-                requestAnimationFrame(anim);
-              }
-              requestAnimationFrame(anim);
-            })(i);
+    // Click orb → shockwave + particles
+    ow.addEventListener("click",function(e){
+      e.stopPropagation();
+      var sw=document.createElement("div");sw.className="shockwave";ow.appendChild(sw);
+      sw.addEventListener("animationend",function(){sw.remove()});
+      for(var i=0;i<8;i++){
+        (function(i){
+          var p=document.createElement("div");p.className="particle";
+          p.style.left="50%";p.style.top="50%";
+          p.style.background=["#fff","#e0d0ff","#c8a2ff","#ff88cc"][i%4];
+          p.style.boxShadow="0 0 6px "+p.style.background;
+          var sz=(3+Math.random()*4)+"px";p.style.width=sz;p.style.height=sz;
+          ow.appendChild(p);
+          var a=(i/8)*Math.PI*2,d=80+Math.random()*180;
+          var dx=Math.cos(a)*d,dy=Math.sin(a)*d,st=performance.now();
+          function anim(t){
+            var pr=(t-st)/800;if(pr>=1){p.remove();return}
+            var es=1-(1-pr)*(1-pr);
+            p.style.transform="translate("+(dx*es)+"px,"+(dy*es)+"px) scale("+(1-pr)+")";
+            p.style.opacity=String(1-pr);
+            requestAnimationFrame(anim);
           }
-        });
+          requestAnimationFrame(anim);
+        })(i);
       }
-    }
-    requestAnimationFrame(renderChunk);
+    });
   });
 })();
 </script>

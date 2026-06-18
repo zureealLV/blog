@@ -83,14 +83,7 @@ export default defineConfig({
 			updateHead: true,
 			updateBodyClass: false,
 			globalInstance: true,
-			ignoreVisit: function(url) {
-				try {
-					var u = new URL(url, "https://dummy.com");
-					return u.pathname.startsWith("/ascii");
-				} catch(e) {
-					return String(url).includes("/ascii");
-				}
-			},
+			ignoreVisit: (url) => url.startsWith("/ascii/"),
 			// 滚动相关配置优化
 			resolveUrl: (url) => url,
 			animateHistoryBrowsing: false,
@@ -98,6 +91,8 @@ export default defineConfig({
 				// 跳过锚点链接的处理，让浏览器原生处理
 				return event.state?.url?.includes("#");
 			},
+			// 让 Swup 彻底忽略对 /ascii/ 路径的接管，避免闪烁博客背景
+			ignoreVisit: (url) => url.startsWith("/ascii/"),
 		}),
 		icon({
 			include: {
