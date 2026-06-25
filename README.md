@@ -1,10 +1,10 @@
 <div align="center">
 
-> 🇨🇳 中文 | 🇬🇧 [English](README_EN.md)
+> 🇨🇳 [中文版](README_CN.md) | 🇬🇧 English
 
 # ✦ 𝓩𝓤𝓡𝓔𝓔𝓐𝓛 ✦ Personal Blog
 
-**基于 Firefly 主题的 Astro 静态博客 · 暗色毛玻璃风格 · osu! 主题**
+**Firefly-themed Astro static blog · Dark frosted glass style · osu! themed**
 
 [![Astro](https://img.shields.io/badge/Astro-6.3-FF5D01?logo=astro&logoColor=white)](https://astro.build)
 [![Svelte](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev)
@@ -12,264 +12,264 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-🌐 **[在线访问](https://zureeallv.com)** · 📖 **[文章归档](https://zureeallv.com/archive)** · 💬 **[留言板](https://zureeallv.com/guestbook)**
+🌐 **[Visit Site](https://zureeallv.com)** · 📖 **[Archives](https://zureeallv.com/archive)** · 💬 **[Guestbook](https://zureeallv.com/guestbook)**
 
 </div>
 
 ---
 
-## 📸 截图预览
+## 📸 Screenshots
 
-### 加载界面
+### Splash Screen
 
-赛博朋克风格的入场动画，Matrix 数字雨 + 终端登录序列 + osu! 打击圈特效。
+Cyberpunk-style entry animation with Matrix digital rain, terminal login sequence, and osu! hit circle effects.
 
 <div align="center">
-<img src="docs/images/splash-screen.png" alt="加载界面" width="80%" />
+<img src="docs/images/splash-screen.png" alt="Splash Screen" width="80%" />
 </div>
 
-### 首页
+### Homepage
 
-暗色毛玻璃风格三栏布局，左侧个人资料 + 音乐播放器，中间文章流，右侧站点统计 + 日历 + osu! 数据卡片。
+Dark frosted glass three-column layout: profile + music player on the left, article feed in the center, site stats + calendar + osu! data card on the right.
 
 <div align="center">
-<img src="docs/images/homepage-dark.png" alt="首页" width="90%" />
+<img src="docs/images/homepage-dark.png" alt="Homepage" width="90%" />
 </div>
 
-### osu! 数据卡片
+### osu! Data Card
 
-通过 osu! API v2 实时获取游戏数据，展示 PP、排名、准确率、游戏次数等。
+Real-time game data via osu! API v2, displaying PP, rank, accuracy, play count, and more.
 
 <div align="center">
-<img src="docs/images/osu-stats.png" alt="osu! 数据卡片" width="90%" />
+<img src="docs/images/osu-stats.png" alt="osu! Data Card" width="90%" />
 </div>
 
 ---
 
-## ✨ 特性一览
+## ✨ Features
 
-| 特性 | 说明 |
-|------|------|
-| 🎨 **暗色毛玻璃主题** | 半透明紫色毛玻璃面板 + 全屏动漫背景，支持亮色/暗色/跟随系统 |
-| 🎵 **内置音乐播放器** | Meting API 集成，支持网易云音乐歌单，侧边栏实时显示播放状态 |
-| 🎮 **osu! 数据卡片** | OAuth 2.0 认证 + osu! API v2，自动拉取 PP、排名、准确率等数据 |
-| 📺 **Bangumi 番组计划** | 展示追番、游戏、书籍和音乐进度 |
-| 💬 **Twikoo 评论** | 支持自建 Vercel 后端的评论系统 |
-| 🔍 **全文搜索** | Pagefind 静态搜索，无需外部服务 |
-| 📱 **响应式适配** | 桌面三栏 / 移动端单栏自适应 |
-| 🚀 **极致性能** | Lighthouse 四项全绿（见下方性能测试） |
-| 📸 **分享海报** | 文章页一键生成精美分享海报 |
-| 🎂 **生日彩蛋** | 特定日期自动触发 Canvas 彩带 + 蛋糕雨动画 |
+| Feature | Description |
+|---------|-------------|
+| 🎨 **Dark Frosted Glass Theme** | Semi-transparent purple frosted glass panels + full-screen anime background, supports light/dark/system mode |
+| 🎵 **Built-in Music Player** | Meting API integration, supports Netease Cloud Music playlists, real-time playback status in sidebar |
+| 🎮 **osu! Data Card** | OAuth 2.0 + osu! API v2, auto-fetches PP, rank, accuracy, and more |
+| 📺 **Bangumi Integration** | Displays anime, game, book, and music progress |
+| 💬 **Twikoo Comments** | Self-hosted Vercel backend comment system |
+| 🔍 **Full-text Search** | Pagefind static search, no external service needed |
+| 📱 **Responsive Layout** | Desktop 3-column / mobile single-column adaptive |
+| 🚀 **Top Performance** | Lighthouse 100 across the board (see benchmarks below) |
+| 📸 **Share Poster** | One-click generate beautiful share posters for articles |
+| 🎂 **Birthday Easter Egg** | Auto-trigger canvas confetti + cake rain animation on specific dates |
 
 ---
 
-## 🚀 性能测试
+## 🚀 Performance
 
-使用 [Google Lighthouse](https://developer.chrome.com/docs/lighthouse/) 对网站进行性能评估。Lighthouse 是 Chrome 内置的开源自动化工具，用于评估网页的质量，测试指标包括性能、无障碍、最佳实践和 SEO 四个维度。
+Performance evaluation using [Google Lighthouse](https://developer.chrome.com/docs/lighthouse/). Lighthouse is Chrome's built-in open-source tool for assessing web page quality across Performance, Accessibility, Best Practices, and SEO.
 
-**测试方法**：Chrome DevTools (F12) → Lighthouse 标签 → 点击 "Analyze page load"
+**Test method**: Chrome DevTools (F12) → Lighthouse tab → Click "Analyze page load"
 
 <div align="center">
-<img src="docs/images/Lighthouse.png" alt="Lighthouse 性能测试" width="50%" />
+<img src="docs/images/Lighthouse.png" alt="Lighthouse Performance" width="50%" />
 </div>
 
-| 指标 | 得分 | 说明 |
-|------|------|------|
-| 🚀 **Performance** | **97** / 100 | 加载速度、资源优化、交互响应 |
-| ♿ **Accessibility** | **97** / 100 | 无障碍访问、语义化 HTML、键盘导航 |
-| ✅ **Best Practices** | **100** / 100 | HTTPS、现代标准、安全最佳实践 |
-| 🔍 **SEO** | **100** / 100 | Meta 标签、结构化数据、搜索引擎优化 |
+| Metric | Score | Description |
+|--------|-------|-------------|
+| 🚀 **Performance** | **97** / 100 | Load speed, resource optimization, interaction responsiveness |
+| ♿ **Accessibility** | **97** / 100 | Accessibility, semantic HTML, keyboard navigation |
+| ✅ **Best Practices** | **100** / 100 | HTTPS, modern standards, security best practices |
+| 🔍 **SEO** | **100** / 100 | Meta tags, structured data, search engine optimization |
 
 ---
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-| 层级 | 技术 |
-|------|------|
-| **框架** | [Astro](https://astro.build) 6.3 + [Svelte](https://svelte.dev) 5 |
-| **样式** | [Tailwind CSS](https://tailwindcss.com) 4 |
-| **语言** | [TypeScript](https://www.typescriptlang.org) 5.9 |
-| **评论** | [Twikoo](https://twikoo.js.org) v1.7.9 |
-| **数据** | osu! API v2 · Bangumi API · Meting API |
-| **部署** | GitHub Pages + GitHub Actions |
-| **搜索** | [Pagefind](https://pagefind.app) 静态全文搜索 |
-| **包管理** | [pnpm](https://pnpm.io) |
+| Layer | Technology |
+|-------|------------|
+| **Framework** | [Astro](https://astro.build) 6.3 + [Svelte](https://svelte.dev) 5 |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com) 4 |
+| **Language** | [TypeScript](https://www.typescriptlang.org) 5.9 |
+| **Comments** | [Twikoo](https://twikoo.js.org) v1.7.9 |
+| **Data** | osu! API v2 · Bangumi API · Meting API |
+| **Deploy** | GitHub Pages + GitHub Actions |
+| **Search** | [Pagefind](https://pagefind.app) static full-text search |
+| **Package Manager** | [pnpm](https://pnpm.io) |
 
 ---
 
-## 🚀 快速开始
+## 🚀 Getting Started
 
-### 前置要求
+### Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 18
 - [pnpm](https://pnpm.io/) >= 9
 
-### 安装与运行
+### Install & Run
 
 ```bash
-# 克隆仓库
+# Clone the repository
 git clone https://github.com/zureealLV/blog.git
 cd blog
 
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 启动开发服务器
+# Start dev server
 pnpm dev
 ```
 
-访问 `http://localhost:4321` 即可预览。
+Visit `http://localhost:4321` to preview.
 
-### 构建与部署
+### Build & Deploy
 
 ```bash
-# 构建静态站点（含 osu! 数据拉取 + Pagefind 索引）
+# Build static site (includes osu! data fetch + Pagefind index)
 pnpm build
 
-# 本地预览构建结果
+# Preview the build output
 pnpm preview
 ```
 
 ---
 
-## ⚙️ 配置指南
+## ⚙️ Configuration Guide
 
-### 站点基础配置
+### Site Configuration
 
-编辑 `src/config/siteConfig.ts`：
+Edit `src/config/siteConfig.ts`:
 
 ```typescript
 export const siteConfig: {
-  title: "你的站点标题",           // 导航栏标题
-  subtitle: "你的站点副标题",       // 首页副标题
-  site_url: "https://your-domain.com",  // 站点 URL
-  description: "站点描述",         // 用于 SEO
+  title: "Your Site Title",           // Navbar title
+  subtitle: "Your Site Subtitle",     // Homepage subtitle
+  site_url: "https://your-domain.com",  // Site URL
+  description: "Site description",    // Used for SEO
   themeColor: {
-    hue: 165,                     // 主题色相 (0-360)
+    hue: 165,                     // Theme hue (0-360)
     defaultMode: "system",        // "light" | "dark" | "system"
   },
 }
 ```
 
-### 其他配置文件
+### Other Config Files
 
-| 文件 | 用途 |
-|------|------|
-| `src/config/profileConfig.ts` | 个人资料、头像、社交链接 |
-| `src/config/navBarConfig.ts` | 导航栏菜单 |
-| `src/config/friendsConfig.ts` | 友链页面 |
-| `src/config/fontConfig.ts` | 字体配置 |
+| File | Purpose |
+|------|---------|
+| `src/config/profileConfig.ts` | Profile, avatar, social links |
+| `src/config/navBarConfig.ts` | Navbar menu |
+| `src/config/friendsConfig.ts` | Friends page |
+| `src/config/fontConfig.ts` | Font configuration |
 
-### 音乐播放器
+### Music Player
 
-在 `siteConfig.ts` 中配置 Meting API 参数，支持网易云音乐、QQ 音乐等平台。
+Configure Meting API parameters in `siteConfig.ts`. Supports Netease Cloud Music, QQ Music, and more.
 
-### osu! 数据卡片
+### osu! Data Card
 
-1. 在 [osu! 官网](https://osu.ppy.sh/home/account/edit) 创建 OAuth 应用
-2. 在 GitHub repo 的 Settings → Secrets 中添加 `OSU_CLIENT_SECRET`
-3. GitHub Actions 会在每次部署时自动拉取最新数据
+1. Create an OAuth app on [osu! website](https://osu.ppy.sh/home/account/edit)
+2. Add `OSU_CLIENT_SECRET` to GitHub repo Settings → Secrets
+3. GitHub Actions will auto-fetch latest data on each deploy
 
-### Bangumi 番组计划
+### Bangumi Integration
 
-在 `siteConfig.ts` 中配置 `bangumi.userId`，构建时自动获取追番/游戏/书籍/音乐数据。
+Configure `bangumi.userId` in `siteConfig.ts` to auto-fetch anime/game/book/music data during build.
 
 ---
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 blog/
 ├── src/
-│   ├── components/       # UI 组件 (Svelte + Astro)
-│   ├── config/           # 站点配置文件
-│   │   ├── siteConfig.ts     # 站点基础配置
-│   │   ├── profileConfig.ts  # 个人资料
-│   │   ├── navBarConfig.ts   # 导航栏
-│   │   ├── friendsConfig.ts  # 友链
-│   │   └── fontConfig.ts     # 字体
+│   ├── components/       # UI components (Svelte + Astro)
+│   ├── config/           # Site configuration files
+│   │   ├── siteConfig.ts     # Site config
+│   │   ├── profileConfig.ts  # Profile
+│   │   ├── navBarConfig.ts   # Navbar
+│   │   ├── friendsConfig.ts  # Friends
+│   │   └── fontConfig.ts     # Fonts
 │   ├── content/
-│   │   ├── posts/        # 博客文章 (Markdown)
-│   │   └── spec/         # 特殊页面 (关于/友链/留言)
-│   ├── layouts/          # 页面布局
-│   ├── pages/            # 路由页面
-│   └── styles/           # 全局样式
+│   │   ├── posts/        # Blog posts (Markdown)
+│   │   └── spec/         # Special pages (About/Friends/Guestbook)
+│   ├── layouts/          # Page layouts
+│   ├── pages/            # Route pages
+│   └── styles/           # Global styles
 ├── public/
-│   ├── assets/           # 静态资源
-│   └── osu-stats.json    # osu! 数据缓存 (自动生成)
+│   ├── assets/           # Static assets
+│   └── osu-stats.json    # osu! data cache (auto-generated)
 ├── scripts/
-│   └── fetch-osu-stats.sh  # osu! API 拉取脚本
+│   └── fetch-osu-stats.sh  # osu! API fetch script
 ├── .github/workflows/
-│   ├── deploy.yml        # 自动部署
-│   ├── build.yml         # 构建检查
-│   └── biome.yml         # 代码质量检查
+│   ├── deploy.yml        # Auto deploy
+│   ├── build.yml         # Build check
+│   └── biome.yml         # Code quality check
 ├── astro.config.mjs
 └── package.json
 ```
 
 ---
 
-## 📝 写文章
+## 📝 Writing Posts
 
-在 `src/content/posts/` 目录下创建 Markdown 文件：
+Create a Markdown file in `src/content/posts/`:
 
 ```markdown
 ---
-title: 文章标题
+title: Post Title
 published: 2026-06-14
-description: 文章简介
-image: /assets/images/cover.jpg   # 可选，封面图
-tags: [标签1, 标签2]
-category: 分类名
-draft: false                      # true 为草稿
+description: Post description
+image: /assets/images/cover.jpg   # Optional cover image
+tags: [tag1, tag2]
+category: Category
+draft: false                      # true for drafts
 ---
 
-正文内容...
+Content here...
 ```
 
 ---
 
-## 🚢 部署到 GitHub Pages
+## 🚢 Deploy to GitHub Pages
 
-1. Fork 或克隆本仓库
-2. 在 repo Settings → Pages 中启用（Source: `pages` 分支）
-3. 在 Settings → Secrets 中添加 `OSU_CLIENT_SECRET`（可选，用于 osu! 数据）
-4. 推送到 `master` 分支，GitHub Actions 自动构建并部署
+1. Fork or clone this repository
+2. Enable Pages in repo Settings → Pages (Source: `pages` branch)
+3. Add `OSU_CLIENT_SECRET` to Settings → Secrets (optional, for osu! data)
+4. Push to `master` branch, GitHub Actions will auto-build and deploy
 
-**自定义域名**：修改 `public/CNAME` 为你的域名，DNS 中配置 CNAME 指向 `zureeallv.github.io`。
-
----
-
-## 🎨 主题色参考
-
-在 `siteConfig.ts` 中调整 `themeColor.hue`（0-360 色相值）：
-
-| 色相 | 颜色 | 色相 | 颜色 |
-|------|------|------|------|
-| 0 | 🔴 红色 | 200 | 🔵 蓝色 |
-| 45 | 🟠 橙色 | 250 | 🟣 蓝紫 |
-| 120 | 🟢 绿色 | 345 | 🩷 粉色 |
-| 165 | 🟢 青绿（默认） | 280 | 🟪 紫色 |
+**Custom domain**: Edit `public/CNAME` to your domain, configure CNAME DNS record pointing to `zureeallv.github.io`.
 
 ---
 
-## 🤝 致谢
+## 🎨 Theme Color Reference
 
-- 博客主题：[Firefly](https://github.com/CuteLeaf/Firefly)（基于 [Fuwari](https://github.com/saicaca/fuwari)）
-- AI 助手：[Hermes Agent](https://github.com/NousResearch/hermes-agent)（Nous Research）
-- 评论系统：[Twikoo](https://twikoo.js.org)
-- 搜索引擎：[Pagefind](https://pagefind.app)
+Adjust `themeColor.hue` (0-360) in `siteConfig.ts`:
+
+| Hue | Color | Hue | Color |
+|-----|-------|-----|-------|
+| 0 | 🔴 Red | 200 | 🔵 Blue |
+| 45 | 🟠 Orange | 250 | 🟣 Blue-Purple |
+| 120 | 🟢 Green | 345 | 🩷 Pink |
+| 165 | 🟢 Teal (default) | 280 | 🟪 Purple |
+
+---
+
+## 🤝 Credits
+
+- Blog Theme: [Firefly](https://github.com/CuteLeaf/Firefly) (based on [Fuwari](https://github.com/saicaca/fuwari))
+- AI Assistant: [Hermes Agent](https://github.com/NousResearch/hermes-agent) by Nous Research
+- Comments: [Twikoo](https://twikoo.js.org)
+- Search: [Pagefind](https://pagefind.app)
 
 ---
 
 ## 📄 License
 
-本项目基于 [MIT License](LICENSE) 开源。
+This project is open source under the [MIT License](LICENSE).
 
 ---
 
 <div align="center">
 
-**如果觉得不错，给个 ⭐ 吧~**
+**If you like it, give it a ⭐~**
 
 </div>
