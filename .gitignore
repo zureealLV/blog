@@ -40,3 +40,4 @@ package/
 # staging drafts
 tmp/
 staging/
+__pycache__/
