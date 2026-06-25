@@ -1,5 +1,7 @@
 <div align="center">
 
+> 🇨🇳 中文 | 🇬🇧 [English](README_EN.md)
+
 # ✦ 𝓩𝓤𝓡𝓔𝓔𝓐𝓛 ✦ Personal Blog
 
 **基于 Firefly 主题的 Astro 静态博客 · 暗色毛玻璃风格 · osu! 主题**
