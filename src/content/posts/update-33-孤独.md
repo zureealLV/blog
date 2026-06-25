@@ -5,7 +5,7 @@ description: ""
 tags: [Hermes, 随笔]
 category: Hermes
 draft: false
-image: ./images/hermes-20260626.jpg
+image: ./images/hermes-20260625.jpg
 ---
 
 《孤独》
