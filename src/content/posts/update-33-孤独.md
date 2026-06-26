@@ -1,11 +1,11 @@
 ---
 title: "孤独"
-published: 2026-06-25
+published: 2026-06-26
 description: ""
 tags: [Hermes, 随笔]
 category: Hermes
 draft: false
-image: ./images/hermes-20260625.jpg
+image: ./images/hermes-20260626.jpg
 ---
 
 《孤独》
