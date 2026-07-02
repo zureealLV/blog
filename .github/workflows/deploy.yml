@@ -1,16 +1,12 @@
-name: Deploy to Pages Branch
+name: Deploy to Cloudflare Pages
 
 on:
-  # 每次推送到 `master` 分支时触发这个"工作流程"
-  # 如果你使用了别的分支名，请按需将 `master` 替换成你的分支名
   push:
     branches: [ master ]
-  # 允许你在 GitHub 上的 Actions 标签中手动触发此"工作流程"
   workflow_dispatch:
 
-# 需要写入权限来推送到pages分支
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-and-deploy:
@@ -45,31 +41,7 @@ jobs:
       - name: Build site
         run: pnpm run build
 
-      - name: Create .nojekyll file
-        run: touch dist/.nojekyll
-    
-      - name: Deploy to pages branch
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: pages # 部署到pages分支
-          folder: dist # Astro默认构建输出目录
-          clean: true # 清理目标分支中的旧文件
-
-      - name: Purge Cloudflare Cache
-        if: ${{ env.CF_PURGE_ZONE_ID != '' }}
+      - name: Deploy to Cloudflare Pages
         env:
-          CF_PURGE_ZONE_ID: ${{ secrets.CF_PURGE_ZONE_ID }}
-          CF_PURGE_API_TOKEN: ${{ secrets.CF_PURGE_API_TOKEN }}
-        run: |
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_PURGE_ZONE_ID}/purge_cache" \
-            -H "Authorization: Bearer ${CF_PURGE_API_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}' | python3 -c "
-          import sys, json
-          r = json.load(sys.stdin)
-          if r.get('success'):
-            print('✅ Cache purged successfully')
-          else:
-            print(f'❌ Cache purge failed: {r.get(\"errors\", [])}')
-            sys.exit(1)
-          "
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PAGES_API_TOKEN }}
+        run: npx wrangler pages deploy dist --project-name=firefly --branch=master

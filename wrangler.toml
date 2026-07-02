@@ -1,5 +1,6 @@
 name = "firefly"
-compatibility_date = "2026-05-17" # 更为今日
+compatibility_date = "2026-07-02"
+account_id = "3daeec1160533b128555f076215450e2"
 
 [assets]
 directory = "./dist"
