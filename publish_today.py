@@ -74,14 +74,12 @@ def main():
 
     # 5. git pull (sync remote changes first)
     print("\n🔄 git pull...")
-    run("git stash")
-    code, out, err = run("git pull --rebase")
+    code, out, err = run("git pull --rebase --autostash")
     if code == 0:
-        run("git stash pop")
         print(f"   ✓ 已同步远程")
     else:
-        run("git stash pop 2>nul")
-        print(f"   ⚠️  pull 失败，继续...")
+        print(f"   ⚠️  pull 失败: {err}")
+        print("   继续尝试推送...")
 
     # 6. git add + commit + push
     print("📦 git add...")
@@ -108,7 +106,8 @@ def main():
         return
     print(f"   ✓ push 成功")
 
-    print(f"\n✅ 已发布: 《{title}》 → zureeallv.com")
+    print(f"\n✅ 已发布: 《{title}》 → zureeallv.com (CF Pages)")
+    print("   GitHub Actions 将自动部署，约 1 分钟后上线")
     input("\n按回车退出...")
 
 if __name__ == "__main__":
