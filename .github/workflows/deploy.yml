@@ -32,6 +32,9 @@ jobs:
           
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      - name: Optimize gallery images (PNG/JPG → WebP)
+        run: node scripts/optimize-gallery.mjs
     
       - name: Fetch osu! stats
         env:

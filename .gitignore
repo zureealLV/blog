@@ -41,3 +41,6 @@ package/
 tmp/
 staging/
 __pycache__/
+
+# CI-generated webp images (originals stay in git)
+public/gallery/**/*.webp
