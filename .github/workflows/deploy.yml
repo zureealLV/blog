@@ -44,4 +44,5 @@ jobs:
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PAGES_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: "3daeec1160533b128555f076215450e2"
         run: npx wrangler pages deploy dist --project-name=firefly --branch=master
