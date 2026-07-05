@@ -14,6 +14,14 @@ STAGING_IMAGES = os.path.join(BLOG_DIR, "staging", "images")
 BLOG_POSTS = os.path.join(BLOG_DIR, "src", "content", "posts")
 BLOG_IMAGES = os.path.join(BLOG_POSTS, "images")
 
+def safe_input(prompt=""):
+    """input() that doesn't crash when stdin is not a TTY (cron, subprocess, etc.)"""
+    try:
+        return input(prompt)
+    except (EOFError, OSError):
+        print(prompt)
+        return ""
+
 def run(cmd, cwd=BLOG_DIR):
     r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
     return r.returncode, r.stdout.strip(), r.stderr.strip()
@@ -38,19 +46,25 @@ def main():
 
     if not found_file:
         print(f"❌ staging/posts/ 里找不到今天 ({today}) 的文章")
-        input("\n按回车退出...")
+        safe_input("\n按回车退出...")
         return
 
     title = found_file.replace(".md", "").split("-", 2)[-1]
     print(f"📝 找到: {found_file}")
     print(f"   标题: {title}")
 
-    # 2. 检查是否已经发布过
+    # 2. 检查是否已经发布过（文件存在 + 已 git push 到远程）
     blog_target = os.path.join(BLOG_POSTS, found_file)
     if os.path.exists(blog_target):
-        print(f"✅ 今天已经发布过了: {found_file}")
-        input("\n按回车退出...")
-        return
+        # 检查是否真的 push 了：本地 commit 是否在远程
+        code, out, err = run("git log origin/master --oneline -1")
+        code2, out2, err2 = run("git log master --oneline -1")
+        if code == 0 and code2 == 0 and out == out2:
+            print(f"✅ 今天已经发布过了: {found_file}")
+            safe_input("\n按回车退出...")
+            return
+        else:
+            print(f"⚠️  文件已存在但尚未推送远程，继续推送流程...")
 
     # 3. 复制文章到博客（改 draft: false）
     src_path = os.path.join(STAGING_POSTS, found_file)
@@ -92,7 +106,7 @@ def main():
             print("   没有变更")
         else:
             print(f"   ❌ commit 失败: {err}")
-        input("\n按回车退出...")
+        safe_input("\n按回车退出...")
         return
     print(f"   ✓ {out}")
 
@@ -102,13 +116,13 @@ def main():
         print(f"   ❌ push 失败: {err}")
         if "403" in err:
             print("   💡 运行: gh auth refresh -h github.com -s repo")
-        input("\n按回车退出...")
+        safe_input("\n按回车退出...")
         return
     print(f"   ✓ push 成功")
 
     print(f"\n✅ 已发布: 《{title}》 → zureeallv.com (CF Pages)")
     print("   GitHub Actions 将自动部署，约 1 分钟后上线")
-    input("\n按回车退出...")
+    safe_input("\n按回车退出...")
 
 if __name__ == "__main__":
     main()
