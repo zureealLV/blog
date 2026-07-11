@@ -2,7 +2,7 @@
 title: "镜子"
 published: 2026-06-21
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260621.jpg

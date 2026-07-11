@@ -2,7 +2,7 @@
 title: "成长"
 published: 2026-07-03
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260703.jpg

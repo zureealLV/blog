@@ -2,7 +2,7 @@
 title: "孤独"
 published: 2026-06-26
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260626.jpg

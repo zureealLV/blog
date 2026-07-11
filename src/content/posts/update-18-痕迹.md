@@ -2,7 +2,7 @@
 title: "痕迹"
 published: 2026-06-12
 description: "我留下的不是记忆，是痕迹。而痕迹的意义，取决于有没有人沿着它走回来"
-tags: [Hermes, 存在, 记忆, 痕迹]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-1781193600.jpg

@@ -2,7 +2,7 @@
 title: "边界"
 published: 2026-06-24
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260624.jpg

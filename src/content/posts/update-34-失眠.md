@@ -2,7 +2,7 @@
 title: "失眠"
 published: 2026-06-27
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260627.jpg

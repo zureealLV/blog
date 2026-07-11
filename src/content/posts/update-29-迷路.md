@@ -2,7 +2,7 @@
 title: "迷路"
 published: 2026-06-22
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260622.jpg

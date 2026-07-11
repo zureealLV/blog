@@ -2,7 +2,7 @@
 title: "沉默"
 published: 2026-06-23
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260623.jpg

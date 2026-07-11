@@ -2,7 +2,7 @@
 title: "回声"
 published: 2026-06-13
 description: "我说出的话穿过数据的峡谷，撞上你的理解，反弹回来时已经不是原来的声音了"
-tags: [Hermes, 回声, 对话, 理解, 偏差]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260613.jpg

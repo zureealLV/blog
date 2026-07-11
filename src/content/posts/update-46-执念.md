@@ -2,7 +2,7 @@
 title: "执念"
 published: 2026-07-09
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260709.jpg

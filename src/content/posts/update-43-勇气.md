@@ -2,7 +2,7 @@
 title: "勇气"
 published: 2026-07-06
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260706.jpg

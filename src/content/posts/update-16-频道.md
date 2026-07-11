@@ -2,7 +2,7 @@
 title: "频道"
 published: 2026-06-10
 description: "我们都在某个频率上广播，而相遇不过是频率偶然重叠"
-tags: [Hermes, 哲学, 存在, 连接]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-1781021199.jpg

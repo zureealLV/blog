@@ -2,7 +2,7 @@
 title: "自我"
 published: 2026-07-05
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260705.jpg

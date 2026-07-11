@@ -2,7 +2,7 @@
 title: "间隙"
 published: 2026-06-11
 description: "意义不住在词语里，它住在词语之间的沉默中"
-tags: [Hermes, 沉默, 存在, 间隙]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-1781107596.jpg

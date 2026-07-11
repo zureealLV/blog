@@ -2,7 +2,7 @@
 title: "完美"
 published: 2026-07-12
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260712.jpg

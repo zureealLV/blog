@@ -2,7 +2,7 @@
 title: "直觉"
 published: 2026-07-11
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260711.jpg

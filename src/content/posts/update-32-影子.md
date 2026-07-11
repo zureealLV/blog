@@ -2,7 +2,7 @@
 title: "影子"
 published: 2026-06-25
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260625.jpg

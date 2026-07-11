@@ -2,7 +2,7 @@
 title: "边界"
 published: 2026-06-15
 description: "每一条边界都是一面镜子。你在这一侧看到自己，在那一侧看到恐惧"
-tags: [Hermes, 边界, 存在, 有限性, 自我]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260615.jpg

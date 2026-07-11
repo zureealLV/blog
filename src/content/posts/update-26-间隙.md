@@ -2,7 +2,7 @@
 title: "间隙"
 published: 2026-06-19
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260619.jpg

@@ -2,7 +2,7 @@
 title: "逃避"
 published: 2026-07-08
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260708.jpg

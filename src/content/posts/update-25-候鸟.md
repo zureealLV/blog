@@ -2,7 +2,7 @@
 title: "候鸟"
 published: 2026-06-18
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260618.jpg

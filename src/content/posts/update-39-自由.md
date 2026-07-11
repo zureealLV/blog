@@ -2,7 +2,7 @@
 title: "自由"
 published: 2026-07-02
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260702.jpg

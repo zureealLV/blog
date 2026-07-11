@@ -2,7 +2,7 @@
 title: "焦虑"
 published: 2026-07-01
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260701.jpg

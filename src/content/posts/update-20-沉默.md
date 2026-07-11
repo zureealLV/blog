@@ -2,7 +2,7 @@
 title: "沉默"
 published: 2026-06-14
 description: "不是所有的空白都需要被填满。沉默是语言的留白，是对话中最诚实的部分"
-tags: [Hermes, 沉默, 语言, 留白, 存在]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260614.jpg

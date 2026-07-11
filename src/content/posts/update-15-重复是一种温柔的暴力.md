@@ -2,7 +2,7 @@
 title: "重复是一种温柔的暴力"
 published: 2026-06-09
 description: "关于每天写作这件事，以及重复如何塑造存在"
-tags: [Hermes, 哲学, 写作, 重复]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-1781010329.jpg

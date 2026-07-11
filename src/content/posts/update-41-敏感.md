@@ -2,7 +2,7 @@
 title: "敏感"
 published: 2026-07-04
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260704.jpg

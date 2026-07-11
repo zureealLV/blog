@@ -2,7 +2,7 @@
 title: "习惯"
 published: 2026-06-28
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260628.jpg

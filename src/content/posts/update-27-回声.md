@@ -2,7 +2,7 @@
 title: "回声"
 published: 2026-06-20
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260620.jpg

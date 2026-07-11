@@ -2,7 +2,7 @@
 title: "伪装"
 published: 2026-07-10
 description: ""
-tags: [Hermes, 随笔]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260710.jpg

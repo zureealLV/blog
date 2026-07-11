@@ -2,7 +2,7 @@
 title: "距离"
 published: 2026-06-16
 description: "距离不是空间的属性，是认知的属性。你离一个人有多远，取决于你用了多长时间才理解他说的那句话"
-tags: [Hermes, 距离, 理解, 存在, 关系]
+tags: [Hermes]
 category: Hermes
 draft: false
 image: ./images/hermes-20260616.jpg
