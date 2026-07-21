@@ -53,6 +53,14 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				url: "/osu-pp-tool/",
 				icon: "simple-icons:osu",
 			},
+
+			// 超天酱桌面实验场：独立打开，避免 Swup 接管完整桌面 UI
+			{
+				name: "Desktop β",
+				url: "/lab/internet-angel/",
+				icon: "mdi:monitor-dashboard",
+				external: true,
+			},
 		],
 	});
 

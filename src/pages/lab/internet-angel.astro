@@ -1,0 +1,119 @@
+---
+import { getSortedPostsList } from "@/utils/content-utils";
+import { getPostUrlBySlug } from "@/utils/url-utils";
+
+const rawPosts = await getSortedPostsList();
+const posts = rawPosts
+	.filter((post) => !post.data.password)
+	.map((post, index) => ({
+		key: String(index),
+		title: post.data.title,
+		date: post.data.published.toLocaleDateString("sv-SE", {
+			timeZone: "Asia/Shanghai",
+		}),
+		cat: post.data.category || "未分类",
+		excerpt: post.data.description || "打开原博客阅读全文。",
+		tags: post.data.tags,
+		url: getPostUrlBySlug(post.id),
+	}));
+
+const postsJson = JSON.stringify(posts).replaceAll("<", "\\u003c");
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<meta
+			name="description"
+			content="zureeallv.com 的超天酱主题实验桌面。当前仍在开发中，正式博客保持不变。"
+		/>
+		<title>Desktop β — zureeallv.com</title>
+		<link rel="stylesheet" href="/lab/internet-angel/style.css" />
+	</head>
+	<body data-pagefind-ignore>
+		<main id="desktop">
+			<header id="topbar">
+				<button id="start-button">
+					<img src="/lab/internet-angel/assets/icons/kangel.png" alt="" />
+					<span>开始</span>
+				</button>
+				<div class="top-separator"></div>
+				<div id="top-title"><span class="top-dot"></span><b>Lv 的电脑</b></div>
+				<span class="beta-badge">β 开发中</span>
+				<div class="top-marquee">INTERNET ANGEL SYSTEM // ZUREEALLV.COM</div>
+				<a class="back-blog" href="/">返回旧博客</a>
+				<time id="clock">00:00:00</time>
+			</header>
+
+			<nav id="desktop-icons" aria-label="应用程序">
+				<button data-open="stream"><img src="/lab/internet-angel/assets/icons/youtube.png" alt="" /><span>直播</span></button>
+				<button data-open="games"><img src="/lab/internet-angel/assets/icons/game.png" alt="" /><span>游戏</span></button>
+				<button data-open="archive"><img src="/lab/internet-angel/assets/icons/clock.png" alt="" /><span>闹钟</span></button>
+				<button data-open="health"><img src="/lab/internet-angel/assets/icons/medications.png" alt="" /><span>Health Care</span></button>
+				<button data-open="links"><img src="/lab/internet-angel/assets/icons/map.png" alt="" /><span>地图</span></button>
+				<button data-open="internet"><img src="/lab/internet-angel/assets/icons/internet.png" alt="" /><span>互联网</span></button>
+				<button data-open="jine"><img src="/lab/internet-angel/assets/icons/jine.png" alt="" /><span>JINE</span><i class="badge">3</i></button>
+			</nav>
+
+			<aside id="angel-status">
+				<div class="status-title">INTERNET ANGEL</div>
+				<div class="status-grid">
+					<span><img src="/lab/internet-angel/assets/status/icon_status_follower.png" alt="" />FOLLOWER <b>4,700</b></span>
+					<span><img src="/lab/internet-angel/assets/status/icon_status_love.png" alt="" />LOVE <b>88</b></span>
+					<span><img src="/lab/internet-angel/assets/status/icon_status_stress.png" alt="" />STRESS <b>31</b></span>
+					<span><img src="/lab/internet-angel/assets/status/icon_status_yami.png" alt="" />DARKNESS <b>66</b></span>
+				</div>
+			</aside>
+
+			<section id="window-layer"></section>
+
+			<section id="start-menu" hidden>
+				<div class="start-brand">
+					<img src="/lab/internet-angel/assets/icons/kangel.png" alt="" />
+					<div><b>Lv</b><small>INTERNET ANGEL USER</small></div>
+				</div>
+				<div class="start-body">
+					<button data-open="computer"><img src="/lab/internet-angel/assets/icons/folder_open.png" alt="" /><span><b>我的电脑</b><small>所有内容与文件夹</small></span></button>
+					<button data-open="internet"><img src="/lab/internet-angel/assets/icons/internet.png" alt="" /><span><b>互联网</b><small>浏览 zureeallv.com</small></span></button>
+					<button data-open="jine"><img src="/lab/internet-angel/assets/icons/jine.png" alt="" /><span><b>JINE</b><small>消息与留言板</small></span></button>
+					<button data-open="about"><img src="/lab/internet-angel/assets/icons/ame.png" alt="" /><span><b>关于 Lv</b><small>USER PROFILE</small></span></button>
+					<a class="start-home-link" href="/">↩ 返回现在的博客</a>
+				</div>
+				<footer>† 愿互联网天使保佑你 †</footer>
+			</section>
+
+			<nav id="dock" aria-label="快捷启动">
+				<button data-open="computer" title="我的电脑"><img src="/lab/internet-angel/assets/icons/folder_open.png" alt="" /></button>
+				<button data-open="status" title="状态"><img src="/lab/internet-angel/assets/icons/heart.png" alt="" /></button>
+				<button data-open="notes" title="便签"><img src="/lab/internet-angel/assets/icons/text.png" alt="" /></button>
+				<button data-open="gallery" title="相册"><img src="/lab/internet-angel/assets/icons/folder_photos.png" alt="" /></button>
+				<button data-open="internet" title="互联网"><img src="/lab/internet-angel/assets/icons/internet.png" alt="" /></button>
+				<button data-open="stream" title="直播"><img src="/lab/internet-angel/assets/icons/youtube.png" alt="" /></button>
+			</nav>
+
+			<template id="window-template">
+				<article class="window">
+					<header class="titlebar">
+						<span class="title-square"></span>
+						<b class="window-title"></b>
+						<div class="window-controls">
+							<button data-action="minimize" aria-label="最小化">_</button>
+							<button data-action="maximize" aria-label="最大化">□</button>
+							<button data-action="close" aria-label="关闭">×</button>
+						</div>
+					</header>
+					<div class="window-content"></div>
+					<footer class="window-grip"><i></i><i></i><i></i></footer>
+				</article>
+			</template>
+
+			<div id="notification"><img src="/lab/internet-angel/assets/icons/kangel.png" alt="" /><span></span></div>
+			<div class="crt"></div>
+		</main>
+		<script is:inline id="angel-posts" type="application/json" set:html={postsJson}></script>
+		<script is:inline src="/lab/internet-angel/app.js"></script>
+	</body>
+</html>

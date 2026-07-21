@@ -90,8 +90,11 @@ export default defineConfig({
 				// 跳过锚点链接的处理，让浏览器原生处理
 				return event.state?.url?.includes("#");
 			},
-			// 让 Swup 彻底忽略对 /ascii/ 路径的接管，避免闪烁博客背景
-			ignoreVisit: (url) => ["/ascii/", "/osu-pp-tool/"].some(p => url.startsWith(p)),
+			// 让 Swup 彻底忽略独立应用页，避免博客外壳污染其完整页面 UI
+			ignoreVisit: (url) =>
+				["/ascii/", "/osu-pp-tool/", "/lab/internet-angel/"].some((p) =>
+					url.startsWith(p),
+				),
 		}),
 		icon({
 			include: {
@@ -172,6 +175,11 @@ export default defineConfig({
 				// 根据页面开关配置过滤sitemap
 				const url = new URL(page);
 				const pathname = url.pathname;
+
+				// 实验场保持 noindex，也不进入正式站点 sitemap
+				if (pathname.startsWith("/lab/")) {
+					return false;
+				}
 
 				if (pathname === "/friends/" && !siteConfig.pages.friends) {
 					return false;
