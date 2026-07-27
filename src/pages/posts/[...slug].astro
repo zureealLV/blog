@@ -6,7 +6,6 @@ import Comment from "@components/comment/index.astro";
 import Markdown from "@components/common/Markdown.astro";
 import ArticleVoiceprint from "@components/features/ArticleVoiceprint.astro";
 import EncryptedPost from "@components/features/EncryptedPost.astro";
-import HermesMarginNotes from "@components/features/HermesMarginNotes.astro";
 import KatexManager from "@components/features/KatexManager.astro";
 import License from "@components/misc/License.astro";
 import I18nKey from "@i18n/i18nKey";
@@ -31,7 +30,6 @@ import { licenseConfig } from "@/config/licenseConfig";
 import { profileConfig } from "@/config/profileConfig";
 import { siteConfig } from "@/config/siteConfig";
 import { sponsorConfig } from "@/config/sponsorConfig";
-import { extractHermesMarginNotes } from "@/utils/article-visuals";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 import { getApiUrlList, processCoverImageSync } from "@/utils/image-utils";
 import { url } from "@/utils/url-utils";
@@ -156,21 +154,6 @@ if (!articleBody) {
 	}
 }
 if (!articleBody) articleBody = entry.data.title;
-const marginNoteConfig = articleEnhancementConfig.hermesMarginNotes;
-const shouldShowMarginNotes =
-	marginNoteConfig.enable &&
-	!entry.data.password &&
-	!entry.data.tags?.some((tag) =>
-		marginNoteConfig.excludedTags.includes(tag.trim()),
-	);
-const hermesMarginNotes = shouldShowMarginNotes
-	? extractHermesMarginNotes(
-			articleBody,
-			entry.data.title,
-			marginNoteConfig.maxNotes,
-			marginNoteConfig.automatic,
-		)
-	: [];
 ---
 
 <MainGridLayout
@@ -400,12 +383,9 @@ const hermesMarginNotes = shouldShowMarginNotes
         </EncryptedPost>
       ) : (
         <>
-          <div data-article-with-hermes-notes>
-            <Markdown class="mb-6 markdown-content onload-animation">
-              <Content />
-            </Markdown>
-            <HermesMarginNotes notes={hermesMarginNotes} articleId={entry.id} />
-          </div>
+          <Markdown class="mb-6 markdown-content onload-animation">
+            <Content />
+          </Markdown>
 
           {/* 赞助按钮 & 分享按钮 */}
           {

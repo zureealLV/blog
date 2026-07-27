@@ -5,10 +5,4 @@ export const articleEnhancementConfig: ArticleEnhancementConfig = {
 		enable: true,
 		samples: 64,
 	},
-	hermesMarginNotes: {
-		enable: true,
-		automatic: true,
-		maxNotes: 3,
-		excludedTags: ["Hermes"],
-	},
 };

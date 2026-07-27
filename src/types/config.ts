@@ -773,12 +773,6 @@ export type ArticleEnhancementConfig = {
 		enable: boolean;
 		samples: number;
 	};
-	hermesMarginNotes: {
-		enable: boolean;
-		automatic: boolean;
-		maxNotes: number;
-		excludedTags: string[];
-	};
 };
 
 // 图像格式类型
