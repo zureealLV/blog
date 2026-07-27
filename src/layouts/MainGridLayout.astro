@@ -273,6 +273,45 @@ const bannerCarouselInterval = Math.max(
 (function(){
   if(sessionStorage.getItem('landing-seen'))return;
 
+  var active = true, frameIds = [], timeoutIds = [], intervalIds = [], listeners = [];
+  function queueFrame(callback) {
+    if (!active) return 0;
+    var id = requestAnimationFrame(function (now) {
+      frameIds = frameIds.filter(function (frameId) { return frameId !== id; });
+      if (active) callback(now);
+    });
+    frameIds.push(id);
+    return id;
+  }
+  function later(callback, delay) {
+    var id = setTimeout(function () {
+      timeoutIds = timeoutIds.filter(function (timeoutId) { return timeoutId !== id; });
+      if (active) callback();
+    }, delay);
+    timeoutIds.push(id);
+    return id;
+  }
+  function repeat(callback, delay) {
+    var id = setInterval(function () { if (active) callback(); }, delay);
+    intervalIds.push(id);
+    return id;
+  }
+  function listen(target, type, callback) {
+    target.addEventListener(type, callback);
+    listeners.push([target, type, callback]);
+  }
+  function cleanup() {
+    if (!active) return;
+    active = false;
+    frameIds.forEach(cancelAnimationFrame);
+    timeoutIds.forEach(clearTimeout);
+    intervalIds.forEach(clearInterval);
+    listeners.forEach(function (item) { item[0].removeEventListener(item[1], item[2]); });
+    frameIds = []; timeoutIds = []; intervalIds = []; listeners = [];
+    if (style && style.parentNode) style.remove();
+    if (ov && ov.parentNode) ov.remove();
+  }
+
   // --- CSS ---
   var style = document.createElement('style');
   style.textContent = "@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');"
@@ -348,7 +387,7 @@ const bannerCarouselInterval = Math.max(
     cols = Math.floor(cv.width / fs); drops = []; spd = [];
     for (var i = 0; i < cols; i++) { drops[i] = -Math.random() * 20; spd[i] = 0.06 + Math.random() * 0.14; }
   }
-  rz(); addEventListener('resize', rz);
+  rz(); listen(window, 'resize', rz);
 
   function draw() {
     cx.fillStyle = 'rgba(10,10,10,0.04)'; cx.fillRect(0, 0, cv.width, cv.height);
@@ -372,31 +411,31 @@ const bannerCarouselInterval = Math.max(
         drops[i] += spd[i];
       }
     }
-    requestAnimationFrame(draw);
+    queueFrame(draw);
   }
-  requestAnimationFrame(draw);
+  queueFrame(draw);
 
   // corners
   document.getElementById('lo-pid').textContent = Math.floor(Math.random() * 90000 + 10000);
   document.getElementById('lo-mem').textContent = (Math.random() * 2 + 0.5).toFixed(1) + 'GB';
   function ut() { var n = new Date(); document.getElementById('lo-dt').textContent = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0') + ':' + String(n.getSeconds()).padStart(2, '0'); }
-  ut(); setInterval(ut, 1000);
+  ut(); repeat(ut, 1000);
   var st = Date.now();
-  setInterval(function () { var d = Math.floor((Date.now() - st) / 1000); document.getElementById('lo-up').textContent = String(Math.floor(d / 3600)).padStart(2, '0') + ':' + String(Math.floor((d % 3600) / 60)).padStart(2, '0') + ':' + String(d % 60).padStart(2, '0'); }, 1000);
+  repeat(function () { var d = Math.floor((Date.now() - st) / 1000); document.getElementById('lo-up').textContent = String(Math.floor(d / 3600)).padStart(2, '0') + ':' + String(Math.floor((d % 3600) / 60)).padStart(2, '0') + ':' + String(d % 60).padStart(2, '0'); }, 1000);
 
   // binary
   function gb() { var s = ''; for (var i = 0; i < 80; i++) s += Math.random() > 0.5 ? '1' : '0'; document.getElementById('lo-bn').textContent = s; }
-  gb(); setInterval(gb, 200);
+  gb(); repeat(gb, 200);
 
   // burst effect
   function burst(x, y) {
     var b = document.createElement('div'); b.className = 'bu';
     b.textContent = ['✦', '◆', '●', '★'][Math.floor(Math.random() * 4)];
     b.style.left = (x - 15) + 'px'; b.style.top = (y - 15) + 'px';
-    ov.appendChild(b); setTimeout(function () { b.remove(); }, 500);
+    ov.appendChild(b); later(function () { b.remove(); }, 500);
     var r = document.createElement('div'); r.className = 'rp';
     r.style.cssText = 'left:' + (x - 30) + 'px;top:' + (y - 30) + 'px;width:60px;height:60px;';
-    ov.appendChild(r); setTimeout(function () { r.remove(); }, 600);
+    ov.appendChild(r); later(function () { r.remove(); }, 600);
   }
 
   // hit circle
@@ -413,15 +452,15 @@ const bannerCarouselInterval = Math.max(
       ap.style.width = cur + 'px'; ap.style.height = cur + 'px';
       ap.style.left = (x - cur / 2) + 'px'; ap.style.top = (y - cur / 2) + 'px';
       ap.style.opacity = 0.3 + p * 0.5; c.style.opacity = 0.3 + p * 0.5;
-      if (p < 1) { requestAnimationFrame(anim); }
+      if (p < 1) { queueFrame(anim); }
       else {
         burst(x, y);
         c.style.transition = 'opacity .3s'; c.style.opacity = '0';
         ap.style.transition = 'opacity .3s'; ap.style.opacity = '0';
-        setTimeout(function () { c.remove(); ap.remove(); }, 400);
+        later(function () { c.remove(); ap.remove(); }, 400);
       }
     }
-    requestAnimationFrame(anim);
+    queueFrame(anim);
   }
 
   // slider
@@ -449,16 +488,16 @@ const bannerCarouselInterval = Math.max(
       var el = (now - t0) % (dur * 2), t = el < dur ? el / dur : 1 - (el - dur) / dur;
       var pt = body.getPointAtLength(t * pLen);
       bl.style.left = (pt.x - 14) + 'px'; bl.style.top = (pt.y - 14) + 'px';
-      if ((now - t0) < dur * 2.5) { requestAnimationFrame(anim); }
+      if ((now - t0) < dur * 2.5) { queueFrame(anim); }
       else {
         svg.style.transition = 'opacity .5s'; svg.style.opacity = '0';
         bl.style.transition = 'opacity .5s'; bl.style.opacity = '0';
         sc.style.transition = 'opacity .5s'; sc.style.opacity = '0';
         ec.style.transition = 'opacity .5s'; ec.style.opacity = '0';
-        setTimeout(function () { svg.remove(); bl.remove(); sc.remove(); ec.remove(); }, 600);
+        later(function () { svg.remove(); bl.remove(); sc.remove(); ec.remove(); }, 600);
       }
     }
-    requestAnimationFrame(anim);
+    queueFrame(anim);
   }
 
   // start osu
@@ -472,12 +511,12 @@ const bannerCarouselInterval = Math.max(
       slider(x1, y1, x2, y2, (x1 + x2) / 2 + (Math.random() - 0.5) * 350, (y1 + y2) / 2 + (Math.random() - 0.5) * 300);
     }
     spC();
-    setInterval(function () { if (ov.parentNode) spC(); }, 3000);
-    setTimeout(function () { spS(); setInterval(function () { if (ov.parentNode) spS(); }, 5000); }, 1500);
+    repeat(function () { if (ov.parentNode) spC(); }, 3000);
+    later(function () { spS(); repeat(function () { if (ov.parentNode) spS(); }, 5000); }, 1500);
   }
 
   // click effects on overlay (not on title/enter)
-  ov.addEventListener('click', function (e) {
+  listen(ov, 'click', function (e) {
     if (e.target.closest('#lo-ct')) return;
     burst(e.clientX, e.clientY);
   });
@@ -487,15 +526,15 @@ const bannerCarouselInterval = Math.max(
   var c3 = document.getElementById('lo-c3'), c4 = document.getElementById('lo-c4');
   var ttl = document.getElementById('lo-tt'), ent = document.getElementById('lo-en');
 
-  setTimeout(function () { document.getElementById('lo-cmd').style.opacity = '1'; }, 300);
-  setTimeout(function () { c1.classList.add('sh'); }, 600);
-  setTimeout(function () { c2.classList.add('sh'); }, 1400);
-  setTimeout(function () { c3.classList.add('sh'); }, 2200);
-  setTimeout(function () { c4.classList.add('sh'); }, 3000);
-  setTimeout(function () { ttl.classList.add('sh'); }, 4000);
-  setTimeout(function () { ent.classList.add('sh'); }, 4800);
-  setTimeout(function () { phase = 'sync'; }, 5000);
-  setTimeout(function () { startOsu(); }, 6000);
+  later(function () { document.getElementById('lo-cmd').style.opacity = '1'; }, 300);
+  later(function () { c1.classList.add('sh'); }, 600);
+  later(function () { c2.classList.add('sh'); }, 1400);
+  later(function () { c3.classList.add('sh'); }, 2200);
+  later(function () { c4.classList.add('sh'); }, 3000);
+  later(function () { ttl.classList.add('sh'); }, 4000);
+  later(function () { ent.classList.add('sh'); }, 4800);
+  later(function () { phase = 'sync'; }, 5000);
+  later(function () { startOsu(); }, 6000);
 
   // enter blog
   var entering = false;
@@ -503,13 +542,13 @@ const bannerCarouselInterval = Math.max(
     if (entering) return; entering = true;
     var bar = document.getElementById('lo-bar'), bf = document.getElementById('lo-bf');
     bar.classList.add('sh');
-    setTimeout(function () { bf.classList.add('dn'); }, 100);
-    setTimeout(function () { ov.classList.add('fo'); }, 2000);
-    setTimeout(function () { sessionStorage.setItem('landing-seen', '1'); ov.remove(); }, 2800);
+    later(function () { bf.classList.add('dn'); }, 100);
+    later(function () { ov.classList.add('fo'); }, 2000);
+    later(function () { sessionStorage.setItem('landing-seen', '1'); cleanup(); }, 2800);
   }
-  document.getElementById('lo-tt').addEventListener('click', enter);
-  document.getElementById('lo-en').addEventListener('click', enter);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') enter(); });
+  listen(document.getElementById('lo-tt'), 'click', enter);
+  listen(document.getElementById('lo-en'), 'click', enter);
+  listen(document, 'keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') enter(); });
 })();
 </script>
 <!-- ============ END LANDING OVERLAY ============ -->
@@ -1166,4 +1205,3 @@ const bannerCarouselInterval = Math.max(
   }
 
 </style>
-

@@ -1,0 +1,140 @@
+---
+import { createArticleSignal } from "@/utils/article-visuals";
+
+interface Props {
+	body: string;
+	title: string;
+	samples?: number;
+}
+
+const { body, title, samples = 64 } = Astro.props;
+const signal = createArticleSignal(body, title, samples);
+---
+
+<figure
+	class="article-voiceprint onload-animation"
+	aria-label={`《${title}》的文章声纹`}
+>
+	<div class="voiceprint-header">
+		<figcaption>
+			<span class="voiceprint-status" aria-hidden="true"></span>
+			ARTICLE SIGNAL
+		</figcaption>
+		<code>0x{signal.hash.toUpperCase()}</code>
+	</div>
+	<svg
+		viewBox="0 0 720 76"
+		preserveAspectRatio="none"
+		role="img"
+		aria-label="根据文章文字节奏生成的波形"
+	>
+		<defs>
+			<linearGradient id={`signal-${signal.hash}`} x1="0" x2="1">
+				<stop offset="0%" stop-color="var(--primary)" stop-opacity="0.08" />
+				<stop offset="50%" stop-color="var(--primary)" stop-opacity="0.32" />
+				<stop offset="100%" stop-color="var(--primary)" stop-opacity="0.05" />
+			</linearGradient>
+		</defs>
+		<polygon
+			points={signal.area}
+			fill={`url(#signal-${signal.hash})`}
+			aria-hidden="true"
+		/>
+		<polyline points={signal.points} vector-effect="non-scaling-stroke" />
+	</svg>
+	<div class="voiceprint-metrics" aria-hidden="true">
+		<span>PULSE {String(signal.pulse).padStart(2, "0")}</span>
+		<span>DENSITY {String(signal.density).padStart(2, "0")}</span>
+		<span>BREATH {String(signal.breath).padStart(2, "0")}</span>
+	</div>
+</figure>
+
+<style>
+	.article-voiceprint {
+		position: relative;
+		margin: 0.4rem 0 1.25rem;
+		padding: 0.75rem 0.9rem 0.65rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+		border-radius: 0.75rem;
+		background:
+			linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--primary) 6%, transparent) 1px,
+				transparent 1px
+			),
+			linear-gradient(
+				color-mix(in srgb, var(--primary) 5%, transparent) 1px,
+				transparent 1px
+			),
+			color-mix(in srgb, var(--card-bg) 94%, transparent);
+		background-size: 18px 18px;
+	}
+
+	.voiceprint-header,
+	.voiceprint-metrics {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		color: color-mix(in srgb, var(--primary) 72%, currentColor);
+		font-family: "JetBrains Mono Variable", monospace;
+		font-size: 0.62rem;
+		letter-spacing: 0.12em;
+	}
+
+	.voiceprint-header figcaption {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.voiceprint-header code {
+		color: inherit;
+		font-size: inherit;
+		opacity: 0.68;
+	}
+
+	.voiceprint-status {
+		width: 0.4rem;
+		height: 0.4rem;
+		border-radius: 999px;
+		background: var(--primary);
+		box-shadow: 0 0 0.55rem var(--primary);
+	}
+
+	.article-voiceprint svg {
+		display: block;
+		width: 100%;
+		height: 3.7rem;
+		margin: 0.15rem 0;
+		overflow: visible;
+	}
+
+	.article-voiceprint polyline {
+		fill: none;
+		stroke: var(--primary);
+		stroke-width: 1.35;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		filter: drop-shadow(0 0 3px color-mix(in srgb, var(--primary) 65%, transparent));
+	}
+
+	.voiceprint-metrics {
+		justify-content: flex-start;
+		gap: 1.2rem;
+		opacity: 0.58;
+	}
+
+	@media (max-width: 480px) {
+		.article-voiceprint {
+			padding-inline: 0.7rem;
+		}
+
+		.voiceprint-metrics {
+			justify-content: space-between;
+			gap: 0.35rem;
+			font-size: 0.55rem;
+		}
+	}
+</style>

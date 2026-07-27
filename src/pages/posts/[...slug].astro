@@ -1,9 +1,12 @@
 ---
 import { render } from "astro:content";
+import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import Comment from "@components/comment/index.astro";
 import Markdown from "@components/common/Markdown.astro";
+import ArticleVoiceprint from "@components/features/ArticleVoiceprint.astro";
 import EncryptedPost from "@components/features/EncryptedPost.astro";
+import HermesMarginNotes from "@components/features/HermesMarginNotes.astro";
 import KatexManager from "@components/features/KatexManager.astro";
 import License from "@components/misc/License.astro";
 import I18nKey from "@i18n/i18nKey";
@@ -22,11 +25,13 @@ import CoverImage from "@/components/common/CoverImage.astro";
 import PostMetadata from "@/components/layout/PostMeta.astro";
 import RecommendedPost from "@/components/misc/RecommendedPost.astro";
 import SharePoster from "@/components/misc/SharePoster.svelte";
+import { articleEnhancementConfig } from "@/config";
 import { coverImageConfig } from "@/config/coverImageConfig";
 import { licenseConfig } from "@/config/licenseConfig";
 import { profileConfig } from "@/config/profileConfig";
 import { siteConfig } from "@/config/siteConfig";
 import { sponsorConfig } from "@/config/sponsorConfig";
+import { extractHermesMarginNotes } from "@/utils/article-visuals";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 import { getApiUrlList, processCoverImageSync } from "@/utils/image-utils";
 import { url } from "@/utils/url-utils";
@@ -129,6 +134,43 @@ const jsonLd = {
 };
 
 const relatedPosts = await getRelatedPosts(entry, 5);
+const normalizedEntryId = removeFileExtension(entry.id);
+let articleBody = entry.body?.trim() ? entry.body : "";
+if (!articleBody) {
+	for (const extension of ["md", "mdx"]) {
+		try {
+			articleBody = await readFile(
+				path.join(
+					process.cwd(),
+					"src",
+					"content",
+					"posts",
+					`${normalizedEntryId}.${extension}`,
+				),
+				"utf8",
+			);
+			break;
+		} catch {
+			// Try the other supported content extension.
+		}
+	}
+}
+if (!articleBody) articleBody = entry.data.title;
+const marginNoteConfig = articleEnhancementConfig.hermesMarginNotes;
+const shouldShowMarginNotes =
+	marginNoteConfig.enable &&
+	!entry.data.password &&
+	!entry.data.tags?.some((tag) =>
+		marginNoteConfig.excludedTags.includes(tag.trim()),
+	);
+const hermesMarginNotes = shouldShowMarginNotes
+	? extractHermesMarginNotes(
+			articleBody,
+			entry.data.title,
+			marginNoteConfig.maxNotes,
+			marginNoteConfig.automatic,
+		)
+	: [];
 ---
 
 <MainGridLayout
@@ -241,6 +283,16 @@ const relatedPosts = await getRelatedPosts(entry, 5);
         }
       </div>
 
+      {
+        articleEnhancementConfig.voiceprint.enable && (
+          <ArticleVoiceprint
+            body={articleBody}
+            title={entry.data.title}
+            samples={articleEnhancementConfig.voiceprint.samples}
+          />
+        )
+      }
+
       <!-- always show cover as long as it has one -->
 
       {
@@ -348,9 +400,12 @@ const relatedPosts = await getRelatedPosts(entry, 5);
         </EncryptedPost>
       ) : (
         <>
-          <Markdown class="mb-6 markdown-content onload-animation">
-            <Content />
-          </Markdown>
+          <div data-article-with-hermes-notes>
+            <Markdown class="mb-6 markdown-content onload-animation">
+              <Content />
+            </Markdown>
+            <HermesMarginNotes notes={hermesMarginNotes} articleId={entry.id} />
+          </div>
 
           {/* 赞助按钮 & 分享按钮 */}
           {

@@ -768,6 +768,19 @@ export type SponsorConfig = {
 // 响应式图像布局类型
 export type ResponsiveImageLayout = "constrained" | "full-width" | "none";
 
+export type ArticleEnhancementConfig = {
+	voiceprint: {
+		enable: boolean;
+		samples: number;
+	};
+	hermesMarginNotes: {
+		enable: boolean;
+		automatic: boolean;
+		maxNotes: number;
+		excludedTags: string[];
+	};
+};
+
 // 图像格式类型
 export type ImageFormat = "avif" | "webp" | "png" | "jpg" | "jpeg" | "gif";
 
