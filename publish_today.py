@@ -23,8 +23,9 @@ def safe_input(prompt=""):
         return ""
 
 def run(cmd, cwd=BLOG_DIR):
-    r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
-    return r.returncode, r.stdout.strip(), r.stderr.strip()
+    r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True,
+                       encoding='utf-8', errors='replace')
+    return r.returncode, (r.stdout or '').strip(), (r.stderr or '').strip()
 
 def main():
     today = datetime.now().strftime("%Y-%m-%d")
