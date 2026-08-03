@@ -2,4 +2,4 @@
 
 ![osu! Profile](/assets/images/osuinfo.jpg)
 
-![Best Play](/assets/images/osu-bp.jpg)
+![Best Play](/assets/images/osu-bp.webp)
