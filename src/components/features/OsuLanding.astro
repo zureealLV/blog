@@ -1,0 +1,1029 @@
+---
+import { url } from "@/utils/url-utils";
+
+const homeUrl = url("/");
+---
+
+<div id="osu-welcome" class="osu-welcome" aria-label="Welcome to OSU! TV 开场动画">
+	<canvas class="osu-welcome__scene" aria-hidden="true"></canvas>
+
+	<section class="osu-welcome__prelude" aria-hidden="true">
+		<p class="osu-welcome__word"></p>
+
+		<div class="osu-welcome__modes">
+			<span class="osu-welcome__mode" aria-label="osu!">
+				<img src="/osu-welcome/icons/ruleset-osu.png" width="96" height="96" alt="" draggable="false" />
+			</span>
+			<span class="osu-welcome__mode" aria-label="osu!taiko">
+				<img src="/osu-welcome/icons/ruleset-taiko.png" width="96" height="96" alt="" draggable="false" />
+			</span>
+			<span class="osu-welcome__mode" aria-label="osu!catch">
+				<img src="/osu-welcome/icons/ruleset-catch.png" width="96" height="96" alt="" draggable="false" />
+			</span>
+			<span class="osu-welcome__mode" aria-label="osu!mania">
+				<img src="/osu-welcome/icons/ruleset-mania.png" width="96" height="96" alt="" draggable="false" />
+			</span>
+		</div>
+
+		<div class="osu-welcome__path-stage">
+			<div class="osu-welcome__path-stage-inner">
+				<svg viewBox="0 0 960 960" role="img" aria-label="OSU! TV logo outline">
+					<circle class="path-normal path-outer" cx="480" cy="480" r="390"></circle>
+					<circle class="path-normal path-inner" cx="480" cy="480" r="345"></circle>
+					<circle class="path-highlight path-outer-highlight" cx="480" cy="480" r="390" pathLength="100"></circle>
+					<circle class="path-highlight path-inner-highlight" cx="480" cy="480" r="345" pathLength="100"></circle>
+					<text class="path-text path-text-normal" x="480" y="510">𝓞𝓢𝓤！𝓣𝓥</text>
+					<text class="path-text path-text-highlight" x="480" y="510">𝓞𝓢𝓤！𝓣𝓥</text>
+				</svg>
+			</div>
+		</div>
+	</section>
+
+	<div class="osu-welcome__flash" aria-hidden="true"></div>
+
+	<section class="osu-welcome__final">
+		<a
+			class="osu-welcome__logo"
+			href={homeUrl}
+			aria-label="点击 OSU! TV 图标进入 zureeallv.com 首页"
+		>
+			<span class="osu-welcome__logo-face">
+				<canvas class="osu-welcome__triangles" aria-hidden="true"></canvas>
+				<span class="osu-welcome__logo-flash" aria-hidden="true"></span>
+				<span class="osu-welcome__brand">𝓞𝓢𝓤！𝓣𝓥</span>
+			</span>
+		</a>
+
+		<p class="osu-welcome__subtitle">𝓦𝓮𝓵𝓬𝓸𝓶𝓮 𝓣𝓸 𝓞𝓢𝓤！𝓣𝓥</p>
+	</section>
+
+	<p class="osu-welcome__hint">CLICK THE CIRCLE TO ENTER</p>
+</div>
+
+<script>
+	const STORAGE_KEY = "zureeallv-osu-welcome-seen";
+	const INTRO_END = 3000;
+	const READY_AT = 4140;
+	const EXIT_DURATION = 560;
+	const BEAT_LENGTH = 370;
+	const BAR_COUNT = 128;
+	const SCENE_PIXEL_BUDGET = 2_400_000;
+
+	type GlitchTriangle = {
+		born: number;
+		x: number;
+		y: number;
+		size: number;
+		rotation: number;
+		outline: boolean;
+	};
+
+	type BackgroundCapsule = {
+		x: number;
+		y: number;
+		length: number;
+		width: number;
+		alpha: number;
+		rotation: number;
+		accent: number;
+		outline: boolean;
+	};
+
+	type LogoTriangle = {
+		x: number;
+		y: number;
+		size: number;
+		rotation: number;
+		rotationSpeed: number;
+		speed: number;
+		drift: number;
+		shade: number;
+	};
+
+	type RadialBar = {
+		cos: number;
+		sin: number;
+		idleEnergy: number;
+		lowFrequencyShape: number;
+		accent: number;
+		beatNoise: number;
+	};
+
+	function mountOsuWelcome() {
+		const rootElement = document.querySelector<HTMLElement>("#osu-welcome");
+		if (!rootElement || rootElement.dataset.mounted === "true") return;
+		const root = rootElement;
+
+		const scene = root.querySelector<HTMLCanvasElement>(".osu-welcome__scene") as HTMLCanvasElement;
+		const triangleCanvas = root.querySelector<HTMLCanvasElement>(".osu-welcome__triangles") as HTMLCanvasElement;
+		const word = root.querySelector<HTMLElement>(".osu-welcome__word") as HTMLElement;
+		const modes = root.querySelector<HTMLElement>(".osu-welcome__modes") as HTMLElement;
+		const pathStage = root.querySelector<HTMLElement>(".osu-welcome__path-stage") as HTMLElement;
+		const pathStageInner = root.querySelector<HTMLElement>(".osu-welcome__path-stage-inner") as HTMLElement;
+		const logo = root.querySelector<HTMLAnchorElement>(".osu-welcome__logo") as HTMLAnchorElement;
+		const flash = root.querySelector<HTMLElement>(".osu-welcome__flash") as HTMLElement;
+
+		if (document.documentElement.classList.contains("osu-welcome-seen")) {
+			root.remove();
+			return;
+		}
+
+		const context = scene.getContext("2d", {
+			alpha: false,
+			desynchronized: true,
+		}) as CanvasRenderingContext2D;
+		const triangleContext = triangleCanvas.getContext("2d", {
+			desynchronized: true,
+		}) as CanvasRenderingContext2D;
+		const staticScene = document.createElement("canvas");
+		const staticContext = staticScene.getContext("2d") as CanvasRenderingContext2D;
+
+		root.dataset.mounted = "true";
+		document.documentElement.classList.add("osu-welcome-active", "osu-welcome-pending");
+
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const sampleFrameRate = import.meta.env.DEV && new URLSearchParams(window.location.search).has("osu-fps");
+		let width = window.innerWidth;
+		let height = window.innerHeight;
+		let pixelRatio = 1;
+		let logoPixelRatio = pixelRatio;
+		let logoSize = 1;
+		let animationFrame = 0;
+		let lastFrame = performance.now();
+		const startedAt = performance.now();
+		let currentWord = "";
+		let lastGlitchSpawn = 1038;
+		let currentBeat = -1;
+		let entering = false;
+		let frameSampleStartedAt = 0;
+		let frameSampleLastAt = 0;
+		const frameSamples: number[] = [];
+
+		let seed = 0x4f535554;
+		const random = () => {
+			seed = (seed * 1664525 + 1013904223) >>> 0;
+			return seed / 4294967296;
+		};
+
+		const clamp = (value: number, minimum = 0, maximum = 1) =>
+			Math.min(maximum, Math.max(minimum, value));
+		const lerp = (from: number, to: number, amount: number) => from + (to - from) * amount;
+		const easeOutCubic = (value: number) => 1 - (1 - value) ** 3;
+		const easeInQuint = (value: number) => value ** 5;
+		const easeOutQuint = (value: number) => 1 - (1 - value) ** 5;
+		const hash = (value: number) => {
+			const x = Math.sin(value * 12.9898 + 78.233) * 43758.5453;
+			return x - Math.floor(x);
+		};
+
+		const glitchTriangles: GlitchTriangle[] = [];
+		const backgroundCapsules: BackgroundCapsule[] = [];
+		const radialBars: RadialBar[] = Array.from({ length: BAR_COUNT }, (_, index) => {
+			const angle = (index / BAR_COUNT) * Math.PI * 2 - Math.PI / 2;
+			return {
+				cos: Math.cos(angle),
+				sin: Math.sin(angle),
+				idleEnergy: 0.012 + hash(index * 7) * 0.025,
+				lowFrequencyShape: 0.45 + 0.55 * Math.abs(Math.cos(angle * 2)),
+				accent: index % 37,
+				beatNoise: 0,
+			};
+		});
+		const logoTriangles: LogoTriangle[] = Array.from({ length: 34 }, () => ({
+			x: random(),
+			y: random(),
+			size: 0.045 + random() * 0.17,
+			rotation: random() * Math.PI * 2,
+			rotationSpeed: (random() - 0.5) * 0.65,
+			speed: 0.035 + random() * 0.075,
+			drift: (random() - 0.5) * 0.035,
+			shade: Math.floor(random() * 4),
+		}));
+
+		function resize() {
+			width = window.innerWidth;
+			height = window.innerHeight;
+			const devicePixelRatio = window.devicePixelRatio || 1;
+			const budgetRatio = Math.sqrt(SCENE_PIXEL_BUDGET / Math.max(1, width * height));
+			pixelRatio = Math.min(devicePixelRatio, 1.35, Math.max(0.65, budgetRatio));
+			scene.width = Math.round(width * pixelRatio);
+			scene.height = Math.round(height * pixelRatio);
+			scene.style.width = `${width}px`;
+			scene.style.height = `${height}px`;
+			context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			staticScene.width = scene.width;
+			staticScene.height = scene.height;
+			staticContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+			logoSize = Math.max(1, logo.clientWidth);
+			logoPixelRatio = Math.min(devicePixelRatio, 1.35);
+			triangleCanvas.width = Math.round(logoSize * logoPixelRatio);
+			triangleCanvas.height = Math.round(logoSize * logoPixelRatio);
+			triangleContext.setTransform(logoPixelRatio, 0, 0, logoPixelRatio, 0, 0);
+
+			seed = 0x4f535554;
+			backgroundCapsules.length = 0;
+			const spacing = clamp(width / 19, 48, 76);
+			for (let y = -spacing; y < height + spacing; y += spacing) {
+				for (let x = -spacing; x < width + spacing; x += spacing) {
+					if (random() < 0.22) continue;
+					backgroundCapsules.push({
+						x: x + (random() - 0.5) * spacing * 0.72,
+						y: y + (random() - 0.5) * spacing * 0.72,
+						length: spacing * (0.36 + random() * 0.72),
+						width: spacing * (0.09 + random() * 0.075),
+						alpha: 0.08 + random() * 0.2,
+						rotation: -Math.PI / 4 + (random() - 0.5) * 0.08,
+						accent: Math.floor(random() * 19),
+						outline: random() > 0.58,
+					});
+				}
+			}
+			renderStaticBackground();
+		}
+
+		function setWord(text: string) {
+			if (currentWord === text) return;
+			currentWord = text;
+			word.textContent = text;
+		}
+
+		function updatePrelude(elapsed: number) {
+			if (elapsed < 200) setWord("");
+			else if (elapsed < 400) setWord("wel");
+			else if (elapsed < 700) setWord("welcome");
+			else if (elapsed < 900) setWord("welcome to");
+			else setWord("welcome to osu! tv");
+
+			const textVisible = elapsed >= 200 && elapsed < 1530;
+			word.style.opacity = textVisible ? String(1 - clamp((elapsed - 1450) / 80)) : "0";
+			const spacingProgress = clamp((elapsed - 900) / 5000);
+			word.style.letterSpacing = `${lerp(0.12, 0.7, spacingProgress)}em`;
+
+			if (elapsed < 1450 || elapsed >= 2080) {
+				modes.style.opacity = "0";
+			} else {
+				let scale = 0.45;
+				let gap = 28;
+				if (elapsed < 1650) {
+					const progress = easeOutCubic(clamp((elapsed - 1450) / 200));
+					scale = lerp(0.45, 0.86, progress);
+					gap = lerp(26, Math.min(width * 0.11, 150), progress);
+				} else if (elapsed < 1850) {
+					const progress = easeOutCubic(clamp((elapsed - 1650) / 200));
+					scale = lerp(0.86, 1.65, progress);
+					gap = lerp(Math.min(width * 0.11, 150), 30, progress);
+				} else {
+					const progress = easeInQuint(clamp((elapsed - 1850) / 230));
+					scale = lerp(1.65, 4.1, progress);
+					gap = lerp(30, 8, progress);
+				}
+				modes.style.opacity = String(1 - clamp((elapsed - 2010) / 70));
+				modes.style.gap = `${gap}px`;
+				modes.style.transform = `translate(-50%, -50%) scale(${scale})`;
+			}
+
+			if (elapsed < 2080 || elapsed >= INTRO_END) {
+				pathStage.style.opacity = "0";
+			} else {
+				const progress = clamp((elapsed - 2080) / 920);
+				const collapse = easeInQuint(clamp((progress - 0.7) / 0.3));
+				const innerScale = lerp(1.2, 0.4, collapse);
+				const outerScale = lerp(1.2, 1, progress * progress);
+				pathStage.style.opacity = String(1 - clamp((progress - 0.955) / 0.045));
+				pathStage.style.transform = `translate(-50%, -50%) scale(${outerScale})`;
+				pathStageInner.style.transform = `scale(${innerScale})`;
+				const highlightOffset = 82 - progress * 122;
+				pathStage.style.setProperty("--path-offset-outer", String((1 - progress) * 360));
+				pathStage.style.setProperty("--path-offset-inner", String((1 - progress) * -310));
+				pathStage.style.setProperty("--highlight-offset", String(highlightOffset));
+				pathStage.style.setProperty("--highlight-offset-reverse", String(highlightOffset * -1.18));
+				pathStage.style.setProperty("--text-highlight-offset", String(highlightOffset * 3.1));
+			}
+		}
+
+		function spawnGlitchTriangles(elapsed: number) {
+			const cappedTime = Math.min(elapsed, 1450);
+			while (lastGlitchSpawn + 22 <= cappedTime) {
+				lastGlitchSpawn += 22;
+				glitchTriangles.push({
+					born: lastGlitchSpawn,
+					x: width * (0.3 + random() * 0.4),
+					y: height * (0.42 + random() * 0.16),
+					size: 16 + random() * 80,
+					rotation: random() * Math.PI * 2,
+					outline: random() > 0.5,
+				});
+			}
+
+			for (let index = glitchTriangles.length - 1; index >= 0; index--) {
+				if (elapsed - glitchTriangles[index].born > 120) glitchTriangles.splice(index, 1);
+			}
+		}
+
+		function drawTriangle(
+			drawingContext: CanvasRenderingContext2D,
+			x: number,
+			y: number,
+			size: number,
+			rotation: number,
+			fill: string,
+			stroke?: string,
+		) {
+			drawingContext.save();
+			drawingContext.translate(x, y);
+			drawingContext.rotate(rotation);
+			drawingContext.beginPath();
+			drawingContext.moveTo(0, -size * 0.58);
+			drawingContext.lineTo(size * 0.5, size * 0.3);
+			drawingContext.lineTo(-size * 0.5, size * 0.3);
+			drawingContext.closePath();
+			if (fill !== "transparent") {
+				drawingContext.fillStyle = fill;
+				drawingContext.fill();
+			}
+			if (stroke) {
+				drawingContext.strokeStyle = stroke;
+				drawingContext.lineWidth = Math.max(1.25, size * 0.045);
+				drawingContext.stroke();
+			}
+			drawingContext.restore();
+		}
+
+		function drawGlitch(elapsed: number) {
+			spawnGlitchTriangles(elapsed);
+			for (const triangle of glitchTriangles) {
+				const age = clamp((elapsed - triangle.born) / 120);
+				const opacity = Math.sin(age * Math.PI) * 0.95;
+				drawTriangle(
+					context,
+					triangle.x,
+					triangle.y,
+					triangle.size,
+					triangle.rotation,
+					triangle.outline ? "transparent" : `rgba(255,255,255,${opacity})`,
+					triangle.outline ? `rgba(255,255,255,${opacity})` : undefined,
+				);
+			}
+		}
+
+		function drawCapsule(drawingContext: CanvasRenderingContext2D, capsule: BackgroundCapsule) {
+			drawingContext.save();
+			drawingContext.translate(capsule.x, capsule.y);
+			drawingContext.rotate(capsule.rotation);
+			drawingContext.beginPath();
+			drawingContext.roundRect(
+				-capsule.length / 2,
+				-capsule.width / 2,
+				capsule.length,
+				capsule.width,
+				capsule.width / 2,
+			);
+			const alpha = capsule.alpha;
+			if (capsule.accent === 0) drawingContext.strokeStyle = `rgba(105,221,225,${alpha * 1.5})`;
+			else if (capsule.accent === 1) drawingContext.strokeStyle = `rgba(255,157,196,${alpha * 1.6})`;
+			else if (capsule.accent === 2) drawingContext.strokeStyle = `rgba(255,207,132,${alpha * 1.45})`;
+			else drawingContext.strokeStyle = `rgba(255,221,231,${alpha * 0.48})`;
+			if (capsule.outline || capsule.accent <= 2) {
+				drawingContext.lineWidth = 1.1;
+				drawingContext.stroke();
+			} else {
+				drawingContext.fillStyle = `rgba(50,21,34,${alpha * 0.92})`;
+				drawingContext.fill();
+			}
+			drawingContext.restore();
+		}
+
+		function renderStaticBackground() {
+			staticContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			staticContext.clearRect(0, 0, width, height);
+
+			const diagonal = Math.hypot(width, height);
+			staticContext.save();
+			staticContext.translate(width / 2, height / 2);
+			staticContext.rotate(-Math.PI / 4);
+			staticContext.fillStyle = "rgba(38,13,25,.27)";
+			staticContext.fillRect(-diagonal, -diagonal * 0.095, diagonal * 2, diagonal * 0.19);
+			staticContext.fillRect(-diagonal * 0.095, -diagonal, diagonal * 0.19, diagonal * 2);
+			staticContext.strokeStyle = "rgba(255,222,231,.08)";
+			staticContext.lineWidth = 1;
+			staticContext.strokeRect(-diagonal, -diagonal * 0.095, diagonal * 2, diagonal * 0.19);
+			staticContext.strokeRect(-diagonal * 0.095, -diagonal, diagonal * 0.19, diagonal * 2);
+			staticContext.restore();
+
+			for (const capsule of backgroundCapsules) drawCapsule(staticContext, capsule);
+
+			const logoRadius = Math.min(325, width * 0.37, height * 0.37);
+			const vignette = staticContext.createRadialGradient(
+				width / 2,
+				height / 2,
+				logoRadius * 0.5,
+				width / 2,
+				height / 2,
+				Math.max(width, height) * 0.72,
+			);
+			vignette.addColorStop(0, "rgba(255,220,231,.015)");
+			vignette.addColorStop(0.56, "rgba(32,8,20,.08)");
+			vignette.addColorStop(1, "rgba(8,2,7,.5)");
+			staticContext.fillStyle = vignette;
+			staticContext.fillRect(0, 0, width, height);
+		}
+
+		function refreshBarNoise(beatIndex: number) {
+			for (let index = 0; index < radialBars.length; index++) {
+				radialBars[index].beatNoise = hash(index * 31 + beatIndex * 101);
+			}
+		}
+
+		function drawFinalScene(elapsed: number) {
+			const finalTime = Math.max(0, elapsed - INTRO_END);
+			const reveal = easeOutCubic(clamp(finalTime / 420));
+			const beatPosition = finalTime / BEAT_LENGTH;
+			const beatIndex = Math.floor(beatPosition);
+			const beatPhase = beatPosition - beatIndex;
+			if (beatIndex !== currentBeat) {
+				currentBeat = beatIndex;
+				refreshBarNoise(beatIndex);
+			}
+
+			const strengthPattern = [1, 0.62, 0.82, 0.68, 1, 0.7, 0.9, 0.72];
+			const strength = strengthPattern[((beatIndex % strengthPattern.length) + strengthPattern.length) % strengthPattern.length];
+			const envelope = Math.exp(-beatPhase * 6.2) * strength;
+			const strongBeat = beatIndex % 4 === 0 ? envelope : 0;
+
+			const fadeToDark = easeOutQuint(clamp(finalTime / 1050));
+			const red = Math.round(lerp(232, 63, fadeToDark));
+			const green = Math.round(lerp(203, 29, fadeToDark));
+			const blue = Math.round(lerp(215, 48, fadeToDark));
+			context.fillStyle = `rgb(${red} ${green} ${blue})`;
+			context.fillRect(0, 0, width, height);
+
+			context.save();
+			context.globalAlpha = reveal;
+			context.drawImage(staticScene, 0, 0, staticScene.width, staticScene.height, 0, 0, width, height);
+			context.restore();
+
+			if (strongBeat > 0.01) {
+				context.fillStyle = `rgba(255,221,231,${strongBeat * 0.025})`;
+				context.fillRect(0, 0, width, height);
+			}
+
+			const logoRadius = Math.min(325, width * 0.37, height * 0.37);
+			const baseRadius = logoRadius * 0.95;
+			context.save();
+			context.translate(width / 2, height / 2);
+			context.lineCap = "round";
+			for (const bar of radialBars) {
+				const spectralEnergy = envelope * (0.22 + bar.beatNoise * 0.78) * bar.lowFrequencyShape;
+				const length = logoRadius * (bar.idleEnergy + spectralEnergy * 0.27);
+				const start = baseRadius + 7;
+				const x1 = bar.cos * start;
+				const y1 = bar.sin * start;
+				const x2 = bar.cos * (start + length);
+				const y2 = bar.sin * (start + length);
+				if (bar.accent === 0) context.strokeStyle = `rgba(113,229,232,${0.28 + envelope * 0.55})`;
+				else if (bar.accent === 1) context.strokeStyle = `rgba(255,177,207,${0.3 + envelope * 0.58})`;
+				else if (bar.accent === 2) context.strokeStyle = `rgba(255,211,143,${0.27 + envelope * 0.5})`;
+				else context.strokeStyle = `rgba(255,239,244,${0.13 + envelope * 0.58})`;
+				context.lineWidth = 1.2 + spectralEnergy * 4.2;
+				context.beginPath();
+				context.moveTo(x1, y1);
+				context.lineTo(x2, y2);
+				context.stroke();
+			}
+
+			if (beatIndex >= 0) {
+				const rippleProgress = easeOutQuint(beatPhase);
+				context.beginPath();
+				context.arc(0, 0, logoRadius * lerp(0.94, 1.15, rippleProgress), 0, Math.PI * 2);
+				context.strokeStyle = `rgba(255,255,255,${(1 - beatPhase) * 0.22 * strength})`;
+				context.lineWidth = 1.5;
+				context.stroke();
+			}
+			context.restore();
+
+			root.style.setProperty("--beat-scale", String(1 - envelope * 0.018));
+			root.style.setProperty("--beat-flash", String(Math.min(0.24, strongBeat * 0.22)));
+			return { envelope, strength };
+		}
+
+		function drawLogoTriangles(deltaSeconds: number, envelope: number, strength: number) {
+			const size = logoSize;
+			triangleContext.setTransform(logoPixelRatio, 0, 0, logoPixelRatio, 0, 0);
+			triangleContext.clearRect(0, 0, size, size);
+
+			const velocityBoost = 1 + envelope * strength * 7;
+			const colours = ["rgba(255,143,187,.72)", "rgba(208,68,126,.68)", "rgba(244,103,161,.64)", "rgba(255,187,214,.42)"];
+			for (const triangle of logoTriangles) {
+				triangle.y -= triangle.speed * deltaSeconds * velocityBoost;
+				triangle.x += triangle.drift * deltaSeconds * velocityBoost * 0.35;
+				triangle.rotation += triangle.rotationSpeed * deltaSeconds * velocityBoost;
+				if (triangle.y < -0.16) {
+					triangle.y = 1.16;
+					triangle.x = random();
+				}
+				if (triangle.x < -0.16) triangle.x = 1.16;
+				if (triangle.x > 1.16) triangle.x = -0.16;
+				drawTriangle(
+					triangleContext,
+					triangle.x * size,
+					triangle.y * size,
+					triangle.size * size,
+					triangle.rotation,
+					colours[triangle.shade],
+					triangle.shade === 3 ? "rgba(255,226,237,.2)" : undefined,
+				);
+			}
+		}
+
+		function render(timestamp: number) {
+			animationFrame = window.requestAnimationFrame(render);
+			const deltaSeconds = Math.min(0.05, Math.max(0, (timestamp - lastFrame) / 1000));
+			lastFrame = timestamp;
+			const elapsed = reducedMotion ? READY_AT : timestamp - startedAt;
+
+			context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+			context.fillStyle = "#000";
+			context.fillRect(0, 0, width, height);
+
+			if (elapsed < INTRO_END) {
+				updatePrelude(elapsed);
+				if (elapsed >= 1060 && elapsed < 1570) drawGlitch(elapsed);
+			} else {
+				root.classList.add("is-final");
+				const beat = drawFinalScene(elapsed);
+				drawLogoTriangles(deltaSeconds, beat.envelope, beat.strength);
+				if (sampleFrameRate && !root.dataset.averageFps) {
+					if (!frameSampleStartedAt) {
+						frameSampleStartedAt = timestamp;
+						frameSampleLastAt = timestamp;
+					} else {
+						frameSamples.push(timestamp - frameSampleLastAt);
+						frameSampleLastAt = timestamp;
+						if (timestamp - frameSampleStartedAt >= 2500) {
+							const sortedSamples = [...frameSamples].sort((a, b) => a - b);
+							const total = sortedSamples.reduce((sum, value) => sum + value, 0);
+							const mean = total / Math.max(1, sortedSamples.length);
+							const p95 = sortedSamples[Math.min(sortedSamples.length - 1, Math.floor(sortedSamples.length * 0.95))] ?? 0;
+							const longFrames = sortedSamples.filter((value) => value > 20).length;
+							root.dataset.averageFps = (1000 / mean).toFixed(1);
+							root.dataset.p95FrameMs = p95.toFixed(2);
+							root.dataset.longFramePercent = ((longFrames / Math.max(1, sortedSamples.length)) * 100).toFixed(1);
+						}
+					}
+				}
+			}
+
+			if (elapsed >= 3500) root.classList.add("is-captioned");
+			if (elapsed >= READY_AT) root.classList.add("is-ready");
+
+			const flashProgress = clamp((elapsed - INTRO_END) / 1000);
+			flash.style.opacity = elapsed >= INTRO_END && flashProgress < 1
+				? String((1 - easeOutCubic(flashProgress)) * 0.58)
+				: "0";
+		}
+
+		function handleVisibilityChange() {
+			if (document.hidden) {
+				window.cancelAnimationFrame(animationFrame);
+				animationFrame = 0;
+			} else if (!animationFrame) {
+				lastFrame = performance.now();
+				animationFrame = window.requestAnimationFrame(render);
+			}
+		}
+
+		function enter(event: MouseEvent) {
+			if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || entering) return;
+			event.preventDefault();
+			entering = true;
+			try {
+				sessionStorage.setItem(STORAGE_KEY, "1");
+			} catch {}
+
+			root.classList.add("is-clicked", "is-exiting");
+			document.documentElement.classList.add("osu-welcome-seen");
+			document.documentElement.classList.remove("osu-welcome-active", "osu-welcome-pending");
+			window.setTimeout(() => window.location.assign(logo.href), reducedMotion ? 0 : EXIT_DURATION);
+		}
+
+		resize();
+		window.addEventListener("resize", resize, { passive: true });
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		logo.addEventListener("click", enter);
+		animationFrame = window.requestAnimationFrame(render);
+
+		window.addEventListener(
+			"pagehide",
+			() => {
+				window.cancelAnimationFrame(animationFrame);
+				window.removeEventListener("resize", resize);
+				document.removeEventListener("visibilitychange", handleVisibilityChange);
+				logo.removeEventListener("click", enter);
+			},
+			{ once: true },
+		);
+	}
+
+	mountOsuWelcome();
+</script>
+
+<style>
+	:global(html.osu-welcome-seen) .osu-welcome {
+		display: none;
+	}
+
+	:global(html.osu-welcome-active),
+	:global(html.osu-welcome-active body) {
+		overflow: hidden;
+	}
+
+	.osu-welcome {
+		--beat-flash: 0;
+		--beat-scale: 1;
+		position: fixed;
+		inset: 0;
+		z-index: 2147483647;
+		overflow: hidden;
+		background: #000;
+		color: #fff;
+		font-family: "Segoe UI", sans-serif;
+		isolation: isolate;
+		transition: opacity 560ms cubic-bezier(0.4, 0, 1, 1), filter 560ms ease;
+	}
+
+	.osu-welcome__scene,
+	.osu-welcome__prelude,
+	.osu-welcome__final,
+	.osu-welcome__flash {
+		position: absolute;
+		inset: 0;
+	}
+
+	.osu-welcome__scene {
+		width: 100%;
+		height: 100%;
+	}
+
+	.osu-welcome__prelude {
+		z-index: 2;
+		pointer-events: none;
+		transition: opacity 70ms linear;
+	}
+
+	.osu-welcome.is-final .osu-welcome__prelude {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	.osu-welcome__word {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		min-width: min(92vw, 860px);
+		margin: 0;
+		color: rgb(255 255 255 / 94%);
+		font-family: "Segoe UI Light", "Noto Sans", sans-serif;
+		font-size: clamp(2.25rem, 5.6vw, 4.5rem);
+		font-weight: 300;
+		line-height: 1;
+		text-align: center;
+		text-indent: 0.12em;
+		text-shadow: 0 0 10px rgb(255 255 255 / 20%);
+		transform: translate(-50%, -50%);
+		transition: opacity 70ms linear;
+		white-space: nowrap;
+	}
+
+	.osu-welcome__modes {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.45);
+		transform-origin: center;
+		will-change: gap, opacity, transform;
+	}
+
+	.osu-welcome__mode {
+		display: grid;
+		width: clamp(34px, 4.7vw, 58px);
+		aspect-ratio: 1;
+		place-items: center;
+		filter: drop-shadow(0 0 6px rgb(255 255 255 / 24%));
+	}
+
+	.osu-welcome__mode img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		user-select: none;
+	}
+
+	.osu-welcome__path-stage {
+		--highlight-offset: 82;
+		--highlight-offset-reverse: -96.76;
+		--path-offset-inner: -310;
+		--path-offset-outer: 360;
+		--text-highlight-offset: 254.2;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: min(112vmax, 1080px);
+		aspect-ratio: 1;
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(1.2);
+		will-change: opacity, transform;
+	}
+
+	.osu-welcome__path-stage-inner,
+	.osu-welcome__path-stage svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	.osu-welcome__path-stage-inner {
+		transform-origin: center;
+		will-change: transform;
+	}
+
+	.path-normal,
+	.path-highlight,
+	.path-text {
+		fill: none;
+		vector-effect: non-scaling-stroke;
+	}
+
+	.path-normal {
+		stroke: rgb(139 139 148 / 62%);
+		stroke-width: 3;
+	}
+
+	.path-outer {
+		stroke-dasharray: 110 20 45 28 180 35;
+		stroke-dashoffset: var(--path-offset-outer);
+	}
+
+	.path-inner {
+		stroke: rgb(255 255 255 / 38%);
+		stroke-dasharray: 72 18 130 38 95 22;
+		stroke-dashoffset: var(--path-offset-inner);
+	}
+
+	.path-highlight {
+		stroke: rgb(255 255 255 / 96%);
+		stroke-width: 5;
+		filter: drop-shadow(0 0 7px rgb(255 255 255 / 34%));
+	}
+
+	.path-outer-highlight {
+		stroke-dasharray: 15 85;
+		stroke-dashoffset: var(--highlight-offset);
+	}
+
+	.path-inner-highlight {
+		stroke-dasharray: 10 90;
+		stroke-dashoffset: var(--highlight-offset-reverse);
+	}
+
+	.path-text {
+		font-family: "Segoe Script", "Brush Script MT", cursive;
+		font-size: 118px;
+		font-weight: 700;
+		text-anchor: middle;
+	}
+
+	.path-text-normal {
+		stroke: rgb(158 158 167 / 66%);
+		stroke-dasharray: 4 3;
+		stroke-width: 2;
+	}
+
+	.path-text-highlight {
+		stroke: rgb(255 255 255 / 96%);
+		stroke-dasharray: 58 390;
+		stroke-dashoffset: var(--text-highlight-offset);
+		stroke-width: 3;
+		filter: drop-shadow(0 0 7px rgb(255 255 255 / 30%));
+	}
+
+	.osu-welcome__flash {
+		z-index: 8;
+		background: #fff;
+		mix-blend-mode: screen;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.osu-welcome__final {
+		z-index: 5;
+		display: grid;
+		place-items: center;
+		opacity: 0;
+		pointer-events: none;
+		transform: scale(1.035);
+		transition: opacity 120ms linear, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.osu-welcome.is-final .osu-welcome__final {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.osu-welcome__logo {
+		position: absolute;
+		display: block;
+		width: min(74vw, 74vh, 650px);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		cursor: pointer;
+		outline: none;
+		pointer-events: none;
+		transform: scale(var(--beat-scale));
+		transform-origin: center;
+		transition: filter 220ms ease;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.osu-welcome.is-ready .osu-welcome__logo {
+		pointer-events: auto;
+	}
+
+	.osu-welcome__logo-face {
+		position: absolute;
+		inset: 5.5%;
+		display: grid;
+		overflow: hidden;
+		place-items: center;
+		border: clamp(4px, 0.7vw, 9px) solid rgb(255 255 255 / 96%);
+		border-radius: 50%;
+		background: linear-gradient(135deg, #f17bad 0%, #e967a1 48%, #cf4f87 100%);
+		box-shadow:
+			0 0 0 2px rgb(255 255 255 / 11%),
+			0 0 28px rgb(255 199 220 / 24%),
+			inset 0 0 44px rgb(108 22 61 / 15%);
+		transition: transform 500ms cubic-bezier(0.2, 0.9, 0.25, 1.3), box-shadow 240ms ease;
+	}
+
+	.osu-welcome__triangles,
+	.osu-welcome__logo-flash {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.osu-welcome__logo-flash {
+		z-index: 1;
+		background: rgb(255 255 255 / var(--beat-flash));
+		mix-blend-mode: screen;
+		pointer-events: none;
+	}
+
+	.osu-welcome__brand {
+		position: relative;
+		z-index: 2;
+		max-width: 88%;
+		color: #fff;
+		font-family: "Segoe Script", "Brush Script MT", cursive;
+		font-size: clamp(1.8rem, 6vw, 4.8rem);
+		font-weight: 700;
+		line-height: 0.92;
+		text-align: center;
+		text-shadow: 0 2px 3px rgb(84 15 46 / 17%);
+		transform: scaleX(0.94);
+		white-space: nowrap;
+	}
+
+	.osu-welcome__logo:hover .osu-welcome__logo-face,
+	.osu-welcome__logo:focus-visible .osu-welcome__logo-face {
+		box-shadow:
+			0 0 0 2px rgb(255 255 255 / 18%),
+			0 0 52px rgb(255 211 228 / 42%),
+			inset 0 0 44px rgb(108 22 61 / 12%);
+		transform: scale(1.075);
+	}
+
+	.osu-welcome__logo:active .osu-welcome__logo-face,
+	.osu-welcome.is-clicked .osu-welcome__logo-face {
+		transform: scale(0.91);
+		transition-duration: 90ms;
+	}
+
+	.osu-welcome__subtitle {
+		position: absolute;
+		top: calc(50% + min(37vw, 37vh, 325px) + 1.1rem);
+		left: 50%;
+		width: min(94vw, 1060px);
+		margin: 0;
+		color: rgb(255 242 247 / 88%);
+		font-family: "Segoe Script", "Brush Script MT", cursive;
+		font-size: clamp(1.15rem, 3.2vw, 2.4rem);
+		font-weight: 600;
+		letter-spacing: 0.035em;
+		line-height: 1.15;
+		opacity: 0;
+		text-align: center;
+		text-shadow: 0 0 16px rgb(255 185 213 / 26%);
+		transform: translate(-50%, 12px);
+		transition: opacity 360ms ease, transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.osu-welcome.is-captioned .osu-welcome__subtitle {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+
+	.osu-welcome__hint {
+		position: absolute;
+		bottom: max(1.2rem, env(safe-area-inset-bottom));
+		left: 50%;
+		z-index: 9;
+		margin: 0;
+		color: rgb(255 236 243 / 46%);
+		font-family: "Segoe UI", sans-serif;
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.32em;
+		opacity: 0;
+		text-indent: 0.32em;
+		transform: translateX(-50%);
+		transition: opacity 420ms ease;
+		white-space: nowrap;
+	}
+
+	.osu-welcome.is-ready .osu-welcome__hint {
+		opacity: 1;
+	}
+
+	.osu-welcome.is-exiting {
+		filter: brightness(1.16);
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	@media (max-width: 720px) {
+		.osu-welcome__word {
+			font-size: clamp(2rem, 9vw, 3.2rem);
+		}
+
+		.osu-welcome__path-stage {
+			width: 128vmax;
+		}
+
+		.path-text {
+			font-size: 102px;
+		}
+
+		.osu-welcome__logo {
+			width: min(88vw, 67vh, 580px);
+		}
+
+		.osu-welcome__brand {
+			font-size: clamp(1.7rem, 8.2vw, 4.4rem);
+		}
+
+		.osu-welcome__subtitle {
+			top: calc(50% + min(44vw, 33.5vh, 290px) + 0.8rem);
+		}
+	}
+
+	@media (max-height: 620px) {
+		.osu-welcome__logo {
+			width: min(70vw, 70vh, 520px);
+		}
+
+		.osu-welcome__subtitle {
+			top: calc(50% + min(35vw, 35vh, 260px) + 0.4rem);
+			font-size: clamp(1rem, 2.7vw, 1.65rem);
+		}
+
+		.osu-welcome__hint {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.osu-welcome__prelude,
+		.osu-welcome__flash {
+			display: none;
+		}
+
+		.osu-welcome__final,
+		.osu-welcome__subtitle,
+		.osu-welcome__hint {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.osu-welcome__logo,
+		.osu-welcome__logo-face {
+			transition: none;
+		}
+	}
+</style>
