@@ -1,0 +1,25 @@
+{
+  "name": "千问刷题 · 华东区题库",
+  "short_name": "千问刷题",
+  "description": "2026 华东区题库随机刷题、错题重做与学习统计。",
+  "start_url": "/quiz/",
+  "scope": "/quiz/",
+  "display": "standalone",
+  "background_color": "#f4f1e9",
+  "theme_color": "#173f6d",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/quiz/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/quiz/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
