@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN" data-edition="public-snapshot">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080a20">
+  <meta name="description" content="Hermes 工作雷达公开版：聚合网络安全、AI、AI 安全与 LLM 安全岗位。">
+  <title>HERMES WORK RADAR // 工作雷达公开版</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true">
+    <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 3v18M3 12h18M12 12l6-6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M18.2 10A7 7 0 0 0 6.1 6.4L4 9M5.8 14A7 7 0 0 0 17.9 17.6L20 15"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 13v6H5V6h6"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.2 1.2M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.2-1.2"/></symbol>
+    <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 19h14"/></symbol>
+  </svg>
+
+  <div class="crt-overlay" aria-hidden="true"></div>
+  <div class="desktop-shell">
+    <header class="system-bar">
+      <div class="system-brand"><span class="brand-mark">H</span> HERMES/98</div>
+      <nav aria-label="系统菜单"><a href="/">博客</a><a href="/posts/hermes-work-radar/">介绍</a><button data-action="sources">数据源</button><button data-action="guide">说明</button></nav>
+      <time id="clock">--:--:--</time>
+    </header>
+
+    <div class="window app-window">
+      <div class="window-titlebar">
+        <div class="titlebar-title"><svg><use href="#i-radar"/></svg> WORK_RADAR.EXE — 国内网安 & AI 职位终端</div>
+        <div class="window-controls" aria-hidden="true"><span>_</span><span>□</span><span>×</span></div>
+      </div>
+
+      <div class="app-layout">
+        <aside class="sidebar">
+          <section class="hermes-panel" aria-label="Hermes 状态">
+            <div class="portrait" aria-hidden="true">
+              <span class="antenna"></span><span class="eye eye-a"></span><span class="eye eye-b"></span><span class="mouth"></span>
+            </div>
+            <div><strong>HERMES</strong><p>岗位电波接收中</p><span class="online"><i></i> ONLINE</span></div>
+          </section>
+
+          <nav class="category-nav" aria-label="职位分类">
+            <div class="nav-label">// JOB CHANNELS</div>
+            <button class="active" data-category=""><span>00</span>全部职位 <b id="count-all">0</b></button>
+            <button data-category="cybersecurity"><span>01</span>网络安全 <b id="count-cybersecurity">0</b></button>
+            <button data-category="ai_engineer"><span>02</span>AI 工程师 <b id="count-ai_engineer">0</b></button>
+            <button data-category="ai_security"><span>03</span>AI 安全 <b id="count-ai_security">0</b></button>
+            <button data-category="llm_security"><span>04</span>LLM 安全 <b id="count-llm_security">0</b></button>
+            <button data-favorite="1"><span>★</span>我的收藏 <b id="count-favorite">0</b></button>
+          </nav>
+
+          <section class="signal-box">
+            <div class="signal-title">PUBLIC SNAPSHOT</div>
+            <div class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p>公开岗位静态快照<br><span id="last-sync">正在读取版本时间</span></p>
+          </section>
+        </aside>
+
+        <main class="main-panel">
+          <header class="dashboard-head">
+            <div>
+              <p class="eyebrow">PERSONAL CAREER INTELLIGENCE SYSTEM</p>
+              <h1>工作雷达 <span>/ WORK FINDER</span></h1>
+              <p class="subtitle">把分散职位收进一块屏幕。来源、更新时间、在招状态，一个也别想逃。(￣▽￣*)</p>
+            </div>
+            <button class="sync-button" id="sync-button"><svg><use href="#i-sync"/></svg><span>刷新快照</span><small>RELOAD DATA</small></button>
+          </header>
+
+          <aside class="public-banner" aria-label="公开版说明">
+            <strong>WEB EDITION // 无需安装</strong>
+            <span>公开版使用构建时职位快照；收藏只保存在你的浏览器。岗位状态以投递来源页为准。</span>
+          </aside>
+
+          <section class="stats-grid" aria-label="职位统计">
+            <article><span>可信岗位</span><strong id="stat-total">0</strong><small>TRUSTED JOBS</small></article>
+            <article><span>确认在招</span><strong id="stat-active">0</strong><small>ACTIVE SIGNAL</small></article>
+            <article><span>实习岗位</span><strong id="stat-internship">0</strong><small>INTERNSHIP SIGNALS</small></article>
+            <article class="accent"><span>收藏</span><strong id="stat-favorite">0</strong><small>SAVED TARGETS</small></article>
+          </section>
+
+          <section class="toolbar" aria-label="筛选与排序">
+            <label class="search-box" for="search-input">
+              <svg><use href="#i-search"/></svg>
+              <span class="sr-only">搜索职位、公司或技能</span>
+              <input id="search-input" type="search" placeholder="搜索职位 / 公司 / 技能，例如：RAG、红队、Python" autocomplete="off">
+              <kbd>CTRL K</kbd>
+            </label>
+            <label><span class="sr-only">职位状态</span><select id="status-filter"><option value="">全部状态</option><option value="active">确认在招</option><option value="unknown">待核验</option><option value="stale">疑似下线</option><option value="closed">已关闭</option></select></label>
+            <label><span class="sr-only">来源置信度</span><select id="confidence-filter"><option value="95">仅 S 级（95+）</option><option value="85" selected>S/A 可信（85+）</option><option value="70">B 级以上（70+）</option><option value="0">全部含社区线索</option></select></label>
+            <label><span class="sr-only">排序方式</span><select id="sort-select"><option value="priority" selected>重点三城优先</option><option value="confidence">置信度最高</option><option value="relevance">相关度</option><option value="newest">最新发布</option><option value="updated">最近同步</option><option value="salary_desc">薪资从高到低</option><option value="company">公司名称</option></select></label>
+            <button class="square-button" id="source-filter" title="查看招聘源"><svg><use href="#i-filter"/></svg><span class="sr-only">查看招聘源</span></button>
+            <a class="square-button" id="export-link" href="#" download="hermes-work-radar.csv" title="导出当前结果"><svg><use href="#i-export"/></svg><span class="sr-only">导出 CSV</span></a>
+          </section>
+
+          <nav class="location-tags" id="location-tags" aria-label="按地区筛选">
+            <span class="location-tags-label">// LOCATION</span>
+            <button class="active" type="button" data-location="">全部地区</button>
+          </nav>
+
+          <nav class="opportunity-tags" id="opportunity-tags" aria-label="按岗位性质筛选">
+            <span class="location-tags-label">// JOB TYPE</span>
+            <button class="active" type="button" data-internship="">全部性质</button>
+            <button class="internship-filter-tag" type="button" data-internship="1">实习岗 <b id="count-internship">0</b></button>
+            <button type="button" data-internship="0">正式 / 未注明</button>
+          </nav>
+
+          <section class="results-head">
+            <div><strong id="result-title">全部职位</strong><span id="result-count">0 条信号</span></div>
+            <div class="legend"><i class="dot active"></i>在招 <i class="dot unknown"></i>待核验 <i class="dot stale"></i>疑似下线</div>
+          </section>
+
+          <div id="job-list" class="job-list" aria-live="polite"></div>
+          <nav id="pagination" class="pagination" aria-label="职位列表分页"></nav>
+        </main>
+      </div>
+      <footer class="status-bar"><span id="status-message">READY // 等待操作</span><span>PUBLIC DATA: JSON</span><span>NET: <b id="net-state">IDLE</b></span></footer>
+    </div>
+  </div>
+
+  <dialog id="detail-dialog" class="pixel-dialog">
+    <div class="window-titlebar"><div class="titlebar-title">JOB_DETAIL.DAT</div><button class="dialog-close" aria-label="关闭"><svg><use href="#i-close"/></svg></button></div>
+    <div id="detail-content" class="detail-content"></div>
+  </dialog>
+
+  <dialog id="sources-dialog" class="pixel-dialog wide-dialog">
+    <div class="window-titlebar"><div class="titlebar-title">SOURCE_MATRIX.SYS — 招聘源矩阵</div><button class="dialog-close" aria-label="关闭"><svg><use href="#i-close"/></svg></button></div>
+    <div class="source-intro"><strong>置信度不是装饰品。</strong><p>S/A 默认展示企业官网或官方 ATS 投递链；B 为大型招聘平台页面；C 为社区或第三方线索并默认隐藏。评分衡量来源可追溯性与字段完整度，不代表录用保证，投递前仍应核验公司域名。</p></div>
+    <div id="source-grid" class="source-grid"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>

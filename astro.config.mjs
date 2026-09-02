@@ -92,9 +92,12 @@ export default defineConfig({
 			},
 			// 让 Swup 彻底忽略独立应用页，避免博客外壳污染其完整页面 UI
 			ignoreVisit: (url) =>
-				["/ascii/", "/osu-pp-tool/", "/lab/internet-angel/"].some((p) =>
-					url.startsWith(p),
-				),
+				[
+					"/ascii/",
+					"/osu-pp-tool/",
+					"/lab/internet-angel/",
+					"/work-radar/",
+				].some((p) => url.startsWith(p)),
 		}),
 		icon({
 			include: {
