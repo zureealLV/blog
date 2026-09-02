@@ -1,31 +1,31 @@
 <script lang="ts">
-import { onMount } from 'svelte';
-import Icon from '@/components/common/Icon.svelte';
+import { onMount } from "svelte";
+import Icon from "@/components/common/Icon.svelte";
 
 interface WikiEntry {
-  game: string;
-  category: string;
-  page: string;
-  title: string;
-  blocks: Block[];
-  id: string;
+	game: string;
+	category: string;
+	page: string;
+	title: string;
+	blocks: Block[];
+	id: string;
 }
 
 interface Block {
-  type: 'text' | 'h3' | 'h4' | 'table' | 'list' | 'ordered_list';
-  text?: string;
-  items?: string[];
-  data?: Record<string, string>[];
-  headers?: string[];
+	type: "text" | "h3" | "h4" | "table" | "list" | "ordered_list";
+	text?: string;
+	items?: string[];
+	data?: Record<string, string>[];
+	headers?: string[];
 }
 
 // State
 let allEntries: WikiEntry[] = [];
 let filtered: WikiEntry[] = [];
-let keyword = '';
-let selectedGame = '';
-let selectedCategory = '';
-let selectedPage = '';
+let keyword = "";
+let selectedGame = "";
+let selectedCategory = "";
+let selectedPage = "";
 let selectedEntry: WikiEntry | null = null;
 let isLoading = true;
 let showSidebar = false;
@@ -34,123 +34,143 @@ let showSidebar = false;
 $: navTree = buildNavTree(allEntries);
 $: games = Object.keys(navTree);
 $: categories = selectedGame ? Object.keys(navTree[selectedGame] || {}) : [];
-$: pages = (selectedGame && selectedCategory) ? Object.keys(navTree[selectedGame]?.[selectedCategory] || {}) : [];
+$: pages =
+	selectedGame && selectedCategory
+		? Object.keys(navTree[selectedGame]?.[selectedCategory] || {})
+		: [];
 
 $: {
-  let result = allEntries;
-  if (selectedGame) result = result.filter(e => e.game === selectedGame);
-  if (selectedCategory) result = result.filter(e => e.category === selectedCategory);
-  if (selectedPage) result = result.filter(e => e.page === selectedPage);
-  if (keyword.trim()) {
-    const kw = keyword.toLowerCase();
-    result = result.filter(e =>
-      e.title.toLowerCase().includes(kw) ||
-      e.blocks.some(b => (b.text || '').toLowerCase().includes(kw) || (b.items || []).some(i => i.toLowerCase().includes(kw)))
-    );
-  }
-  filtered = result;
+	let result = allEntries;
+	if (selectedGame) result = result.filter((e) => e.game === selectedGame);
+	if (selectedCategory)
+		result = result.filter((e) => e.category === selectedCategory);
+	if (selectedPage) result = result.filter((e) => e.page === selectedPage);
+	if (keyword.trim()) {
+		const kw = keyword.toLowerCase();
+		result = result.filter(
+			(e) =>
+				e.title.toLowerCase().includes(kw) ||
+				e.blocks.some(
+					(b) =>
+						(b.text || "").toLowerCase().includes(kw) ||
+						(b.items || []).some((i) => i.toLowerCase().includes(kw)),
+				),
+		);
+	}
+	filtered = result;
 }
 
 function buildNavTree(entries: WikiEntry[]) {
-  const tree: Record<string, Record<string, Record<string, number>>> = {};
-  for (const e of entries) {
-    if (!tree[e.game]) tree[e.game] = {};
-    if (!tree[e.game][e.category]) tree[e.game][e.category] = {};
-    if (!tree[e.game][e.category][e.page]) tree[e.game][e.category][e.page] = 0;
-    tree[e.game][e.category][e.page]++;
-  }
-  return tree;
+	const tree: Record<string, Record<string, Record<string, number>>> = {};
+	for (const e of entries) {
+		if (!tree[e.game]) tree[e.game] = {};
+		if (!tree[e.game][e.category]) tree[e.game][e.category] = {};
+		if (!tree[e.game][e.category][e.page]) tree[e.game][e.category][e.page] = 0;
+		tree[e.game][e.category][e.page]++;
+	}
+	return tree;
 }
 
 function selectGame(game: string) {
-  selectedGame = selectedGame === game ? '' : game;
-  selectedCategory = '';
-  selectedPage = '';
-  selectedEntry = null;
+	selectedGame = selectedGame === game ? "" : game;
+	selectedCategory = "";
+	selectedPage = "";
+	selectedEntry = null;
 }
 
 function selectCategory(cat: string) {
-  selectedCategory = selectedCategory === cat ? '' : cat;
-  selectedPage = '';
-  selectedEntry = null;
+	selectedCategory = selectedCategory === cat ? "" : cat;
+	selectedPage = "";
+	selectedEntry = null;
 }
 
 function selectPage(page: string) {
-  selectedPage = selectedPage === page ? '' : page;
-  selectedEntry = null;
+	selectedPage = selectedPage === page ? "" : page;
+	selectedEntry = null;
 }
 
 function selectEntry(entry: WikiEntry) {
-  selectedEntry = entry;
-  showSidebar = false;
+	selectedEntry = entry;
+	showSidebar = false;
 }
 
 function clearFilters() {
-  selectedGame = '';
-  selectedCategory = '';
-  selectedPage = '';
-  selectedEntry = null;
-  keyword = '';
+	selectedGame = "";
+	selectedCategory = "";
+	selectedPage = "";
+	selectedEntry = null;
+	keyword = "";
 }
 
 function gameLabel(game: string) {
-  return game === 'BLACKSOULS' ? 'BS1' : 'BS2';
+	return game === "BLACKSOULS" ? "BS1" : "BS2";
 }
 
 function catIcon(cat: string) {
-  if (cat.includes('角色')) return 'material-symbols:person';
-  if (cat.includes('道具') || cat.includes('装备')) return 'material-symbols:shield';
-  if (cat.includes('攻略') || cat.includes('建议')) return 'material-symbols:map';
-  return 'material-symbols:book';
+	if (cat.includes("角色")) return "material-symbols:person";
+	if (cat.includes("道具") || cat.includes("装备"))
+		return "material-symbols:shield";
+	if (cat.includes("攻略") || cat.includes("建议"))
+		return "material-symbols:map";
+	return "material-symbols:book";
 }
 
 function escapeHtml(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	return text
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;");
 }
 
 function formatBold(text: string, kw?: string): string {
-  let html = escapeHtml(text);
-  // Convert **bold** to <strong>
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="inline-bold">$1</strong>');
-  // Highlight search keyword
-  if (kw && kw.trim()) {
-    const kwEsc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    // Don't highlight inside tags
-    html = html.replace(new RegExp(`(${kwEsc})(?![^<]*>)`, 'gi'), '<mark>$1</mark>');
-  }
-  return html;
+	let html = escapeHtml(text);
+	// Convert **bold** to <strong>
+	html = html.replace(
+		/\*\*(.+?)\*\*/g,
+		'<strong class="inline-bold">$1</strong>',
+	);
+	// Highlight search keyword
+	if (kw && kw.trim()) {
+		const kwEsc = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		// Don't highlight inside tags
+		html = html.replace(
+			new RegExp(`(${kwEsc})(?![^<]*>)`, "gi"),
+			"<mark>$1</mark>",
+		);
+	}
+	return html;
 }
 
 function contentPreview(blocks: Block[], maxLen = 120): string {
-  for (const b of blocks) {
-    if (b.type === 'text' && b.text) {
-      const clean = b.text.replace(/\*\*/g, '').replace(/\n/g, ' ');
-      return clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean;
-    }
-    if (b.type === 'h3' && b.text) {
-      return b.text;
-    }
-  }
-  return '';
+	for (const b of blocks) {
+		if (b.type === "text" && b.text) {
+			const clean = b.text.replace(/\*\*/g, "").replace(/\n/g, " ");
+			return clean.length > maxLen ? clean.slice(0, maxLen) + "…" : clean;
+		}
+		if (b.type === "h3" && b.text) {
+			return b.text;
+		}
+	}
+	return "";
 }
 
 function countData(blocks: Block[]): number {
-  return blocks.reduce((acc, b) => {
-    if (b.type === 'table') return acc + (b.data?.length || 0);
-    return acc;
-  }, 0);
+	return blocks.reduce((acc, b) => {
+		if (b.type === "table") return acc + (b.data?.length || 0);
+		return acc;
+	}, 0);
 }
 
 onMount(async () => {
-  try {
-    const resp = await fetch('/data/bs_wiki.json');
-    allEntries = await resp.json();
-    filtered = allEntries;
-  } catch (e) {
-    console.error('Failed to load wiki data:', e);
-  } finally {
-    isLoading = false;
-  }
+	try {
+		const resp = await fetch("/data/bs_wiki.json");
+		allEntries = await resp.json();
+		filtered = allEntries;
+	} catch (e) {
+		console.error("Failed to load wiki data:", e);
+	} finally {
+		isLoading = false;
+	}
 });
 </script>
 
