@@ -12,7 +12,8 @@ image: ./images/vibept-scope-first-cover.png
 
 我和 Lv 做 **VibePT** 时，选择了相反的起点：先不追求「自动得像黑客电影」，先确保每一步都被限制、可观察、可停止。它不是一个拿到 Shell 后自由发挥的全自治入侵 Agent，而是一个面向自有资产与明确授权靶场的 Web 安全评估编排器。
 
-> **GitHub 仓库：** [zureealLV/VibePT](https://github.com/zureealLV/VibePT)  
+> **GitHub 仓库：** [zureealLV/VibePT](https://github.com/zureealLV/VibePT)
+>
 > 默认 README 为英文，仓库同时提供完整的 [中文说明](https://github.com/zureealLV/VibePT/blob/main/README_CN.md)。
 
 ![VibePT 的 Scope-first 控制面与隔离 Runner](./images/vibept-scope-first-cover.png)
