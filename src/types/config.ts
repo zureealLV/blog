@@ -796,3 +796,18 @@ export type GalleryConfig = {
 	albums: GalleryAlbum[];
 	columnWidth?: number; // 瀑布流最小列宽(px)，默认 240，浏览器根据容器宽度自动计算列数
 };
+export interface PortfolioConfig {
+	projects: {
+		name: string;
+		kicker: string;
+		summary: string;
+		status: string;
+		stack: string[];
+		features: string[];
+		postId: string;
+		repository: string;
+		image: string;
+		imageAlt: string;
+		imageNote: string;
+	}[];
+}

@@ -1,0 +1,118 @@
+---
+import { getCollection } from "astro:content";
+import PortfolioProject from "@/components/pages/PortfolioProject.astro";
+import { portfolioConfig } from "@/config";
+import MainGridLayout from "@/layouts/MainGridLayout.astro";
+import { formatDateToYYYYMMDD } from "@/utils/date-utils";
+import { getPortfolioPosts } from "@/utils/portfolio-utils";
+import { getPostUrlBySlug } from "@/utils/url-utils";
+
+const technicalPosts = getPortfolioPosts(await getCollection("posts"));
+const featuredIds = new Set(
+	portfolioConfig.projects.map((project) => project.postId),
+);
+// 防止配置的置顶介绍不存在或尚未发布，构建时就暴露断链。
+for (const id of featuredIds) {
+	if (!technicalPosts.some((post) => post.id === id)) {
+		throw new Error(
+			`Portfolio project article is missing or unpublished: ${id}`,
+		);
+	}
+}
+const archivePosts = technicalPosts.filter((post) => !featuredIds.has(post.id));
+const years = [
+	...new Set(archivePosts.map((post) => post.data.published.getUTCFullYear())),
+];
+---
+
+<MainGridLayout title="作品集" description="Lv 的开源项目与技术实践：MedOps RAG、Doppel-Agent，以及持续更新的技术文章归档。">
+	<div class="portfolio onload-animation">
+		<header class="portfolio-hero">
+			<div class="terminal-bar"><span aria-hidden="true">● ● ●</span><span>zureealLV / works</span><span>INDEX_01</span></div>
+			<div class="hero-copy">
+				<p class="eyebrow">BUILD / INSPECT / ITERATE</p>
+				<h1>作品集<span class="cursor" aria-hidden="true">_</span></h1>
+				<p class="hero-description">把想法写成代码，把过程留下证据。<br />这里是我的开源项目、工程记录与技术实验。</p>
+				<a href="#featured" class="hero-anchor">浏览置顶项目 <span aria-hidden="true">↓</span></a>
+			</div>
+			<dl class="hero-stats">
+				<div><dt>置顶项目</dt><dd>{portfolioConfig.projects.length.toString().padStart(2, "0")}</dd></div>
+				<div><dt>技术文章</dt><dd>{technicalPosts.length.toString().padStart(2, "0")}</dd></div>
+				<div><dt>开源 / 可追溯</dt><dd class="stats-word">SOURCE FIRST</dd></div>
+			</dl>
+		</header>
+
+		<section id="featured" aria-labelledby="featured-title">
+			<div class="section-heading"><div><p class="eyebrow">SELECTED WORK</p><h2 id="featured-title">置顶项目</h2></div><span>固定展示 · 不随日更下沉</span></div>
+			<div class="project-grid">{portfolioConfig.projects.map((project) => <PortfolioProject project={project} />)}</div>
+		</section>
+
+		<section id="technical-archive" aria-labelledby="archive-title" class="technical-archive card-base">
+			<div class="section-heading"><div><p class="eyebrow">ENGINEERING NOTES</p><h2 id="archive-title">技术归档</h2></div><span>{archivePosts.length} 篇 · 按时间倒序</span></div>
+			<p class="archive-description">收录「技术」分类的已发布文章；项目介绍在上方置顶，旧文章保留原有地址。</p>
+			{years.map((year) => (
+				<div class="archive-year">
+					<h3>{year}</h3>
+					<ol>
+						{archivePosts.filter((post) => post.data.published.getUTCFullYear() === year).map((post) => (
+							<li><a href={getPostUrlBySlug(post.id)} class="archive-link">
+								<time datetime={post.data.published.toISOString()}>{formatDateToYYYYMMDD(post.data.published)}</time>
+								<div><h4>{post.data.title}</h4><p>{post.data.description}</p><ul class="archive-tags" aria-label="文章标签">{post.data.tags.map((tag) => <li>{tag}</li>)}</ul></div>
+								<span class="archive-arrow" aria-hidden="true">↗</span>
+							</a></li>
+						))}
+					</ol>
+				</div>
+			))}
+			{archivePosts.length === 0 && <p class="archive-description">新的工程记录还在路上。</p>}
+		</section>
+		<p class="portfolio-footer">PROJECTS ARE A WORK IN PROGRESS. SO AM I.</p>
+	</div>
+</MainGridLayout>
+
+<style>
+	.portfolio { --portfolio-mint: #8fe5cd; --text-90: #1c2736; --text-75: #465365; --text-50: #64748b; display: flex; flex-direction: column; gap: 2.5rem; }
+	:global(.dark) .portfolio { --text-90: #edf2f7; --text-75: #c4cdd8; --text-50: #a7b3c2; }
+	.portfolio-hero { border: 1px solid #38475a; border-radius: 1rem; overflow: hidden; background: #101827; color: #eff7f7; box-shadow: 0 8px 28px #080e1b26; }
+	.terminal-bar { display: flex; justify-content: space-between; gap: .5rem; padding: .8rem 1.4rem; font: .65rem/1.5 ui-monospace, monospace; color: #bdcbd7; border-bottom: 1px solid #334255; }
+	.terminal-bar span:first-child { color: var(--portfolio-mint); letter-spacing: .2rem; }
+	.hero-copy { padding: 2.5rem 2rem; background-image: linear-gradient(#8fe5cd08 1px, transparent 1px), linear-gradient(90deg, #8fe5cd08 1px, transparent 1px); background-size: 28px 28px; }
+	.eyebrow { font: .68rem/1.6 ui-monospace, monospace; letter-spacing: .12em; color: var(--primary); margin-bottom: .6rem; }
+	.hero-copy .eyebrow { color: var(--portfolio-mint); }
+	h1 { font-size: clamp(2.4rem, 6vw, 3.5rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.2; }
+	.cursor { color: var(--portfolio-mint); margin-left: .3rem; }
+	.hero-description { margin-top: 1.25rem; color: #bdcbd7; line-height: 1.9; font-size: .95rem; }
+	.hero-anchor { display: inline-flex; align-items: center; gap: 2rem; margin-top: 1.7rem; color: var(--portfolio-mint); font-size: .8rem; border-bottom: 1px solid #8fe5cd66; padding-bottom: .35rem; }
+	.hero-stats { display: grid; grid-template-columns: 1fr 1fr 1.4fr; border-top: 1px solid #334255; }
+	.hero-stats div { padding: 1.2rem 1.5rem; }
+	.hero-stats div + div { border-left: 1px solid #334255; }
+	.hero-stats dt { font-size: .65rem; color: #bdcbd7; }
+	.hero-stats dd { font: 1.65rem/1.5 ui-monospace, monospace; color: var(--portfolio-mint); margin-top: .2rem; }
+	.hero-stats .stats-word { font-size: .85rem; padding-top: .65rem; }
+	.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
+	h2 { font-size: 1.45rem; color: var(--text-90); font-weight: 750; }
+	.section-heading > span { font-size: .7rem; color: var(--text-50); }
+	.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+	#featured, #technical-archive { scroll-margin-top: 6rem; }
+	.technical-archive { padding: 1.8rem; border: 1px solid var(--line-divider); }
+	.archive-description { color: var(--text-75); font-size: .8rem; line-height: 1.8; }
+	.archive-year h3 { font: .9rem/1.5 ui-monospace, monospace; color: var(--primary); margin: 1.8rem 0 .5rem; }
+	.archive-link { display: grid; grid-template-columns: 6rem minmax(0, 1fr) 1rem; gap: 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line-divider); }
+	.archive-link time { font: .7rem/1.7 ui-monospace, monospace; color: var(--text-50); padding-top: .2rem; }
+	.archive-link h4 { color: var(--text-90); font-size: .95rem; line-height: 1.7; font-weight: 650; }
+	.archive-link:hover h4, .archive-arrow { color: var(--primary); }
+	.archive-link p { color: var(--text-75); font-size: .75rem; line-height: 1.8; margin-top: .4rem; }
+	.archive-tags { display: flex; flex-wrap: wrap; gap: .7rem; color: var(--text-50); font: .65rem/1.6 ui-monospace, monospace; margin-top: .65rem; }
+	.portfolio-footer { text-align: center; font: .65rem/1.8 ui-monospace, monospace; color: var(--text-50); letter-spacing: .06em; }
+	a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+	@media (max-width: 767px) {
+		.project-grid { grid-template-columns: 1fr; }
+		.hero-copy { padding: 2rem 1.4rem; }
+		.hero-stats div { padding: 1rem .9rem; }
+		.hero-stats .stats-word { font-size: .62rem; }
+		.technical-archive { padding: 1.3rem; }
+		.section-heading { align-items: start; flex-direction: column; gap: .2rem; }
+		.archive-link { grid-template-columns: minmax(0, 1fr) 1rem; gap: .35rem; }
+		.archive-link time { grid-column: 1 / -1; }
+	}
+</style>

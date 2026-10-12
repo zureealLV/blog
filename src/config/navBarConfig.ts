@@ -15,6 +15,12 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		LinkPreset.Home,
 	];
 
+	links.push({
+		name: "作品集",
+		url: "/portfolio/",
+		icon: "material-symbols:code",
+	});
+
 	// 我的及其子菜单
 	links.push({
 		name: "我的",

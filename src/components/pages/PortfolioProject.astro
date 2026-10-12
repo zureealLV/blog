@@ -1,0 +1,67 @@
+---
+import { Icon } from "astro-icon/components";
+import ImageWrapper from "@/components/common/ImageWrapper.astro";
+import type { PortfolioConfig } from "@/types/config";
+import { getPostUrlBySlug } from "@/utils/url-utils";
+
+interface Props {
+	project: PortfolioConfig["projects"][number];
+}
+
+const { project } = Astro.props;
+const articleUrl = getPostUrlBySlug(project.postId);
+---
+
+<article class="project-card card-base">
+	<div class="project-heading">
+		<span class="project-kicker">{project.kicker}</span>
+		<span class="pin"><Icon name="material-symbols:push-pin" /> 置顶</span>
+	</div>
+	<a href={articleUrl} class="preview-link" aria-label={`阅读 ${project.name} 项目介绍`}>
+		<ImageWrapper src={project.image} alt={project.imageAlt} basePath="/" class="project-preview" />
+	</a>
+	<div class="project-body">
+		<p class="project-status">{project.status}</p>
+		<h3><a href={articleUrl}>{project.name}</a></h3>
+		<p class="project-summary">{project.summary}</p>
+		<ul class="project-stack" aria-label="技术栈">
+			{project.stack.map((item) => <li>{item}</li>)}
+		</ul>
+		<ul class="project-features">
+			{project.features.map((item) => <li>{item}</li>)}
+		</ul>
+		<div class="project-links">
+			<a class="read-link" href={articleUrl}>项目介绍 <span aria-hidden="true">↗</span></a>
+			<a class="repo-link" href={project.repository} target="_blank" rel="noopener noreferrer">
+				<Icon name="fa7-brands:github" /> 源码 <span class="sr-only">（新窗口）</span>
+			</a>
+		</div>
+		<p class="image-note">{project.imageNote}</p>
+	</div>
+</article>
+
+<style>
+	.project-card { overflow: hidden; border: 1px solid var(--line-divider); display: flex; flex-direction: column; }
+	.project-heading { display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: 1.15rem 1.4rem; }
+	.project-kicker { font: .65rem/1.6 ui-monospace, monospace; letter-spacing: .06em; color: var(--primary); }
+	.pin { display: inline-flex; align-items: center; gap: .25rem; font-size: .7rem; color: var(--primary); white-space: nowrap; }
+	.pin :global(svg) { width: .9rem; height: .9rem; }
+	.preview-link { display: block; padding: 0 .75rem; }
+	.preview-link :global(.project-preview) { aspect-ratio: 1264 / 811; border-radius: .6rem; background: #101827; }
+	.preview-link :global(img) { object-fit: contain; }
+	.project-body { padding: 1.4rem; display: flex; flex-direction: column; flex: 1; }
+	.project-status { font-size: .72rem; color: var(--primary); margin-bottom: .55rem; }
+	h3 { font-size: 1.7rem; font-weight: 800; letter-spacing: -.035em; color: var(--text-90); }
+	h3 a:hover { color: var(--primary); }
+	.project-summary { color: var(--text-75); font-size: .9rem; line-height: 1.85; margin-top: .7rem; }
+	.project-stack { display: flex; flex-wrap: wrap; gap: .4rem; padding: 1.1rem 0; }
+	.project-stack li { font: .68rem/1.7 ui-monospace, monospace; padding: .2rem .55rem; border-radius: .35rem; color: var(--text-75); background: var(--btn-regular-bg); }
+	.project-features { padding-left: 1rem; list-style: square; color: var(--text-75); font-size: .8rem; line-height: 1.85; margin-bottom: 1.5rem; }
+	.project-features li::marker { color: var(--primary); }
+	.project-links { display: flex; gap: 1.2rem; align-items: center; margin-top: auto; }
+	.read-link { background: var(--primary); color: var(--deep-text); font-size: .82rem; font-weight: 700; padding: .75rem 1.1rem; border-radius: .6rem; display: flex; gap: 1.2rem; }
+	.repo-link { display: flex; align-items: center; gap: .4rem; color: var(--text-75); font-size: .8rem; }
+	.repo-link :global(svg) { width: 1rem; height: 1rem; }
+	.image-note { color: var(--text-50); font-size: .65rem; line-height: 1.7; margin-top: 1.1rem; }
+	a:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+</style>
