@@ -1,9 +1,3 @@
----
-import { url } from "@/utils/url-utils";
-
-const homeUrl = url("/");
----
-
 <div id="osu-welcome" class="osu-welcome" aria-label="Welcome to OSU! TV 开场动画">
 	<canvas class="osu-welcome__scene" aria-hidden="true"></canvas>
 
@@ -42,17 +36,18 @@ const homeUrl = url("/");
 	<div class="osu-welcome__flash" aria-hidden="true"></div>
 
 	<section class="osu-welcome__final">
-		<a
+		<button
+			type="button"
 			class="osu-welcome__logo"
-			href={homeUrl}
-			aria-label="点击 OSU! TV 图标进入 zureeallv.com 首页"
+			aria-label="点击 OSU! TV 图标进入当前页面"
+			disabled
 		>
 			<span class="osu-welcome__logo-face">
 				<canvas class="osu-welcome__triangles" aria-hidden="true"></canvas>
 				<span class="osu-welcome__logo-flash" aria-hidden="true"></span>
 				<span class="osu-welcome__brand">𝓞𝓢𝓤！𝓣𝓥</span>
 			</span>
-		</a>
+		</button>
 
 		<p class="osu-welcome__subtitle">𝓦𝓮𝓵𝓬𝓸𝓶𝓮 𝓣𝓸 𝓞𝓢𝓤！𝓣𝓥</p>
 	</section>
@@ -62,12 +57,17 @@ const homeUrl = url("/");
 
 <script>
 	const STORAGE_KEY = "zureeallv-osu-welcome-seen";
-	const INTRO_END = 3000;
-	const READY_AT = 4140;
+	// Reference: https://www.youtube.com/watch?v=X9EbQUorstk
+	// The usable animation starts around 11.7s in the recording. These timings are
+	// relative to that point and preserve its text -> triangles -> modes -> outline -> burst cadence.
+	const INTRO_END = 3030;
+	const CAPTION_AT = 3720;
+	const READY_AT = 4320;
 	const EXIT_DURATION = 560;
 	const BEAT_LENGTH = 370;
 	const BAR_COUNT = 128;
-	const SCENE_PIXEL_BUDGET = 2_400_000;
+	const SCENE_PIXEL_BUDGET = 1_900_000;
+	const PRELUDE_BEATS = [320, 530, 790, 950, 1090, 1260, 1400, 1610, 1830, 2100, 2250, 2370, 2520, 2640];
 
 	type GlitchTriangle = {
 		born: number;
@@ -120,7 +120,7 @@ const homeUrl = url("/");
 		const modes = root.querySelector<HTMLElement>(".osu-welcome__modes") as HTMLElement;
 		const pathStage = root.querySelector<HTMLElement>(".osu-welcome__path-stage") as HTMLElement;
 		const pathStageInner = root.querySelector<HTMLElement>(".osu-welcome__path-stage-inner") as HTMLElement;
-		const logo = root.querySelector<HTMLAnchorElement>(".osu-welcome__logo") as HTMLAnchorElement;
+		const logo = root.querySelector<HTMLButtonElement>(".osu-welcome__logo") as HTMLButtonElement;
 		const flash = root.querySelector<HTMLElement>(".osu-welcome__flash") as HTMLElement;
 
 		if (document.documentElement.classList.contains("osu-welcome-seen")) {
@@ -155,6 +155,10 @@ const homeUrl = url("/");
 		let lastGlitchSpawn = 1038;
 		let currentBeat = -1;
 		let entering = false;
+		let exitTimer = 0;
+		let finalStarted = false;
+		let captioned = false;
+		let ready = false;
 		let frameSampleStartedAt = 0;
 		let frameSampleLastAt = 0;
 		const frameSamples: number[] = [];
@@ -169,6 +173,8 @@ const homeUrl = url("/");
 			Math.min(maximum, Math.max(minimum, value));
 		const lerp = (from: number, to: number, amount: number) => from + (to - from) * amount;
 		const easeOutCubic = (value: number) => 1 - (1 - value) ** 3;
+		const easeInOutCubic = (value: number) =>
+			value < 0.5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2;
 		const easeInQuint = (value: number) => value ** 5;
 		const easeOutQuint = (value: number) => 1 - (1 - value) ** 5;
 		const hash = (value: number) => {
@@ -216,7 +222,7 @@ const homeUrl = url("/");
 			staticContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
 			logoSize = Math.max(1, logo.clientWidth);
-			logoPixelRatio = Math.min(devicePixelRatio, 1.35);
+			logoPixelRatio = Math.min(devicePixelRatio, 1.2);
 			triangleCanvas.width = Math.round(logoSize * logoPixelRatio);
 			triangleCanvas.height = Math.round(logoSize * logoPixelRatio);
 			triangleContext.setTransform(logoPixelRatio, 0, 0, logoPixelRatio, 0, 0);
@@ -248,51 +254,63 @@ const homeUrl = url("/");
 			word.textContent = text;
 		}
 
-		function updatePrelude(elapsed: number) {
-			if (elapsed < 200) setWord("");
-			else if (elapsed < 400) setWord("wel");
-			else if (elapsed < 700) setWord("welcome");
-			else if (elapsed < 900) setWord("welcome to");
-			else setWord("welcome to osu! tv");
+		function getPreludePulse(elapsed: number) {
+			let pulse = 0;
+			for (const beat of PRELUDE_BEATS) {
+				const age = elapsed - beat;
+				if (age >= 0 && age < 170) pulse = Math.max(pulse, Math.exp(-age / 54));
+			}
+			return pulse;
+		}
 
-			const textVisible = elapsed >= 200 && elapsed < 1530;
-			word.style.opacity = textVisible ? String(1 - clamp((elapsed - 1450) / 80)) : "0";
-			const spacingProgress = clamp((elapsed - 900) / 5000);
-			word.style.letterSpacing = `${lerp(0.12, 0.7, spacingProgress)}em`;
+		function updatePrelude(elapsed: number) {
+			if (elapsed < 320) setWord("");
+			else if (elapsed < 530) setWord("wel");
+			else if (elapsed < 790) setWord("welcome");
+			else if (elapsed < 950) setWord("welcome to");
+			else setWord("welcome to osu!");
+
+			const textVisible = elapsed >= 320 && elapsed < 1480;
+			const preludePulse = getPreludePulse(elapsed);
+			word.style.opacity = textVisible ? String(1 - clamp((elapsed - 1400) / 80)) : "0";
+			word.style.transform = `translate(-50%, -50%) scale(${1 + preludePulse * 0.018})`;
+			const spacingProgress = clamp((elapsed - 950) / 500);
+			word.style.letterSpacing = `${lerp(0.08, width < 720 ? 0.18 : 0.55, spacingProgress)}em`;
 
 			if (elapsed < 1450 || elapsed >= 2080) {
 				modes.style.opacity = "0";
 			} else {
-				let scale = 0.45;
+				let scale = 0.36;
 				let gap = 28;
 				if (elapsed < 1650) {
 					const progress = easeOutCubic(clamp((elapsed - 1450) / 200));
-					scale = lerp(0.45, 0.86, progress);
+					scale = lerp(0.36, 0.92, progress);
 					gap = lerp(26, Math.min(width * 0.11, 150), progress);
 				} else if (elapsed < 1850) {
 					const progress = easeOutCubic(clamp((elapsed - 1650) / 200));
-					scale = lerp(0.86, 1.65, progress);
+					scale = lerp(0.92, 1.82, progress);
 					gap = lerp(Math.min(width * 0.11, 150), 30, progress);
 				} else {
 					const progress = easeInQuint(clamp((elapsed - 1850) / 230));
-					scale = lerp(1.65, 4.1, progress);
+					scale = lerp(1.82, 4.8, progress);
 					gap = lerp(30, 8, progress);
 				}
-				modes.style.opacity = String(1 - clamp((elapsed - 2010) / 70));
+				modes.style.opacity = String(1 - clamp((elapsed - 2020) / 60));
 				modes.style.gap = `${gap}px`;
-				modes.style.transform = `translate(-50%, -50%) scale(${scale})`;
+				modes.style.transform = `translate(-50%, -50%) scale(${scale * (1 + preludePulse * 0.025)})`;
 			}
 
-			if (elapsed < 2080 || elapsed >= INTRO_END) {
+			if (elapsed < 1980 || elapsed >= INTRO_END) {
 				pathStage.style.opacity = "0";
 			} else {
-				const progress = clamp((elapsed - 2080) / 920);
-				const collapse = easeInQuint(clamp((progress - 0.7) / 0.3));
-				const innerScale = lerp(1.2, 0.4, collapse);
-				const outerScale = lerp(1.2, 1, progress * progress);
-				pathStage.style.opacity = String(1 - clamp((progress - 0.955) / 0.045));
-				pathStage.style.transform = `translate(-50%, -50%) scale(${outerScale})`;
-				pathStageInner.style.transform = `scale(${innerScale})`;
+				const progress = clamp((elapsed - 1980) / (INTRO_END - 1980));
+				const scaleProgress = easeInOutCubic(progress);
+				const stageScale = lerp(1.52, 0.56, scaleProgress);
+				const enterOpacity = easeOutCubic(clamp(progress / 0.08));
+				const exitOpacity = 1 - clamp((progress - 0.965) / 0.035);
+				pathStage.style.opacity = String(enterOpacity * exitOpacity);
+				pathStage.style.transform = `translate(-50%, -50%) scale(${stageScale * (1 + preludePulse * 0.012)})`;
+				pathStageInner.style.transform = "scale(1)";
 				const highlightOffset = 82 - progress * 122;
 				pathStage.style.setProperty("--path-offset-outer", String((1 - progress) * 360));
 				pathStage.style.setProperty("--path-offset-inner", String((1 - progress) * -310));
@@ -437,7 +455,7 @@ const homeUrl = url("/");
 
 		function drawFinalScene(elapsed: number) {
 			const finalTime = Math.max(0, elapsed - INTRO_END);
-			const reveal = easeOutCubic(clamp(finalTime / 420));
+			const reveal = easeOutCubic(clamp(finalTime / 480));
 			const beatPosition = finalTime / BEAT_LENGTH;
 			const beatIndex = Math.floor(beatPosition);
 			const beatPhase = beatPosition - beatIndex;
@@ -451,20 +469,23 @@ const homeUrl = url("/");
 			const envelope = Math.exp(-beatPhase * 6.2) * strength;
 			const strongBeat = beatIndex % 4 === 0 ? envelope : 0;
 
-			const fadeToDark = easeOutQuint(clamp(finalTime / 1050));
-			const red = Math.round(lerp(232, 63, fadeToDark));
-			const green = Math.round(lerp(203, 29, fadeToDark));
-			const blue = Math.round(lerp(215, 48, fadeToDark));
+			const fadeToDark = easeOutQuint(clamp(finalTime / 980));
+			const red = Math.round(lerp(224, 55, fadeToDark));
+			const green = Math.round(lerp(194, 24, fadeToDark));
+			const blue = Math.round(lerp(207, 43, fadeToDark));
 			context.fillStyle = `rgb(${red} ${green} ${blue})`;
 			context.fillRect(0, 0, width, height);
 
+			const backgroundScale = 1.006 + envelope * 0.009 + Math.sin(finalTime / 1900) * 0.0015;
 			context.save();
 			context.globalAlpha = reveal;
-			context.drawImage(staticScene, 0, 0, staticScene.width, staticScene.height, 0, 0, width, height);
+			context.translate(width / 2, height / 2);
+			context.scale(backgroundScale, backgroundScale);
+			context.drawImage(staticScene, 0, 0, staticScene.width, staticScene.height, -width / 2, -height / 2, width, height);
 			context.restore();
 
 			if (strongBeat > 0.01) {
-				context.fillStyle = `rgba(255,221,231,${strongBeat * 0.025})`;
+				context.fillStyle = `rgba(255,221,231,${strongBeat * 0.022})`;
 				context.fillRect(0, 0, width, height);
 			}
 
@@ -473,9 +494,11 @@ const homeUrl = url("/");
 			context.save();
 			context.translate(width / 2, height / 2);
 			context.lineCap = "round";
-			for (const bar of radialBars) {
+			const barStride = width < 720 || pixelRatio < 0.82 ? 2 : 1;
+			for (let index = 0; index < radialBars.length; index += barStride) {
+				const bar = radialBars[index];
 				const spectralEnergy = envelope * (0.22 + bar.beatNoise * 0.78) * bar.lowFrequencyShape;
-				const length = logoRadius * (bar.idleEnergy + spectralEnergy * 0.27);
+				const length = logoRadius * (bar.idleEnergy + spectralEnergy * 0.245);
 				const start = baseRadius + 7;
 				const x1 = bar.cos * start;
 				const y1 = bar.sin * start;
@@ -485,25 +508,16 @@ const homeUrl = url("/");
 				else if (bar.accent === 1) context.strokeStyle = `rgba(255,177,207,${0.3 + envelope * 0.58})`;
 				else if (bar.accent === 2) context.strokeStyle = `rgba(255,211,143,${0.27 + envelope * 0.5})`;
 				else context.strokeStyle = `rgba(255,239,244,${0.13 + envelope * 0.58})`;
-				context.lineWidth = 1.2 + spectralEnergy * 4.2;
+				context.lineWidth = 1.1 + spectralEnergy * 3.7;
 				context.beginPath();
 				context.moveTo(x1, y1);
 				context.lineTo(x2, y2);
 				context.stroke();
 			}
-
-			if (beatIndex >= 0) {
-				const rippleProgress = easeOutQuint(beatPhase);
-				context.beginPath();
-				context.arc(0, 0, logoRadius * lerp(0.94, 1.15, rippleProgress), 0, Math.PI * 2);
-				context.strokeStyle = `rgba(255,255,255,${(1 - beatPhase) * 0.22 * strength})`;
-				context.lineWidth = 1.5;
-				context.stroke();
-			}
 			context.restore();
 
-			root.style.setProperty("--beat-scale", String(1 - envelope * 0.018));
-			root.style.setProperty("--beat-flash", String(Math.min(0.24, strongBeat * 0.22)));
+			root.style.setProperty("--beat-scale", String(1 + envelope * 0.021));
+			root.style.setProperty("--beat-flash", String(Math.min(0.18, strongBeat * 0.16)));
 			return { envelope, strength };
 		}
 
@@ -549,8 +563,16 @@ const homeUrl = url("/");
 			if (elapsed < INTRO_END) {
 				updatePrelude(elapsed);
 				if (elapsed >= 1060 && elapsed < 1570) drawGlitch(elapsed);
+				const pulse = getPreludePulse(elapsed);
+				if (pulse > 0.02) {
+					context.fillStyle = `rgba(255,255,255,${pulse * 0.014})`;
+					context.fillRect(0, 0, width, height);
+				}
 			} else {
-				root.classList.add("is-final");
+				if (!finalStarted) {
+					finalStarted = true;
+					root.classList.add("is-final");
+				}
 				const beat = drawFinalScene(elapsed);
 				drawLogoTriangles(deltaSeconds, beat.envelope, beat.strength);
 				if (sampleFrameRate && !root.dataset.averageFps) {
@@ -574,12 +596,19 @@ const homeUrl = url("/");
 				}
 			}
 
-			if (elapsed >= 3500) root.classList.add("is-captioned");
-			if (elapsed >= READY_AT) root.classList.add("is-ready");
+			if (!captioned && elapsed >= CAPTION_AT) {
+				captioned = true;
+				root.classList.add("is-captioned");
+			}
+			if (!ready && elapsed >= READY_AT) {
+				ready = true;
+				logo.disabled = false;
+				root.classList.add("is-ready");
+			}
 
-			const flashProgress = clamp((elapsed - INTRO_END) / 1000);
+			const flashProgress = clamp((elapsed - INTRO_END) / 760);
 			flash.style.opacity = elapsed >= INTRO_END && flashProgress < 1
-				? String((1 - easeOutCubic(flashProgress)) * 0.58)
+				? String((1 - easeOutCubic(flashProgress)) * 0.34)
 				: "0";
 		}
 
@@ -593,18 +622,29 @@ const homeUrl = url("/");
 			}
 		}
 
-		function enter(event: MouseEvent) {
-			if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || entering) return;
-			event.preventDefault();
+		function stop() {
+			window.cancelAnimationFrame(animationFrame);
+			window.clearTimeout(exitTimer);
+			window.removeEventListener("resize", resize);
+			window.removeEventListener("pagehide", stop);
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+			logo.removeEventListener("click", enter);
+		}
+
+		function enter() {
+			if (!ready || entering) return;
 			entering = true;
 			try {
 				sessionStorage.setItem(STORAGE_KEY, "1");
 			} catch {}
 
 			root.classList.add("is-clicked", "is-exiting");
-			document.documentElement.classList.add("osu-welcome-seen");
 			document.documentElement.classList.remove("osu-welcome-active", "osu-welcome-pending");
-			window.setTimeout(() => window.location.assign(logo.href), reducedMotion ? 0 : EXIT_DURATION);
+			exitTimer = window.setTimeout(() => {
+				document.documentElement.classList.add("osu-welcome-seen");
+				stop();
+				root.remove();
+			}, reducedMotion ? 0 : EXIT_DURATION);
 		}
 
 		resize();
@@ -615,12 +655,7 @@ const homeUrl = url("/");
 
 		window.addEventListener(
 			"pagehide",
-			() => {
-				window.cancelAnimationFrame(animationFrame);
-				window.removeEventListener("resize", resize);
-				document.removeEventListener("visibilitychange", handleVisibilityChange);
-				logo.removeEventListener("click", enter);
-			},
+			stop,
 			{ once: true },
 		);
 	}
@@ -648,7 +683,9 @@ const homeUrl = url("/");
 		background: #000;
 		color: #fff;
 		font-family: "Segoe UI", sans-serif;
+		contain: strict;
 		isolation: isolate;
+		touch-action: none;
 		transition: opacity 560ms cubic-bezier(0.4, 0, 1, 1), filter 560ms ease;
 	}
 
@@ -663,6 +700,7 @@ const homeUrl = url("/");
 	.osu-welcome__scene {
 		width: 100%;
 		height: 100%;
+		transform: translateZ(0);
 	}
 
 	.osu-welcome__prelude {
@@ -684,7 +722,7 @@ const homeUrl = url("/");
 		margin: 0;
 		color: rgb(255 255 255 / 94%);
 		font-family: "Segoe UI Light", "Noto Sans", sans-serif;
-		font-size: clamp(2.25rem, 5.6vw, 4.5rem);
+		font-size: clamp(2.8rem, 6.7vw, 5.4rem);
 		font-weight: 300;
 		line-height: 1;
 		text-align: center;
@@ -736,7 +774,7 @@ const homeUrl = url("/");
 		width: min(112vmax, 1080px);
 		aspect-ratio: 1;
 		opacity: 0;
-		transform: translate(-50%, -50%) scale(1.2);
+		transform: translate(-50%, -50%) scale(1.52);
 		will-change: opacity, transform;
 	}
 
@@ -826,7 +864,8 @@ const homeUrl = url("/");
 		opacity: 0;
 		pointer-events: none;
 		transform: scale(1.035);
-		transition: opacity 120ms linear, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+		transition: opacity 90ms linear, transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
+		will-change: opacity, transform;
 	}
 
 	.osu-welcome.is-final .osu-welcome__final {
@@ -838,14 +877,20 @@ const homeUrl = url("/");
 		position: absolute;
 		display: block;
 		width: min(74vw, 74vh, 650px);
+		padding: 0;
+		border: 0;
 		aspect-ratio: 1;
 		border-radius: 50%;
+		background: transparent;
+		color: inherit;
 		cursor: pointer;
+		font: inherit;
 		outline: none;
 		pointer-events: none;
 		transform: scale(var(--beat-scale));
 		transform-origin: center;
 		transition: filter 220ms ease;
+		will-change: transform;
 		-webkit-tap-highlight-color: transparent;
 	}
 
@@ -968,7 +1013,7 @@ const homeUrl = url("/");
 
 	@media (max-width: 720px) {
 		.osu-welcome__word {
-			font-size: clamp(2rem, 9vw, 3.2rem);
+			font-size: clamp(2.45rem, 10vw, 4rem);
 		}
 
 		.osu-welcome__path-stage {
