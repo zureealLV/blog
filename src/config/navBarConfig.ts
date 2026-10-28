@@ -60,6 +60,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				icon: "simple-icons:osu",
 			},
 
+			// ORBIT 独立网页读谱工具
+			{
+				name: "ORBIT 读谱",
+				url: "/orbit/",
+				icon: "simple-icons:osu",
+			},
+
 			// 超天酱桌面实验场：独立打开，避免 Swup 接管完整桌面 UI
 			{
 				name: "Desktop β",

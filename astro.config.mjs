@@ -95,6 +95,7 @@ export default defineConfig({
 				[
 					"/ascii/",
 					"/osu-pp-tool/",
+					"/orbit/",
 					"/lab/internet-angel/",
 					"/work-radar/",
 				].some((p) => url.startsWith(p)),

@@ -1,0 +1,6 @@
+{
+	"repository": "https://github.com/zureealLV/ORBIT.git",
+	"revision": "109219d3e90ce004551e99e0d4321a8561a265d3",
+	"appBase": "/orbit/",
+	"apiBase": "/api/orbit/"
+}

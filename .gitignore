@@ -44,3 +44,7 @@ __pycache__/
 
 # CI-generated webp images (originals stay in git)
 public/gallery/**/*.webp
+
+# Pinned ORBIT source checkout, built into dist/orbit by scripts/build-orbit.mjs
+.orbit-source/
+.wrangler/
