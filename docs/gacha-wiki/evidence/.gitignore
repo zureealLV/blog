@@ -1,0 +1,4 @@
+# Downloaded upstream application bundles stay local; hashes and audit notes are tracked.
+*.js
+homepage.html
+homepage-*.html

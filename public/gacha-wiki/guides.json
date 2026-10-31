@@ -1,0 +1,633 @@
+{
+  "meta": {
+    "sourceUrl": "https://osugacha.com/assets/rpg-Rm3zoMWw.js",
+    "sourceCheckedDate": "2026-10-31",
+    "language": "zh-CN",
+    "evidenceType": "public-frontend-rules",
+    "guideType": "mechanics-based-inference",
+    "disclaimer": "构筑是公开规则推导示例，不是官方推荐、实测胜率榜或全局最优解；数据为 2026-10-31 核验的规则快照。"
+  },
+  "guides": [
+    {
+      "id": "break-carry",
+      "name": "重击破防核心",
+      "summary": "先打空 Guard，再让破防追击与队友吃到输出窗口。",
+      "cls": "dps",
+      "skill": "heavy-strike",
+      "passive": "guard-breaker",
+      "mods": [
+        "so",
+        "fl",
+        "hr"
+      ],
+      "tags": [
+        "破防",
+        "单体",
+        "输出"
+      ],
+      "stats": [
+        "优先留意 Guard DMG 与 ATK%，再结合实际面板补速度、暴击。",
+        "SO 可出现 Guard DMG 主词条，FL / HR 可补输出；主词条不等于类型固有效果。"
+      ],
+      "rotation": [
+        "集中攻击同一个尚未破防的敌人，避免把 Guard 伤害摊薄。",
+        "有技能点时用 Heavy Strike 制造破防；队友随后对破防目标输出。",
+        "技能点不足时普攻回点，不要把全队资源吃空。"
+      ],
+      "why": [
+        "Heavy Strike 本身有四倍 Guard 伤害，Guard Breaker 再提高破防能力。",
+        "这对战技与被动有明确联动：重击造成破防时，再结算相当于该击 100% 的伤害，而不是通常的 20%。",
+        "SO + FL 激活 Shatter；HR 在这套中提供单件效果与词条，不会把它改成三件组合。"
+      ],
+      "cautions": [
+        "破防窗口会在目标下一次行动到来时结束，不能视为永久增伤。",
+        "高 Guard 敌人未必能一击破防；这是机制构筑，不是必杀承诺。"
+      ],
+      "team": [
+        "可搭配 Follow-up 被动的队友补追击。",
+        "搭配 Exploit 输出手吃破防窗口；Support 负责技能点与续航。"
+      ]
+    },
+    {
+      "id": "piercing-crit",
+      "name": "穿甲暴击手",
+      "summary": "用单体穿透处理护盾或高防敌人，让 CC 提供减益条件。",
+      "cls": "dps",
+      "skill": "piercing-shot",
+      "passive": "deadeye",
+      "mods": [
+        "hd",
+        "hr",
+        "pf"
+      ],
+      "tags": [
+        "暴击",
+        "穿透",
+        "单体"
+      ],
+      "stats": [
+        "在暴击率与暴击伤害之间平衡，避免无脑堆单一属性。",
+        "同时保留 ATK% 与足以出手的速度；高稀有度不自动等于更好的词条。"
+      ],
+      "rotation": [
+        "先由 CC 挂减益，再让穿甲手集中攻击关键敌人。",
+        "尽量用护盾、嘲讽或治疗维持自身安全，再利用 PF 和 SS Rank 的条件增益。"
+      ],
+      "why": [
+        "Piercing Shot 无视护盾及一部分防御；与 Deadeye 配对时，暴击无视防御的比例提高到 60%。",
+        "HD + HR 命中 Crit DPS；PF + HR 命中 SS Rank。这三个 MOD 没有对应的三件组合，因此两个两件组合可同时生效。",
+        "Crit DPS 对带减益的敌人提高暴击伤害；Deadeye 还对半血以下目标提供额外暴击收益。"
+      ],
+      "cautions": [
+        "SS Rank 受到伤害后会暂时失效，PF 的额外收益也要求自身生命高于 80%。",
+        "HD 自身不会自动给敌人挂减益；需要战技、被动或队友创造条件。"
+      ],
+      "team": [
+        "Curse / Wither / Stall 的 CC 可提供减益。",
+        "有保护和治疗时更容易保住条件增益。"
+      ]
+    },
+    {
+      "id": "execute-chain",
+      "name": "斩杀接力",
+      "summary": "先压低血线，再靠 Execute 与 Bloodlust 的联动连续收割。",
+      "cls": "dps",
+      "skill": "execute",
+      "passive": "bloodlust",
+      "mods": [
+        "sd",
+        "pf",
+        "fl"
+      ],
+      "tags": [
+        "斩杀",
+        "收割",
+        "单体"
+      ],
+      "stats": [
+        "ATK%、暴击率与暴击伤害配合使用；速度决定能否及时收掉残血。",
+        "保留必要生存属性，SD 单件会降低最大生命。"
+      ],
+      "rotation": [
+        "让队友先削减敌方生命，再选可击倒的目标使用 Execute。",
+        "击倒后利用行动提前，继续寻找下一个收割对象。"
+      ],
+      "why": [
+        "Execute + Bloodlust 的专属联动，把两者的低血线判定放宽到敌人低于 90% 生命。",
+        "SD + PF + FL 激活 Executioner：额外伤害、低血线加成与击倒后下一击必暴相互配合。"
+      ],
+      "cautions": [
+        "90% 是这对技能与被动的联动阈值，不会顺便把 SD 或 Executioner 各自的低血线条件改成 90%。",
+        "低于与等于不同：描述为 under 的阈值不要当成包含边界。",
+        "没有击倒就没有对应的收割触发，别为追残血放弃必须先处理的威胁。"
+      ],
+      "team": [
+        "群伤队友负责压血；控制或增伤 Support 给斩杀手创造行动窗口。"
+      ]
+    },
+    {
+      "id": "storm-sustain",
+      "name": "剑刃风暴续航",
+      "summary": "多目标群攻配吸血，把输出转化为全队恢复。",
+      "cls": "dps",
+      "skill": "blade-storm",
+      "passive": "vampirism",
+      "mods": [
+        "so",
+        "nc",
+        "ez"
+      ],
+      "tags": [
+        "群攻",
+        "吸血",
+        "续航"
+      ],
+      "stats": [
+        "ATK% 提高伤害基础；速度有助于更频繁出手。",
+        "根据实战补 Guard DMG 或生存，不把吸血等同于专职治疗。"
+      ],
+      "rotation": [
+        "敌人较多时使用 Blade Storm，兼顾群伤与恢复。",
+        "配合队友压低 Guard，争取群攻打出破防并返还技能点。"
+      ],
+      "why": [
+        "Blade Storm + Vampirism 的明确联动，把群攻倍率从 72% 提高到 80%，并让这次吸血治疗全队。",
+        "SO + NC 激活 Spinner Storm：群攻提高 Guard 伤害，破防可为全队回 1 点技能点，每回合限一次。",
+        "EZ 在此提供单件生命与治疗相关效果；不会额外激活 Sustain。"
+      ],
+      "cautions": [
+        "只剩一个敌人时，群伤覆盖优势下降。",
+        "输出被削弱时吸血基础也会下降；需要可靠救急治疗时仍应带 Support。"
+      ],
+      "team": [
+        "破防型 Tank 可先削 Guard。",
+        "搭配净化或救急治疗应对无法靠吸血解决的危险。"
+      ]
+    },
+    {
+      "id": "momentum-engine",
+      "name": "盾击节奏发动机",
+      "summary": "由 Tank 负责破防，带动全队技能点、增伤与行动节奏。",
+      "cls": "tank",
+      "skill": "shield-bash",
+      "passive": "momentum",
+      "mods": [
+        "so",
+        "rx",
+        "nf"
+      ],
+      "tags": [
+        "破防",
+        "技能点",
+        "团队"
+      ],
+      "stats": [
+        "Guard DMG、速度有利于及时打出破防；生命与防御保障前排存活。",
+        "不是纯输出手，别只堆暴击而放弃承担伤害的能力。"
+      ],
+      "rotation": [
+        "优先盾击接近破防的敌人，让 Momentum 由自己触发。",
+        "破防返还技能点后，由主输出或 Support 使用；嘲讽空档期间注意前排压力。"
+      ],
+      "why": [
+        "Shield Bash + Momentum 的联动把技能 Guard 倍率从三倍提升为五倍。",
+        "SO + RX 的 Opening 在自己破防时提供全队增伤；NF + SO 的 Juggernaut 提供额外 Guard 能力和破防后护盾。",
+        "这三个 MOD 没有对应三件组合，因此 Opening 与 Juggernaut 都会命中。"
+      ],
+      "cautions": [
+        "Momentum 与 Opening 都要求这张卡打出破防，不是任意队友破防就触发。",
+        "全队技能点上限为 5；已满时再返还会浪费。"
+      ],
+      "team": [
+        "Exploit / Follow-up 队友可配合破防。",
+        "让主 DPS 用掉刚获得的技能点，再规划下一轮。"
+      ]
+    },
+    {
+      "id": "iron-reflect",
+      "name": "铁壁反伤",
+      "summary": "靠高防御、自盾与嘲讽承伤，利用反伤持续压迫敌人。",
+      "cls": "tank",
+      "skill": "iron-skin",
+      "passive": "spiked-armor",
+      "mods": [
+        "nf",
+        "ht",
+        "so"
+      ],
+      "tags": [
+        "护盾",
+        "反伤",
+        "坦克"
+      ],
+      "stats": [
+        "优先防御与足够生命；Iron Skin 护盾和 Spiked Armor 反伤都与防御相关。",
+        "适当速度能改善启动时机，但不要因此牺牲到扛不住第一轮。"
+      ],
+      "rotation": [
+        "承压前开 Iron Skin，利用嘲讽承接单体攻击。",
+        "嘲讽结束后有冷却空档，配合治疗或队友护盾过渡。"
+      ],
+      "why": [
+        "Iron Skin + Spiked Armor 的明确联动，让反伤也削减攻击者 Guard。",
+        "NF + HT 激活 Fortress；NF + SO 激活 Juggernaut，为防御、破防与生存提供补充。"
+      ],
+      "cautions": [
+        "本方案的 SO 不是让反伤必定破防，只提供相关能力与组合条件。",
+        "楼层 FL 使嘲讽无效；楼层 SD 禁用护盾，这些场景会削弱本构筑。",
+        "反伤依赖被攻击，不能按主动爆发的节奏期待它。"
+      ],
+      "team": [
+        "Support 维持生命并处理减益；DPS 趁前排吸引攻击集中处理目标。"
+      ]
+    },
+    {
+      "id": "team-shields",
+      "name": "全队护盾墙",
+      "summary": "把 Bulwark 的群盾、Bastion 的盾量增益与保护联动组合起来。",
+      "cls": "tank",
+      "skill": "bulwark",
+      "passive": "bastion",
+      "mods": [
+        "ez",
+        "nf",
+        "ht"
+      ],
+      "tags": [
+        "群盾",
+        "保护",
+        "坦克"
+      ],
+      "stats": [
+        "防御提高 Bulwark 群盾基础；生命补生存与组合的回合护盾。",
+        "观察敌方速度，确保保护能在危险攻击前落地。"
+      ],
+      "rotation": [
+        "需要团队保护时使用 Bulwark。",
+        "护盾足够时可普攻回技能点，不必每回合无脑续盾。"
+      ],
+      "why": [
+        "Bulwark + Bastion 的明确联动，额外使全队 2 回合内受到的伤害降低 10%。",
+        "EZ + NF + HT 激活 Defensive Support，强化治疗与护盾，并在自己的回合开始时为最低血线队友加盾。"
+      ],
+      "cautions": [
+        "三件组合命中后，不会再同时获得 EZ + HT 的 Sustain 或 NF + HT 的 Fortress。",
+        "护盾有总上限，堆叠不能无限增长；楼层 SD 会直接禁用护盾。"
+      ],
+      "team": [
+        "配合输出手或控制手，把更多技能点留给核心技能。",
+        "护盾不是治疗，仍需考虑生命恢复与净化。"
+      ]
+    },
+    {
+      "id": "mend-lifeline",
+      "name": "单体急救与溢出护盾",
+      "summary": "用 Mend 救急，用 Lifeline 在每次行动前持续补低血队友。",
+      "cls": "support",
+      "skill": "mend",
+      "passive": "lifeline",
+      "mods": [
+        "ez",
+        "ht",
+        "dt"
+      ],
+      "tags": [
+        "治疗",
+        "单体",
+        "续航"
+      ],
+      "stats": [
+        "生命、治疗加成与速度是主要方向。",
+        "Mend 以施法者最大生命为基础，不应把 ATK 当作治疗主属性。"
+      ],
+      "rotation": [
+        "危险队友即将被击倒时，优先用 Mend 救急。",
+        "局面稳定时普攻回点；普通 Support 的普攻也会治疗最低血线队友。"
+      ],
+      "why": [
+        "Mend + Lifeline 的明确联动强化回合治疗，并使 Mend 过量治疗转为护盾。",
+        "EZ + HT 激活 Sustain，提供治疗加成与另一种过量治疗转盾机制；DT 提供单件速度，改善行动节奏。"
+      ],
+      "cautions": [
+        "两种过量治疗转盾有各自上限与结算条件，不能简单把 10% 与 25% 相加宣称固定 35% 护盾。",
+        "本方案没有 RX，因此不会激活 Tempo；第三件也可按实际好词条调整。",
+        "楼层 SD 下无法得到护盾，楼层 HR 会削弱治疗。"
+      ],
+      "team": [
+        "适合单前排承压或主输出需要持续保护的队伍。"
+      ]
+    },
+    {
+      "id": "sanctuary-safety",
+      "name": "群疗净化保险",
+      "summary": "群疗、净化、低血护盾与一次救命机制组合，偏重容错。",
+      "cls": "support",
+      "skill": "sanctuary",
+      "passive": "guardian-angel",
+      "mods": [
+        "ez",
+        "nf",
+        "rx"
+      ],
+      "tags": [
+        "群疗",
+        "净化",
+        "保命"
+      ],
+      "stats": [
+        "生命提高治疗与护盾基础；治疗加成与速度改善覆盖。",
+        "保证自己能活着出手，否则救急能力无从发挥。"
+      ],
+      "rotation": [
+        "多人掉血或中了减益时使用 Sanctuary。",
+        "尽量在敌方下一轮压力前重新建立保护；平稳回合普攻回点。"
+      ],
+      "why": [
+        "Sanctuary 本身群疗并各移除一个减益。",
+        "与 Guardian Angel 的明确联动额外给全队护盾，并重置该被动对各队友的保护机会。",
+        "EZ + NF + RX 激活 Second Chance，提供每场战斗一次的濒死保护。"
+      ],
+      "cautions": [
+        "Second Chance 不是无限复活，且三件组合会取代 EZ + NF 的 First Aid。",
+        "楼层 SD 会禁用护盾与 Guardian Angel；当前前端执行也禁用 Second Chance，不可依赖这套保命。"
+      ],
+      "team": [
+        "适合减益较多、全队都会承伤的关卡；输出位负责在续航窗口内结束战斗。"
+      ]
+    },
+    {
+      "id": "hymn-conductor",
+      "name": "战歌指挥",
+      "summary": "给主输出增攻并提前行动，用战技触发全队增伤。",
+      "cls": "support",
+      "skill": "battle-hymn",
+      "passive": "thrifty",
+      "mods": [
+        "rx",
+        "nc",
+        "dt"
+      ],
+      "tags": [
+        "增益",
+        "行动提前",
+        "辅助"
+      ],
+      "stats": [
+        "速度优先考虑能否在主输出前行动；生命与治疗词条兼顾续航。",
+        "RX、NC、DT 分别覆盖增益、战技、速度，但不能只看组合忽略差词条。"
+      ],
+      "rotation": [
+        "主输出即将进爆发窗口时，对其使用 Battle Hymn。",
+        "Thrifty 回点是概率事件；保留不触发时也可运行的技能点计划。"
+      ],
+      "why": [
+        "Battle Hymn + Thrifty 的明确联动，把部分攻击增益也给到另一名高攻击队友。",
+        "RX + NC + DT 激活 Conductor：自己用战技时，所有队友获得 1 回合增伤。"
+      ],
+      "cautions": [
+        "Conductor 是三件组合，不会同时叠加 RX + DT 的 Tempo 或 NC + DT 的 Kiai Time。",
+        "行动提前不是无条件额外回合；收益取决于当前行动条。"
+      ],
+      "team": [
+        "与两名输出或一个明确主 C 都可配合；注意四人队职业形状加成。"
+      ]
+    },
+    {
+      "id": "curse-spread",
+      "name": "诅咒易伤扩散",
+      "summary": "让 CC 先建立易伤，再由全队集火；自身也能吃到 Weak Point。",
+      "cls": "cc",
+      "skill": "curse",
+      "passive": "weak-point",
+      "mods": [
+        "hd",
+        "ht",
+        "nc"
+      ],
+      "tags": [
+        "易伤",
+        "减益",
+        "群体"
+      ],
+      "stats": [
+        "速度有助于先于输出手挂易伤；生存保证控制位持续出手。",
+        "ATK% 与暴击可补自身输出，但别为了暴击忽略核心减益职责。"
+      ],
+      "rotation": [
+        "优先给本轮集火目标上 Curse。",
+        "由队友在减益持续期间打输出，注意目标净化或减益到期。"
+      ],
+      "why": [
+        "Curse + Weak Point 的明确联动提高主目标与其他敌人的易伤值。",
+        "HD + HT + NC 激活 Contagion，让战技减益以 70% 强度影响其他敌人。"
+      ],
+      "cautions": [
+        "Curse 自带溅射与 Contagion 不是直接相加；同种状态的合并采用较大强度、较长持续时间。",
+        "三件 Contagion 不同时激活两件 Hex，不能额外算上 Hex 的延长与减速强化。",
+        "敌方减益抗性、关卡规则与净化可能影响实际收益。"
+      ],
+      "team": [
+        "Weak Point 或 Opportunist 输出手可利用减益。",
+        "治疗或护盾保障 CC 不在建立减益前被击倒。"
+      ]
+    },
+    {
+      "id": "stall-first",
+      "name": "先手压制",
+      "summary": "Ambush 抢启动，用 Stall、减速和行动推迟限制对手节奏。",
+      "cls": "cc",
+      "skill": "stall",
+      "passive": "ambush",
+      "mods": [
+        "hd",
+        "ht",
+        "fl"
+      ],
+      "tags": [
+        "先手",
+        "减速",
+        "控制"
+      ],
+      "stats": [
+        "速度与足够生存优先；控制位需要多次行动而非只打第一下。",
+        "有合适词条再补攻击，不应把控制配装当纯伤害竞赛。"
+      ],
+      "rotation": [
+        "优先压制马上要行动且威胁高的敌人。",
+        "对已有减速的目标继续施压，或在新威胁出现时切换目标。"
+      ],
+      "why": [
+        "Stall + Ambush 的明确联动增加对其他敌人的行动推迟。",
+        "HD + HT + FL 激活 Pin Down，包含延长减益、强化减速及对已减速目标的额外推迟。"
+      ],
+      "cautions": [
+        "Pin Down 是一个完整三件效果，不另算 Hex、Focus、Lockdown 三个两件组合。",
+        "行动推迟有上限机制，不能因此宣称敌人能被无限锁死。",
+        "Unshakable 等抗性、关卡规则与行动顺序会改变控制效果。"
+      ],
+      "team": [
+        "输出手趁敌人被推迟集火；Support 维持控制位资源。"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "id": "guard",
+      "name": "韧性 / Guard",
+      "english": "Guard",
+      "text": "与生命、护盾不同的破防资源。攻击会削减 Guard；削至零会进入 Broken。Guard DMG 是削减这条资源的能力，不是直接生命伤害。"
+    },
+    {
+      "id": "broken",
+      "name": "破防",
+      "english": "Broken / Break",
+      "text": "当前前端中，破防会推迟目标行动，并使其承受更多伤害；默认破防易伤为 30%，特定被动可再增加。目标下一次行动到来时解除破防并恢复 Guard。不要把它理解成永久减防。"
+    },
+    {
+      "id": "exposed",
+      "name": "易伤",
+      "english": "Exposed",
+      "text": "提高受到的伤害。Curse 是典型来源；Weak Point 会对处于此状态的敌人获得额外伤害。"
+    },
+    {
+      "id": "weakened",
+      "name": "虚弱",
+      "english": "Weakened",
+      "text": "降低造成的伤害。Wither 是典型来源，能用于降低敌方爆发。"
+    },
+    {
+      "id": "slowed",
+      "name": "减速",
+      "english": "Slowed",
+      "text": "让行动到来得更慢。与一次性行动推迟不是同一效果；Stall 同时涉及两者。"
+    },
+    {
+      "id": "taunt",
+      "name": "嘲讽",
+      "english": "Taunting",
+      "text": "迫使敌方单体攻击选择嘲讽者，并让嘲讽者分担队友承受的部分伤害。嘲讽结束后有一回合不能再次嘲讽的空档；楼层 FL 会使嘲讽无效。"
+    },
+    {
+      "id": "shield",
+      "name": "护盾",
+      "english": "Shield",
+      "text": "先承受通常伤害的保护值，不是 Guard。Piercing Shot 可绕过护盾；当前前端通用护盾总上限为受保护者最大生命的 50%，另有较低的过量治疗转盾上限。"
+    },
+    {
+      "id": "sp",
+      "name": "技能点",
+      "english": "Skill Point / SP",
+      "text": "队伍共享资源，普通攻击通常回 1 点，战技通常消耗 1 点，上限 5 点；普通开局为 3 点。特定技能、被动、关卡或队伍效果可改变获得方式与开局值。"
+    },
+    {
+      "id": "advance",
+      "name": "行动提前 / 推迟",
+      "english": "Advance / Delay",
+      "text": "调整行动条，不等同于直接增减速度。行动提前令角色更早行动，推迟则相反；效果受当前行动条、上限和抗性影响。"
+    },
+    {
+      "id": "eidolon",
+      "name": "星魂 / Eidolon",
+      "english": "Eidolon E0–E6",
+      "text": "卡牌的独立养成层。E2 强化被动，E3 强化战技与部分附加效果，E5 强化普攻；E1、E4、E6 则有职业专属收益。资料中的基础数值不能当成任意 E 等级的最终结算。"
+    },
+    {
+      "id": "skill-passive",
+      "name": "战技与被动联动",
+      "english": "Skill–Passive synergy",
+      "text": "特定战技搭配指定被动会额外解锁效果。它不同于 MOD 组合；只是战技、被动各自强，不代表一定有这项额外联动。"
+    },
+    {
+      "id": "mod-combo",
+      "name": "MOD 组合",
+      "english": "Mod combo",
+      "text": "由装备的 MOD 类型决定。先匹配三件组合，命中则只使用该三件效果；没命中三件时，可同时获得所有符合的两件组合。"
+    },
+    {
+      "id": "outheal",
+      "name": "治疗加成",
+      "english": "Outgoing Healing",
+      "text": "提高该角色施加的治疗。普通 Support 的多数治疗以自身最大生命为基础；请分别看治疗基础、治疗加成与目标生命上限。"
+    },
+    {
+      "id": "crit",
+      "name": "暴击率 / 暴击伤害",
+      "english": "CRIT Rate / CRIT DMG",
+      "text": "暴击率决定暴击概率，暴击伤害决定暴击时的伤害增幅。某些技能、被动或 MOD 只在指定生命阈值、减益状态或未受伤时提供额外收益。"
+    },
+    {
+      "id": "signature",
+      "name": "签名卡",
+      "english": "Signature card",
+      "text": "具有专属战技和被动的特殊配置，不能简单套用普通卡默认技能与联动。此 Wiki 的普通构筑示例不代表签名卡也能随意改成同一套。"
+    },
+    {
+      "id": "rarity-stats",
+      "name": "卡牌稀有度与装备星级",
+      "english": "Card rarity / Mod stars",
+      "text": "是两套不同系统：卡牌稀有度参与基础面板；MOD 星级影响装备属性与部分单件效果。MOD 的强化等级又是第三个维度，不要把三者混为一谈。"
+    }
+  ],
+  "rules": [
+    {
+      "id": "combo-priority",
+      "title": "三件组合优先，不与下级两件组合全叠",
+      "text": "组合判定先找满足的三件组合，找到后只返回该组合；否则返回所有满足的两件组合。单件 MOD 的固有效果与词条仍会计入。例：HD + DT + HR 只命中 Hypercarry；HD + HR + PF 则命中 Crit DPS 与 SS Rank。",
+      "evidence": "function ot(e), first occurrence; Ft(e)"
+    },
+    {
+      "id": "stars",
+      "title": "MOD 星级缩放与强化不是一回事",
+      "text": "1–5 星的部分单件固有效果系数分别为 40%、55%、70%、85%、100%；NF 有盾时减伤 8%、HT 减速延长 1 回合、RX 增益延长 1 回合等固定部分不按此系数缩放。强化上限分别为 +3 / +6 / +9 / +12 / +15；组合匹配本身只看类型。",
+      "evidence": "et={1:.4,2:.55,3:.7,4:.85,5:1}; nt(e,t,n,r); H={1:3,2:6,3:9,4:12,5:15}"
+    },
+    {
+      "id": "same-status",
+      "title": "同种状态取更强、更久，不简单相加",
+      "text": "当前状态合并逻辑对同类型状态分别取较大强度与较长持续回合。Curse 自带溅射再遇 Contagion 时，不要把两项百分比直接相加。",
+      "evidence": "function R(e,t,n,r,i)"
+    },
+    {
+      "id": "floor-versus-gear",
+      "title": "装备 MOD 与楼层 MOD 同名但效果不同",
+      "text": "例如装备 SD 是斩杀收益与生命代价；楼层 SD 则禁用护盾、Guardian Angel、Undying，当前执行也禁用 Second Chance。楼层 FL 无视嘲讽。搭配是否合适必须连关卡规则一起看。",
+      "evidence": "cn floor rules; function V; function Ne; function Fe"
+    },
+    {
+      "id": "shape",
+      "title": "队伍形状加成有优先级",
+      "text": "四人队的形状加成依序匹配 Siege（2 Tank + 2 Support）→ Hex Circle（至少 2 CC）→ Twin Blades（至少 2 DPS）→ Iron Wall（至少 2 Tank）→ Choir（至少 2 Support），只取第一个符合的形状。职业搭档、国家等其它来源另行计算。",
+      "evidence": "Yt shape entry; function en(e)"
+    },
+    {
+      "id": "team-cap",
+      "title": "队伍加成不是无限乘算",
+      "text": "同卡的队伍 ATK、HP、SPD 加成相加后各自最多 +35%；四张同职业还会受到 20% 削弱。卡片和装备自身的数值并不等于这项队伍加成上限。",
+      "evidence": "qt=.35; function nn(e,t); Yt stacked/cap entries"
+    },
+    {
+      "id": "point-economy",
+      "title": "强技能也要服从全队技能点预算",
+      "text": "普通基础规则为全队开局 3 点、上限 5 点，普攻 +1，战技 -1。Overture、Momentum、Thrifty 等可以改善循环，但返还可能受触发条件、概率与上限限制。",
+      "evidence": "battle initialization te/p; function Te; function Qe"
+    },
+    {
+      "id": "shield-cap",
+      "title": "护盾与过量治疗有各自上限",
+      "text": "通用护盾总量不超过目标最大生命的 50%；Sustain 过量治疗转盾使用 10% 阈值，Mend 联动另有 25% 阈值。不同机制不能把标注上限直接相加当作最终护盾量。",
+      "evidence": "Yr=.5; function V; function B; N.mendShield"
+    },
+    {
+      "id": "default-not-owned",
+      "title": "公共角色配置不等于你的实卡",
+      "text": "公开玩家条目可说明职业、默认战技和被动，但不能替代持有卡的等级、星魂、重洗结果、装备与实际面板。构筑示例只表达机制方向，不证明你已持有或能直接组成。",
+      "evidence": "ue(e); cards API is authenticated"
+    },
+    {
+      "id": "inference",
+      "title": "构筑指南是规则推导，不是胜率榜",
+      "text": "本页搭配没有伪造实战、胜率或全局最优结论。装备词条、敌方阵容、关卡 MOD、行动顺序、等级与星魂都会改变选择。优先使用能解释触发条件、能实际凑齐的组合。",
+      "evidence": "Editorial scope: no battle simulation or private account data used"
+    }
+  ]
+}

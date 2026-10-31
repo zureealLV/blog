@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141419"><meta name="description" content="osu! gacha 中文战术图鉴：搜索战技、被动、MOD 与组合，在搭配实验台验证联动。基于公开规则快照，附来源与搭配边界。">
+  <title>osu! gacha 战术图鉴 · Lv's Wiki</title>
+  <link rel="canonical" href="https://zureeallv.com/gacha-wiki/">
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳至内容</a>
+<aside class="sidebar" id="sidebar" aria-label="图鉴导航">
+  <a class="brand" href="#home" aria-label="战术图鉴首页"><span class="brand-mark">g<span>!</span></span><span><strong>osu! gacha</strong><small>FIELD GUIDE / 战术图鉴</small></span></a>
+  <div class="sidebar-rule"></div><nav id="nav"></nav>
+  <div class="sidebar-bottom"><span class="status-dot"></span> 公开规则 · 本地检索<p>不是强度榜，是你的搭配手册。</p><a href="/" data-no-swup>← 回到 Lv 的博客</a></div>
+</aside>
+<div class="overlay" id="overlay"></div>
+<div class="shell">
+  <header class="topbar"><button class="mobile-toggle icon-button" id="menu" aria-label="展开导航" aria-expanded="false">☰</button><div class="breadcrumb"><span>资料库</span><span class="slash">/</span><strong id="crumb">总览</strong></div><div class="top-actions"><a href="#sources" class="version-link"><span class="status-dot"></span><span id="snapshot-date">规则快照</span></a><a class="source-link" href="https://osugacha.com/" target="_blank" rel="noopener noreferrer">打开游戏 ↗</a></div></header>
+  <main id="main" tabindex="-1"><div class="loading">正在展开图鉴…</div></main>
+  <footer class="footer"><span>osu! gacha FIELD GUIDE</span><span>非官方资料整理 · 不读取账号 · 建议不等于最优解</span><a href="#sources">来源与版本 ↗</a></footer>
+</div>
+<dialog id="detail" aria-labelledby="detail-title"><div id="detail-content"></div></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript><div class="noscript">此 Wiki 的搜索和搭配实验台需要 JavaScript。原始资料可下载：<a href="data.json">规则 JSON</a>。</div></noscript>
+<script src="data.js"></script><script src="guides.js"></script><script type="module" src="app.mjs"></script>
+</body></html>

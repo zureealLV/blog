@@ -1,0 +1,28 @@
+{
+  "fetchedAt": "2026-10-31T09:18:23.570Z",
+  "sourceUrl": "https://osugacha.com/assets/rpg-Rm3zoMWw.js",
+  "sourceHash": "0f7c0ff382b7c9f314bf04c15ce657f2f85290ae533cb31ed34c99c52757b9bb",
+  "build": "rpg-Rm3zoMWw.js",
+  "localeUrl": "https://osugacha.com/assets/zh-BrYAqR0c.js",
+  "localeHash": "bc19f4a87c20765f5955336173f5ef182e166dc7aeae4f31b7de39e09501d2b6",
+  "scope": "公开前端规则快照；非账号库存、非实时服务端权威结算。",
+  "translation": "普通条目采用原站中文词典；签名技能、补充机制为人工整理，并保留英文原文。",
+  "counts": {
+    "classes": 4,
+    "skills": 16,
+    "passives": 19,
+    "synergies": 16,
+    "mods": 12,
+    "combos": 28,
+    "signatures": 9,
+    "teamSynergies": 16,
+    "floorMods": 6,
+    "bosses": 4,
+    "mechanics": 20,
+    "statuses": 10
+  },
+  "signatureScope": "仅收录公开前端的 9 套签名技能模板，不猜测模板对应的玩家、卡面、当期卡池或持有情况；中文签名名称为本站辅助译名。",
+  "rulePriority": "数值以本次英文规则和实现快照为核对基准；中文保留原站表述。战斗实装的限制和例外在机制条目中单列。",
+  "clientBuild": "1793399313925",
+  "updateNote": "2026-10-31 已对比上一快照：仅依赖导入文件名与客户端构建时间戳改变，公开 RPG 规则和中文词典无实质变化。"
+}

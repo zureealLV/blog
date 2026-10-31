@@ -67,6 +67,13 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 				icon: "simple-icons:osu",
 			},
 
+			// osu! gacha 中文规则图鉴与搭配实验台
+			{
+				name: "Gacha Wiki",
+				url: "/gacha-wiki/",
+				icon: "material-symbols:menu-book",
+			},
+
 			// 超天酱桌面实验场：独立打开，避免 Swup 接管完整桌面 UI
 			{
 				name: "Desktop β",
