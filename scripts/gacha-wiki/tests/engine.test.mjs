@@ -15,7 +15,11 @@ test("Mend plus Sustain warns against adding separate shield limits", () => {
 		{ cls: "support", skill: "mend", passive: "lifeline", mods: ["ez", "ht"] },
 		data,
 	);
-	assert.ok(buildWarnings(value, data).some((text) => text.includes("35%")));
+	assert.ok(
+		buildWarnings(value, data).some(
+			(text) => text.includes("6%") && text.includes("25%"),
+		),
+	);
 });
 
 test("unrestricted passives remain available under a class filter", () => {

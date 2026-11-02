@@ -1,5 +1,7 @@
 # osu! gacha public rules snapshot
 
+> Historical snapshot (2026-10-31). For v1.1, see [2026-11-02 audit](UPDATE-20261102.md) and the current source manifest.
+
 Snapshot refreshed on 2026-10-31 (Asia/Shanghai); prior 2026-10-30 snapshots retained. See `UPDATE-20261031.md` for the full-bundle comparison. No login, account tokens, private inventory, mutations, purchases or combat requests were used.
 
 ## Sources
@@ -8,7 +10,7 @@ Snapshot refreshed on 2026-10-31 (Asia/Shanghai); prior 2026-10-30 snapshots ret
 - Main rule bundle: https://osugacha.com/assets/rpg-Rm3zoMWw.js
 - Chinese content/UI dictionary: https://osugacha.com/assets/zh-BrYAqR0c.js
 - Chinese dictionary discovery: public `overlays-NbLz_OEv.js` dynamic locale import.
-- Exact SHA-256 values, fetch time and counts: `source-manifest.json`.
+- Exact SHA-256 values, fetch time and counts: `source-manifest-20261031.json`.
 
 ## Reproduce
 

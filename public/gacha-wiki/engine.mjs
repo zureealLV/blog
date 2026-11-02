@@ -7,6 +7,8 @@ export const categories = {
 	signatures: { name: "签名技能", en: "Signature kits", icon: "✧" },
 	classes: { name: "职业", en: "Classes", icon: "◇" },
 	teamSynergies: { name: "阵容羁绊", en: "Team synergies", icon: "◎" },
+	depthGates: { name: "深境选门", en: "Gate tactics", icon: "◇" },
+	depthTeams: { name: "深境敌队", en: "Enemy formations", icon: "▧" },
 	floorMods: { name: "楼层规则", en: "Floor modifiers", icon: "▤" },
 	bosses: { name: "Boss 特性", en: "Boss traits", icon: "⚑" },
 	mechanics: { name: "养成与机制", en: "Mechanics", icon: "≡" },
@@ -16,7 +18,7 @@ export const classNames = {
 	tank: "坦克",
 	dps: "输出",
 	support: "辅助",
-	cc: "控制",
+	cc: "法师",
 };
 export const normalize = (v) =>
 	String(v ?? "")
@@ -88,6 +90,14 @@ export function searchable(item, data) {
 			JSON.stringify(item),
 			...related.map((x) => JSON.stringify(x)),
 			classNames[item.cls],
+			...(item.slots || []).flatMap((x) => [
+				classNames[x.cls],
+				data.skills.find((v) => v.id === x.skill)?.nameZh,
+				data.passives.find((v) => v.id === x.passive)?.nameZh,
+			]),
+			item.cls === "cc" || (item.kind === "classes" && item.id === "cc")
+				? "法师 控制 Mage CC"
+				: "",
 		].join(" "),
 	);
 }
@@ -167,8 +177,22 @@ export function buildWarnings(build, data) {
 		resolveCombos(build.mods, data.combos).some((c) => c.id === "sustain")
 	)
 		warnings.push(
-			"治愈专属联动的 25% 与续航的 10% 是各自转盾路径的限制，不能直接相加成固定 35% 护盾。",
+			"治愈专属联动的 25% 与续航的 6% 是各自转盾路径的限制，不能直接相加当作固定护盾。",
 		);
+	if (!build.sig && build.skill === "execute") {
+		const combos = resolveCombos(build.mods, data.combos).map((c) => c.id);
+		if (
+			build.passive !== "bloodlust" ||
+			!(
+				combos.includes("executioner") ||
+				combos.includes("hypercarry") ||
+				(combos.includes("crit") && combos.includes("ss"))
+			)
+		)
+			warnings.push(
+				"处决再动未就绪：需嗜血，并激活处刑者、核心输出或同时激活暴击输出与 SS 评级；即使配齐也必须由处决击倒目标。",
+			);
+	}
 	return warnings;
 }
 export function synergyFor(build, data) {

@@ -1,5 +1,7 @@
 # Mechanics and build-guide audit
 
+> Historical snapshot (2026-10-31). For v1.1, see [2026-11-02 audit](UPDATE-20261102.md) and the current source manifest.
+
 Source: https://osugacha.com/assets/rpg-Rm3zoMWw.js
 Homepage checked: 2026-10-31 (Asia/Shanghai); current asset is rpg-Rm3zoMWw.js.
 SHA-256 (UTF-8 source): 0f7c0ff382b7c9f314bf04c15ce657f2f85290ae533cb31ed34c99c52757b9bb

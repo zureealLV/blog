@@ -1,13 +1,13 @@
 {
   "meta": {
-    "fetchedAt": "2026-10-31T09:18:23.570Z",
-    "sourceUrl": "https://osugacha.com/assets/rpg-Rm3zoMWw.js",
-    "sourceHash": "0f7c0ff382b7c9f314bf04c15ce657f2f85290ae533cb31ed34c99c52757b9bb",
-    "build": "rpg-Rm3zoMWw.js",
-    "localeUrl": "https://osugacha.com/assets/zh-BrYAqR0c.js",
-    "localeHash": "bc19f4a87c20765f5955336173f5ef182e166dc7aeae4f31b7de39e09501d2b6",
+    "fetchedAt": "2026-11-02T04:23:02.623Z",
+    "sourceUrl": "https://osugacha.com/assets/ui-CnPAHh5L.js",
+    "sourceHash": "0a289a1ee6cc1a3e1d58f9b29a239e45eb460b9697ccc69cf0ff36cc5e40a59a",
+    "build": "ui-CnPAHh5L.js",
+    "localeUrl": "https://osugacha.com/assets/zh-DWO0HJmv.js",
+    "localeHash": "9a7e7c7eb9a25f9a63a4ea19a8f3be2f70f8f358d92645505cab767330e30320",
     "scope": "公开前端规则快照；非账号库存、非实时服务端权威结算。",
-    "translation": "普通条目采用原站中文词典；签名技能、补充机制为人工整理，并保留英文原文。",
+    "translation": "普通条目采用原站中文词典；签名说明按同版英文规则校正过期中文数值，签名名称与补充机制为人工整理，并保留英文原文。",
     "counts": {
       "classes": 4,
       "skills": 16,
@@ -17,15 +17,22 @@
       "combos": 28,
       "signatures": 9,
       "teamSynergies": 16,
+      "depthTeams": 18,
+      "depthGates": 7,
       "floorMods": 6,
       "bosses": 4,
-      "mechanics": 20,
+      "mechanics": 28,
       "statuses": 10
     },
     "signatureScope": "仅收录公开前端的 9 套签名技能模板，不猜测模板对应的玩家、卡面、当期卡池或持有情况；中文签名名称为本站辅助译名。",
-    "rulePriority": "数值以本次英文规则和实现快照为核对基准；中文保留原站表述。战斗实装的限制和例外在机制条目中单列。",
-    "clientBuild": "1793399313925",
-    "updateNote": "2026-10-31 已对比上一快照：仅依赖导入文件名与客户端构建时间戳改变，公开 RPG 规则和中文词典无实质变化。"
+    "rulePriority": "数值以本次英文规则和实现快照为核对基准；中文词典数值滞后时按同版规则校正。战斗实装的限制和例外在机制条目中单列。",
+    "clientBuild": "1793582738377",
+    "version": "1.1",
+    "patchHash": "dc3ea0ec00f03818c26b43d29035137337778ad23e2217313ca1e720f3881ea0",
+    "patchUrl": "https://osugacha.com/changelog",
+    "patchAsset": "https://osugacha.com/assets/Changelog-CS6itzk2.js",
+    "entryUrl": "https://osugacha.com/assets/rpg-G9rs50td.js",
+    "updateNote": "v1.1（含 v1.0 / 1.0.1）：职业与技能平衡重做，加入深境、月度高塔、MOD 宝石和 A7–A24 晋阶。"
   },
   "classes": [
     {
@@ -48,9 +55,9 @@
     {
       "id": "dps",
       "name": "DPS",
-      "identity": "Deals the damage.",
-      "atk": 1.04,
-      "hp": 1.3,
+      "identity": "The team's carry. As its team's only DPS it deals +25% damage, and its single-target hits +8% more for each buff on it, debuff on its target or Broken target (up to 3).",
+      "atk": 1.02,
+      "hp": 1.36,
       "spd": 1.04,
       "def": 0.85,
       "crit": 0.04,
@@ -59,16 +66,16 @@
       "glyph": "⚔",
       "odds": 28,
       "nameZh": "输出",
-      "text": "Deals the damage.",
-      "textZh": "负责造成伤害。"
+      "text": "The team's carry. As its team's only DPS it deals +25% damage, and its single-target hits +8% more for each buff on it, debuff on its target or Broken target (up to 3).",
+      "textZh": "队伍的核心输出。作为队中唯一的 DPS 时造成伤害 +25%，其单体攻击在自身每有一个增益、目标每有一个减益或目标被击破时，再 +8%（最多 3 个）。"
     },
     {
       "id": "support",
       "name": "Support",
       "identity": "Heals the team and keeps it standing.",
       "atk": 0.95,
-      "hp": 1.25,
-      "spd": 1.06,
+      "hp": 1.45,
+      "spd": 1.12,
       "def": 1.05,
       "crit": 0,
       "guard": 45,
@@ -81,18 +88,18 @@
     },
     {
       "id": "cc",
-      "name": "CC",
+      "name": "Mage",
       "identity": "Weakens and delays the enemy.",
-      "atk": 0.9,
-      "hp": 1.2,
-      "spd": 1.1,
+      "atk": 0.95,
+      "hp": 1.3,
+      "spd": 1.06,
       "def": 1.02,
       "crit": 0,
       "guard": 45,
       "color": "#b48cff",
       "glyph": "☾",
       "odds": 24,
-      "nameZh": "控制",
+      "nameZh": "法师",
       "text": "Weakens and delays the enemy.",
       "textZh": "削弱并拖慢敌人。"
     }
@@ -102,183 +109,183 @@
       "id": "bulwark",
       "cls": "tank",
       "name": "Bulwark",
-      "text": "Shields every ally for 70% of the Tank’s DEF and Taunts for 2 turns.",
+      "text": "Raises every ally’s shield to 20% DEF + 0.5% HP (a shield already bigger stays as it is) and Taunts through its next 2 turns.",
       "targets": "none",
       "nameZh": "壁垒",
-      "textZh": "为每名队友提供相当于坦克 DEF 70% 的护盾，并嘲讽 2 回合。"
+      "textZh": "将每名队友的护盾提升至 DEF 20% + HP 0.5%（已更高的护盾保持不变），并在自身接下来的 2 个回合内嘲讽。"
     },
     {
       "id": "iron-skin",
       "cls": "tank",
       "name": "Iron Skin",
-      "text": "Shields itself for 260% of its DEF and Taunts for 2 turns. While Taunting it takes 35% of the damage dealt to its allies (instead of 20%).",
+      "text": "Shields itself for 20% DEF + 30% bonus DEF + 0.8% HP and Taunts through its next 2 turns. While Taunting it takes 35% of the damage dealt to its allies (instead of 30%).",
       "targets": "none",
       "nameZh": "铁肤",
-      "textZh": "为自身提供相当于 DEF 260% 的护盾，并嘲讽 2 回合。嘲讽期间替队友承受其所受伤害的 35%（原为 20%）。"
+      "textZh": "为自身提供相当于 DEF 20% + 额外 DEF 30% + HP 0.8% 的护盾，并在自身接下来的 2 个回合内嘲讽。嘲讽期间替队友承受其所受伤害的 35%（原为 30%）。"
     },
     {
       "id": "shield-bash",
       "cls": "tank",
       "name": "Shield Bash",
-      "text": "Hits one enemy for 130% with triple Guard damage and Taunts for 2 turns.",
+      "text": "Hits one enemy for 75% ATK + 40% DEF with triple Guard damage and Taunts through its next 2 turns.",
       "targets": "enemy",
       "single": true,
       "nameZh": "盾击",
-      "textZh": "对一名敌人造成 130% 伤害，削韧为三倍，并嘲讽 2 回合。"
+      "textZh": "对一名敌人造成 ATK 75% + DEF 40% 的伤害，削韧为三倍，并在自身接下来的 2 个回合内嘲讽。"
     },
     {
       "id": "heavy-strike",
       "cls": "dps",
       "name": "Heavy Strike",
-      "text": "Hits one enemy for 155% with quadruple Guard damage.",
+      "text": "Hits one enemy for 155% ATK + 20% bonus ATK with quadruple Guard damage.",
       "targets": "enemy",
       "single": true,
       "nameZh": "重击",
-      "textZh": "对一名敌人造成 155% 伤害，削韧为四倍。"
+      "textZh": "对一名敌人造成 ATK 155% + 额外 ATK 20% 的伤害，削韧为四倍。"
     },
     {
       "id": "blade-storm",
       "cls": "dps",
       "name": "Blade Storm",
-      "text": "Hits every enemy for 72%.",
+      "text": "Hits every enemy for 74% ATK + 15% bonus ATK.",
       "targets": "none",
       "aoe": true,
       "nameZh": "剑刃风暴",
-      "textZh": "对所有敌人造成 72% 伤害。"
+      "textZh": "对所有敌人造成 ATK 74% + 额外 ATK 15% 的伤害。"
     },
     {
       "id": "execute",
       "cls": "dps",
       "name": "Execute",
-      "text": "Hits one enemy for 155%, or 240% if it is under half HP.",
+      "text": "Hits one enemy for 150% ATK + 35% bonus ATK, or 200% ATK + 45% bonus ATK if it is under 50% target HP. With Bloodlust and the Executioner or Hypercarry combo (or Crit DPS and SS Rank together), a knockout with it lets this card act again right away.",
       "targets": "enemy",
       "single": true,
       "nameZh": "处决",
-      "textZh": "对一名敌人造成 155% 伤害；若其 HP 低于一半，改为 240%。"
+      "textZh": "对一名敌人造成 ATK 150% + 额外 ATK 35% 的伤害；若目标生命低于 50%，改为 ATK 200% + 额外 ATK 45%。搭配嗜血与处刑者或核心输出组合（或同时拥有暴击输出与 SS 评级）时，以此击倒目标后立即再行动一次。"
     },
     {
       "id": "mend",
       "cls": "support",
       "name": "Mend",
-      "text": "Heals one ally for 18% of the Support’s max HP.",
+      "text": "Heals one ally for 9% HP + 1.1% bonus HP, twice as much if it is under 40% ally HP.",
       "targets": "ally",
       "nameZh": "治愈",
-      "textZh": "为一名队友恢复相当于辅助 HP 上限 18% 的生命。"
+      "textZh": "为一名队友恢复相当于 HP 9% + 额外 HP 1.1% 的生命；若队友生命低于 40%，恢复量翻倍。"
     },
     {
       "id": "sanctuary",
       "cls": "support",
       "name": "Sanctuary",
-      "text": "Heals every ally for 14% of the Support’s max HP and removes one debuff from each.",
+      "text": "Heals every ally for 6% HP + 1.2% bonus HP and removes one debuff from each.",
       "targets": "none",
       "nameZh": "圣域",
-      "textZh": "为所有队友恢复相当于辅助 HP 上限 14% 的生命，并为每人驱散一个减益。"
+      "textZh": "为所有队友恢复相当于 HP 6% + 额外 HP 1.2% 的生命，并为每人驱散一个减益。"
     },
     {
       "id": "battle-hymn",
       "cls": "support",
       "name": "Battle Hymn",
-      "text": "Heals one ally for 10%, gives it +35% ATK for 2 turns and moves its turn up 50%.",
+      "text": "Heals one ally for 14% HP + 2% bonus HP, gives it +38% ATK (+0.5% per 10% bonus HP, up to 45%) for 2 turns and moves its turn up 60%.",
       "targets": "ally",
       "nameZh": "战歌",
-      "textZh": "为一名队友恢复 10% 生命，使其 ATK +35%，持续 2 回合，并使其行动提前 50%。"
+      "textZh": "为一名队友恢复相当于 HP 14% + 额外 HP 2% 的生命，使其 ATK +38%（每有 10% 额外 HP 再 +0.5%，最多 45%），持续 2 回合，并使其行动提前 60%。"
     },
     {
       "id": "curse",
       "cls": "cc",
       "name": "Curse",
-      "text": "Hits one enemy for 90% and Exposes it (+45% damage taken) for 2 turns, and every other enemy by 15%.",
+      "text": "Hits one enemy for 150% and Exposes it (+40% damage taken, +4% per 10% bonus ATK) for 2 turns, and every other enemy by 30%.",
       "targets": "enemy",
       "single": true,
       "nameZh": "诅咒",
-      "textZh": "对一名敌人造成 90% 伤害，并使其陷入易伤（受到伤害 +45%），持续 2 回合；其他敌人易伤 15%。"
+      "textZh": "对一名敌人造成 150% 伤害，并使其陷入易伤（受到伤害 +40%，每有 10% 额外 ATK 再 +4%），持续 2 回合；其他敌人易伤 30%。"
     },
     {
       "id": "wither",
       "cls": "cc",
       "name": "Wither",
-      "text": "Hits one enemy for 90%, Weakens it (−45% damage dealt) for 2 turns and strips its buffs (ATK up, DMG up, Ward); every other enemy is Weakened by 12%.",
+      "text": "Hits one enemy for 140%, Weakens it (−27% damage dealt, +1% per 10% bonus ATK) for 2 turns and strips its buffs (ATK up, DMG up, Ward); every other enemy is Weakened by 15%.",
       "targets": "enemy",
       "single": true,
       "nameZh": "凋零",
-      "textZh": "对一名敌人造成 90% 伤害，使其陷入虚弱（造成伤害 −45%），持续 2 回合，并移除其增益（ATK、伤害、守护）；其他敌人虚弱 12%。"
+      "textZh": "对一名敌人造成 140% 伤害，使其陷入虚弱（造成伤害 −27%，每有 10% 额外 ATK 再 −1%），持续 2 回合，并移除其增益（ATK、伤害、守护）；其他敌人虚弱 15%。"
     },
     {
       "id": "stall",
       "cls": "cc",
       "name": "Stall",
-      "text": "Hits one enemy for 80%, pushes its turn back 60% and Slows it by 20% for 2 turns; every other enemy's turn is pushed back 10%.",
+      "text": "Hits one enemy for 150%, pushes its turn back 45% and Slows it by 30% (+4% per 10% bonus ATK, up to 45%) for 2 turns, then bounces to another enemy at random with 35% of all that.",
       "targets": "enemy",
       "single": true,
       "nameZh": "拖延",
-      "textZh": "对一名敌人造成 80% 伤害，使其行动延后 60%，并减速 20%，持续 2 回合；其他敌人的行动延后 10%。"
+      "textZh": "对一名敌人造成 150% 伤害，使其行动延后 45%，并减速 30%（每有 10% 额外 ATK 再 +4%，最多 45%），持续 2 回合；随后以 35% 的效果弹射到另一名随机敌人。"
     },
     {
       "id": "counter-stance",
       "cls": "tank",
       "name": "Counter Stance",
-      "text": "Shields itself for 220% of its DEF, Taunts for 2 turns and hits back for 80% whenever it’s attacked while Taunting.",
+      "text": "Shields itself for 15% DEF + 40% bonus DEF + 1% HP and Taunts through its next 2 turns; through the first of them it hits back for 25% ATK + 10% DEF whenever it’s attacked.",
       "targets": "none",
       "nameZh": "反击架势",
-      "textZh": "为自身提供相当于 DEF 220% 的护盾，嘲讽 2 回合；嘲讽期间每次受到攻击都会反击，造成 80% 伤害。"
+      "textZh": "为自身提供相当于 DEF 15% + 额外 DEF 40% + HP 1% 的护盾，在自身接下来的 2 个回合内嘲讽；其中第一个回合每次受到攻击都会反击，造成 ATK 25% + DEF 10% 的伤害。"
     },
     {
       "id": "piercing-shot",
       "cls": "dps",
       "name": "Piercing Shot",
-      "text": "Hits one enemy for 135%, ignoring its shield and 30% of its DEF.",
+      "text": "Hits one enemy for 145% ATK + 20% bonus ATK, ignoring its shield and 40% target DEF.",
       "targets": "enemy",
       "single": true,
       "nameZh": "穿透射击",
-      "textZh": "对一名敌人造成 135% 伤害，无视其护盾和 30% DEF。"
+      "textZh": "对一名敌人造成 ATK 145% + 额外 ATK 20% 的伤害，无视其护盾和 40% 目标防御。"
     },
     {
       "id": "overture",
       "cls": "support",
       "name": "Overture",
-      "text": "Gives the team 1 Skill Point, heals one ally for 8% and moves its turn up 40%.",
+      "text": "Gives the team 1 Skill Point, heals one ally for 8% HP + 1.5% bonus HP and moves its turn up 30%.",
       "targets": "ally",
       "nameZh": "序曲",
-      "textZh": "为全队提供 1 战技点，为一名队友恢复 8% 生命，并使其行动提前 40%。"
+      "textZh": "为全队提供 1 战技点，为一名队友恢复相当于 HP 8% + 额外 HP 1.5% 的生命，并使其行动提前 30%。"
     },
     {
       "id": "fracture",
       "cls": "cc",
       "name": "Fracture",
-      "text": "Hits one enemy for 125% with quadruple Guard damage and Exposes it (+35% damage taken, +45% if that Breaks it) for 2 turns; every other enemy loses 15 Guard.",
+      "text": "Hits one enemy for 145% with quadruple Guard damage and Exposes it (+25% damage taken, +40% if that Breaks it, +3% per 10% bonus ATK) for 2 turns; every other enemy loses 20 Guard.",
       "targets": "enemy",
       "single": true,
       "nameZh": "碎裂",
-      "textZh": "对一名敌人造成 125% 伤害，削韧为四倍，并使其陷入易伤（受到伤害 +35%，若因此将其击破则为 +45%），持续 2 回合；其他敌人韧性 −15。"
+      "textZh": "对一名敌人造成 145% 伤害，削韧为四倍，并使其陷入易伤（受到伤害 +25%，若因此将其击破则为 +40%，每有 10% 额外 ATK 再 +3%），持续 2 回合；其他敌人韧性 −20。"
     }
   ],
   "passives": [
     {
       "id": "guard-breaker",
       "name": "Guard Breaker",
-      "text": "+70% Guard damage. The hit that Breaks an enemy deals 20% of itself again, and the enemy takes 25% more damage while Broken.",
+      "text": "+30% GDMG. The hit that Breaks an enemy deals 20% of itself again, and the enemy takes 20% more damage while Broken.",
       "combo": "Breaks enemies fast for Exploit, Follow-up and Momentum allies.",
       "nameZh": "破韧者",
-      "textZh": "削韧 +70%。击破敌人的那一击会再造成一次相当于自身 20% 的伤害，且敌人在被击破期间受到的伤害提高 25%。",
+      "textZh": "GDMG +30%。击破敌人的那一击会再造成一次相当于自身 20% 的伤害，且敌人在被击破期间受到的伤害提高 20%。",
       "comboZh": "快速击破，为乘虚而入、追击和势如破竹队友创造机会。"
     },
     {
       "id": "exploit",
       "name": "Exploit",
-      "text": "+25% Guard damage and +45% damage to Broken enemies.",
+      "text": "+35% GDMG and +55% damage to Broken enemies.",
       "combo": "Pairs with Guard Breaker.",
       "nameZh": "乘虚而入",
-      "textZh": "削韧 +25%，对被击破的敌人伤害 +45%。",
+      "textZh": "GDMG +35%，对被击破的敌人伤害 +55%。",
       "comboZh": "与破韧者搭配。"
     },
     {
       "id": "weak-point",
       "name": "Weak Point",
       "text": "+50% damage to Exposed enemies. Its crits Expose the target (+20% damage taken) for 1 turn.",
-      "combo": "Pairs with a CC that Curses.",
+      "combo": "Pairs with a Mage that Curses.",
       "nameZh": "弱点",
       "textZh": "对易伤敌人伤害 +50%。暴击会使目标陷入易伤（受到伤害 +20%），持续 1 回合。",
-      "comboZh": "与使用诅咒的控制角色搭配。"
+      "comboZh": "与使用诅咒的法师搭配。"
     },
     {
       "id": "follow-up",
@@ -292,60 +299,60 @@
     {
       "id": "momentum",
       "name": "Momentum",
-      "text": "Whenever it Breaks an enemy: its team gains 2 Skill Points and deals +10% damage for 2 turns, and its next turn comes 35% sooner.",
+      "text": "Whenever it Breaks an enemy: its team deals +5% damage for 2 turns, and its next turn comes 15% sooner.",
       "combo": "Pairs with Shield Bash and Heavy Strike: Breaks keep the whole team rolling.",
       "nameZh": "势如破竹",
-      "textZh": "每当它击破一名敌人：己方获得 2 战技点，造成伤害 +10%，持续 2 回合，且它的下一次行动提前 35%。",
+      "textZh": "每当它击破一名敌人：己方造成伤害 +5%，持续 2 回合，且它的下一次行动提前 15%。",
       "comboZh": "与盾击及重击搭配：击破能带动全队。"
     },
     {
       "id": "thrifty",
       "name": "Thrifty",
-      "text": "Its Skill has a 35% chance to give its Skill Point back. Buffs from its Skill are 20% stronger and last 1 turn longer.",
+      "text": "Its Skill has a 25% chance to give its Skill Point back. Buffs from its Skill are 20% stronger and last 1 turn longer.",
       "nameZh": "节俭",
-      "textZh": "战技有 35% 概率返还战技点。战技提供的增益提高 20%，持续时间 +1 回合。"
+      "textZh": "战技有 25% 概率返还战技点。战技提供的增益提高 20%，持续时间 +1 回合。"
     },
     {
       "id": "guardian-angel",
       "name": "Guardian Angel",
-      "text": "Shields an ally who drops under 30% HP for 10% of its own max HP (once per ally).",
+      "text": "Shields an ally who drops under 30% ally HP for 4% HP (once per ally).",
       "nameZh": "守护天使",
-      "textZh": "当队友 HP 低于 30% 时，为其提供相当于自身 HP 上限 10% 的护盾（每名队友一次）。"
+      "textZh": "当队友 队友生命 低于 30% 时，为其提供相当于 HP 4% 的护盾（每名队友一次）。"
     },
     {
       "id": "undying",
       "name": "Undying",
-      "text": "Survives one hit that would knock it out, at 1 HP, but its next turn comes 15% of a turn later.",
+      "text": "Survives one hit that would knock it out, at 1 HP, but its turn starts over.",
       "nameZh": "不死",
-      "textZh": "受到致命一击时以 1 HP 存活一次，但下一次行动延后 15% 个回合。"
+      "textZh": "受到致命一击时以 1 HP 存活一次，但它的行动进度从头开始。"
     },
     {
       "id": "vampirism",
       "name": "Vampirism",
-      "text": "Heals for 20% of the damage it deals.",
+      "text": "Heals for 5% of the damage it deals (its Healing counts).",
       "nameZh": "吸血",
-      "textZh": "恢复相当于所造成伤害 20% 的生命。"
+      "textZh": "恢复相当于所造成伤害 5% 的生命（治疗生效）。"
     },
     {
       "id": "spiked-armor",
       "name": "Spiked Armor",
-      "text": "Whoever hits it takes damage equal to 25% of its DEF (35% while Taunting).",
+      "text": "Whoever hits it takes 15% DEF as damage (22% while Taunting).",
       "nameZh": "尖刺护甲",
-      "textZh": "攻击它的敌人会受到相当于其 DEF 25% 的伤害（嘲讽期间为 35%）。"
+      "textZh": "攻击它的敌人会受到相当于 DEF 15% 的伤害（嘲讽期间为 22%）。"
     },
     {
       "id": "deadeye",
       "name": "Deadeye",
-      "text": "+8% CRIT Rate and +25% CRIT DMG; against enemies under half HP, another +15% and +20%.",
+      "text": "+8% CRIT Rate and +25% CRIT DMG; against enemies under 50% target HP, another +10% and +20%.",
       "nameZh": "神射手",
-      "textZh": "暴击率 +8%，暴击伤害 +25%；对 HP 低于一半的敌人再额外 +15% 和 +20%。"
+      "textZh": "暴击率 +8%，暴击伤害 +25%；对 目标生命 低于 50%的敌人再额外 +10% 和 +20%。"
     },
     {
       "id": "avenger",
       "name": "Avenger",
-      "text": "Each ally knocked out gives it +30% ATK (up to twice) and moves its turn up 20%.",
+      "text": "Each ally knocked out or Broken gives it +20% ATK (up to twice) and moves its turn up 10%.",
       "nameZh": "复仇者",
-      "textZh": "每有一名队友被击倒，ATK +30%（最多两次），并使其行动提前 20%。"
+      "textZh": "每有一名队友被击倒或被击破，ATK +20%（最多两次），并使其行动提前 10%。"
     },
     {
       "id": "unshakable",
@@ -364,39 +371,39 @@
     {
       "id": "encore",
       "name": "Encore",
-      "text": "After its Skill, 20% chance to take another turn right away.",
+      "text": "After its Skill, 15% chance to take another turn right away.",
       "nameZh": "安可",
-      "textZh": "使用战技后，有 20% 概率立即再行动一次。"
+      "textZh": "使用战技后，有 15% 概率立即再行动一次。"
     },
     {
       "id": "bloodlust",
       "name": "Bloodlust",
-      "text": "+40% damage to enemies under half HP. Each enemy it knocks out moves its turn up 50%.",
+      "text": "+45% damage to enemies under 50% target HP. Each enemy it knocks out moves its turn up 50%.",
       "nameZh": "嗜血",
-      "textZh": "对 HP 低于一半的敌人伤害 +40%。每击倒一名敌人，行动提前 50%。"
+      "textZh": "对 目标生命 低于 50%的敌人伤害 +45%。每击倒一名敌人，行动提前 50%。"
     },
     {
       "id": "opportunist",
       "name": "Opportunist",
-      "text": "+35% damage to debuffed enemies (Exposed, Weakened or Slowed).",
-      "combo": "Pairs with any CC.",
+      "text": "+45% damage to debuffed enemies (Exposed, Weakened or Slowed).",
+      "combo": "Pairs with any Mage.",
       "nameZh": "机会主义",
-      "textZh": "对带有减益（易伤、虚弱或减速）的敌人伤害 +35%。",
-      "comboZh": "与任意控制角色搭配。"
+      "textZh": "对带有减益（易伤、虚弱或减速）的敌人伤害 +45%。",
+      "comboZh": "与任意法师搭配。"
     },
     {
       "id": "bastion",
       "name": "Bastion",
-      "text": "Starts each fight shielded for 10% of its max HP. Shields it gives are 15% stronger.",
+      "text": "Starts each fight shielded for 5% HP. Shields it gives are 15% stronger.",
       "nameZh": "堡垒",
-      "textZh": "每场战斗开始时获得相当于 HP 上限 10% 的护盾。提供的护盾提高 15%。"
+      "textZh": "每场战斗开始时获得相当于 HP 5% 的护盾。提供的护盾提高 15%。"
     },
     {
       "id": "lifeline",
       "name": "Lifeline",
-      "text": "At the start of each of its turns, heals the lowest-HP ally for 1% of its own max HP. Its heals are 12% stronger.",
+      "text": "At the start of each of its turns, heals the lowest-HP ally for 0.6% HP. +12% Healing.",
       "nameZh": "生命线",
-      "textZh": "每次自身回合开始时，为 HP 最低的队友恢复相当于自身 HP 上限 1% 的生命。治疗量提高 12%。"
+      "textZh": "每次自身回合开始时，为 HP 最低的队友恢复相当于 HP 0.6% 的生命。治疗 +12%。"
     }
   ],
   "synergies": [
@@ -404,10 +411,10 @@
       "id": "bulwark",
       "passive": "bastion",
       "why": "A wall of shields for the whole team.",
-      "bonus": "Bulwark also makes every ally take 10% less damage for 2 turns.",
+      "bonus": "Bulwark also makes every ally take 8% less damage for 2 turns.",
       "skill": "bulwark",
       "whyZh": "为全队筑起一道护盾之墙。",
-      "bonusZh": "壁垒还会使所有队友受到的伤害降低 10%，持续 2 回合。"
+      "bonusZh": "壁垒还会使所有队友受到的伤害降低 8%，持续 2 回合。"
     },
     {
       "id": "iron-skin",
@@ -422,55 +429,55 @@
       "id": "shield-bash",
       "passive": "momentum",
       "why": "Bashes through Guard, and every Break keeps the team rolling.",
-      "bonus": "Shield Bash deals 5× Guard damage instead of 3×.",
+      "bonus": "Shield Bash deals 4× Guard damage instead of 3×.",
       "skill": "shield-bash",
       "whyZh": "一盾砸穿韧性，每次击破都让队伍保持节奏。",
-      "bonusZh": "盾击的削韧从 3 倍提高到 5 倍。"
+      "bonusZh": "盾击的削韧从 3 倍提高到 4 倍。"
     },
     {
       "id": "counter-stance",
       "passive": "undying",
       "why": "A last stand: it refuses to fall and keeps hitting back.",
-      "bonus": "When Undying saves it, it gets back up at 50% HP, right into Counter Stance.",
+      "bonus": "When Undying saves it, it gets back up at 15% HP, right into Counter Stance.",
       "skill": "counter-stance",
       "whyZh": "背水一战：拒绝倒下，持续反击。",
-      "bonusZh": "不死救下它时，以 50% HP 站起来，直接进入反击架势。"
+      "bonusZh": "不死救下它时，以 15% HP 站起来，直接进入反击架势。"
     },
     {
       "id": "heavy-strike",
       "passive": "guard-breaker",
       "why": "Breaks in one swing, and what it Breaks takes even more damage.",
-      "bonus": "A Heavy Strike that Breaks deals 100% of itself again (instead of 20%).",
+      "bonus": "A Heavy Strike that Breaks deals 60% of itself again (instead of 20%).",
       "skill": "heavy-strike",
       "whyZh": "一击击破，被击破的目标还会受到更多伤害。",
-      "bonusZh": "击破敌人的重击会再造成一次相当于自身 100% 的伤害（而不是 20%）。"
+      "bonusZh": "击破敌人的重击会再造成一次相当于自身 60% 的伤害（而不是 20%）。"
     },
     {
       "id": "blade-storm",
       "passive": "vampirism",
       "why": "Hits everyone and heals from all of it.",
-      "bonus": "Blade Storm hits for 80% (not 72%), and its lifesteal heals the whole team.",
+      "bonus": "Blade Storm hits for 76% ATK + 15% bonus ATK (not 74% ATK + 15% bonus ATK), and its lifesteal heals the whole team.",
       "skill": "blade-storm",
       "whyZh": "打全体，并从全部伤害中回血。",
-      "bonusZh": "剑刃风暴伤害提高到 80%（原为 72%），且吸血会治疗全队。"
+      "bonusZh": "剑刃风暴伤害提高到 ATK 76% + 额外 ATK 15%（原为 ATK 74% + 额外 ATK 15%），且吸血会治疗全队。"
     },
     {
       "id": "execute",
       "passive": "bloodlust",
       "why": "Finishes the weak and moves on to the next one.",
-      "bonus": "Execute’s 240% hit and Bloodlust’s bonus work on enemies under 90% HP (not half).",
+      "bonus": "Execute’s bigger hit and Bloodlust’s bonus work on enemies under 90% target HP (not 50%).",
       "skill": "execute",
       "whyZh": "收割残血，转向下一个。",
-      "bonusZh": "处决的 240% 伤害和嗜血的加成对 HP 低于 90%（而非一半）的敌人生效。"
+      "bonusZh": "处决的强化攻击和嗜血的加成对 HP 低于 90%（而非 50%）的敌人生效。"
     },
     {
       "id": "piercing-shot",
       "passive": "deadeye",
       "why": "Crits that go straight through shields and armor.",
-      "bonus": "Piercing Shot crits ignore 60% of the target’s DEF (instead of 30%).",
+      "bonus": "Piercing Shot crits ignore 50% target DEF (instead of 40%).",
       "skill": "piercing-shot",
       "whyZh": "暴击直接穿透护盾和护甲。",
-      "bonusZh": "穿透射击的暴击无视目标 60% 的 DEF（原为 30%）。"
+      "bonusZh": "穿透射击的暴击无视目标 50% 的 DEF（原为 40%）。"
     },
     {
       "id": "mend",
@@ -485,10 +492,10 @@
       "id": "sanctuary",
       "passive": "guardian-angel",
       "why": "Heals everyone, and catches anyone who still drops low.",
-      "bonus": "Sanctuary also shields every ally for 5% of the Support’s max HP, and lets Guardian Angel catch everyone again.",
+      "bonus": "Sanctuary also shields every ally for 2% of the Support’s max HP, and lets Guardian Angel catch everyone again.",
       "skill": "sanctuary",
       "whyZh": "治疗所有人，并接住仍然掉血的队友。",
-      "bonusZh": "圣域还会为所有队友提供相当于辅助 HP 上限 5% 的护盾，并让守护天使能再次保护所有人。"
+      "bonusZh": "圣域还会为所有队友提供相当于辅助 HP 上限 2% 的护盾，并让守护天使能再次保护所有人。"
     },
     {
       "id": "battle-hymn",
@@ -503,19 +510,19 @@
       "id": "overture",
       "passive": "encore",
       "why": "Sets the stage, and the ally it plays for steals the show.",
-      "bonus": "Overture also gives its target +20% damage for 2 turns.",
+      "bonus": "Overture also gives its target +12% damage for 2 turns.",
       "skill": "overture",
       "whyZh": "搭好舞台，让它助演的队友抢尽风头。",
-      "bonusZh": "序曲还会使目标伤害 +20%，持续 2 回合。"
+      "bonusZh": "序曲还会使目标伤害 +12%，持续 2 回合。"
     },
     {
       "id": "curse",
       "passive": "weak-point",
       "why": "Marks an enemy, then hits the mark far harder.",
-      "bonus": "Curse Exposes for 50% (not 45%), and every other enemy for 30% (not 15%).",
+      "bonus": "Curse Exposes for 50% (not 40%), and every other enemy for 60% (not 30%). While it stands, its allies deal 30% more damage to Exposed enemies.",
       "skill": "curse",
       "whyZh": "标记一名敌人，再狠狠打击标记。",
-      "bonusZh": "诅咒的易伤为 50%（原为 45%），其他敌人为 30%（原为 15%）。"
+      "bonusZh": "诅咒的易伤为 50%（原为 40%），其他敌人为 60%（原为 30%）。它在场时，队友对易伤敌人造成的伤害提高 30%。"
     },
     {
       "id": "wither",
@@ -530,19 +537,19 @@
       "id": "stall",
       "passive": "ambush",
       "why": "Strikes first and freezes the enemy before it can move.",
-      "bonus": "Every Stall pushes every other enemy back 10% more (20% in all).",
+      "bonus": "Stall's Slow lasts 2 turns longer (4 turns).",
       "skill": "stall",
       "whyZh": "先发制人，在敌人行动前将其冻结。",
-      "bonusZh": "每次拖延使其他所有敌人的行动再延后 10%（共 20%）。"
+      "bonusZh": "拖延的减速多持续 2 回合（共 4 回合）。"
     },
     {
       "id": "fracture",
       "passive": "exploit",
       "why": "Cracks the Guard open, then hits the crack.",
-      "bonus": "When Fracture Breaks an enemy, it hits it again for 100%.",
+      "bonus": "Fracture deals 5.5× Guard damage instead of 4×, and when it Breaks an enemy it hits it again for 120%.",
       "skill": "fracture",
       "whyZh": "打开韧性的裂缝，再击打裂缝。",
-      "bonusZh": "碎裂击破敌人时，会再对其造成一次 100% 的伤害。"
+      "bonusZh": "碎裂的削韧由 4 倍提高到 5.5 倍，击破敌人时会再对其造成一次 120% 的伤害。"
     }
   ],
   "mods": [
@@ -552,35 +559,35 @@
       "short": "EZ",
       "color": "#8ce6a8",
       "identity": "Healing, max HP and utility",
-      "bonus": "+HP% and +Outgoing Healing",
+      "bonus": "+HP% and +Healing",
       "nameZh": "简单",
-      "text": "+HP% and +Outgoing Healing",
-      "textZh": "+HP% 和 +治疗加成",
+      "text": "+HP% and +Healing",
+      "textZh": "+HP% 和 +治疗",
       "identityZh": "治疗、HP 上限与功能",
       "effectsByStar": [
         {
           "star": 1,
-          "text": "+4% HP, +4% Outgoing Healing",
+          "text": "+4% HP, +4% Healing",
           "textZh": "HP +4%，治疗量 +4%。"
         },
         {
           "star": 2,
-          "text": "+5.5% HP, +5.5% Outgoing Healing",
+          "text": "+5.5% HP, +5.5% Healing",
           "textZh": "HP +5.5%，治疗量 +5.5%。"
         },
         {
           "star": 3,
-          "text": "+7% HP, +7% Outgoing Healing",
+          "text": "+7% HP, +7% Healing",
           "textZh": "HP +7%，治疗量 +7%。"
         },
         {
           "star": 4,
-          "text": "+8.5% HP, +8.5% Outgoing Healing",
+          "text": "+8.5% HP, +8.5% Healing",
           "textZh": "HP +8.5%，治疗量 +8.5%。"
         },
         {
           "star": 5,
-          "text": "+10% HP, +10% Outgoing Healing",
+          "text": "+10% HP, +10% Healing",
           "textZh": "HP +10%，治疗量 +10%。"
         }
       ],
@@ -962,28 +969,28 @@
       "effectsByStar": [
         {
           "star": 1,
-          "text": "+4.8% CRIT DMG, +2.4% more while above 80% HP",
-          "textZh": "暴击伤害 +4.8%；HP 高于 80% 时额外 +2.4%。"
+          "text": "+8% CRIT DMG, +4% more while above 80% HP",
+          "textZh": "暴击伤害 +8%；HP 高于 80% 时额外 +4%。"
         },
         {
           "star": 2,
-          "text": "+6.6% CRIT DMG, +3.3% more while above 80% HP",
-          "textZh": "暴击伤害 +6.6%；HP 高于 80% 时额外 +3.3%。"
+          "text": "+11% CRIT DMG, +5.5% more while above 80% HP",
+          "textZh": "暴击伤害 +11%；HP 高于 80% 时额外 +5.5%。"
         },
         {
           "star": 3,
-          "text": "+8.4% CRIT DMG, +4.2% more while above 80% HP",
-          "textZh": "暴击伤害 +8.4%；HP 高于 80% 时额外 +4.2%。"
+          "text": "+14% CRIT DMG, +7% more while above 80% HP",
+          "textZh": "暴击伤害 +14%；HP 高于 80% 时额外 +7%。"
         },
         {
           "star": 4,
-          "text": "+10.2% CRIT DMG, +5.1% more while above 80% HP",
-          "textZh": "暴击伤害 +10.2%；HP 高于 80% 时额外 +5.1%。"
+          "text": "+17% CRIT DMG, +8.5% more while above 80% HP",
+          "textZh": "暴击伤害 +17%；HP 高于 80% 时额外 +8.5%。"
         },
         {
           "star": 5,
-          "text": "+12% CRIT DMG, +6% more while above 80% HP",
-          "textZh": "暴击伤害 +12%；HP 高于 80% 时额外 +6%。"
+          "text": "+20% CRIT DMG, +10% more while above 80% HP",
+          "textZh": "暴击伤害 +20%；HP 高于 80% 时额外 +10%。"
         }
       ],
       "mainStatWeights": {
@@ -999,36 +1006,36 @@
       "short": "SO",
       "color": "#7fe0c8",
       "identity": "Breaking",
-      "bonus": "+Guard DMG; Broken enemies take more from it",
+      "bonus": "+GDMG; Broken enemies take more from it",
       "nameZh": "自动转盘",
-      "text": "+Guard DMG; Broken enemies take more from it",
-      "textZh": "+削韧；被击破的敌人受到它的伤害更高",
+      "text": "+GDMG; Broken enemies take more from it",
+      "textZh": "+GDMG；被击破的敌人受到它的伤害更高",
       "identityZh": "击破",
       "effectsByStar": [
         {
           "star": 1,
-          "text": "+10% Guard damage; +4% DMG to Broken enemies",
-          "textZh": "削韧 +10%；对被击破敌人的伤害 +4%。"
+          "text": "+14% Guard damage; +6% DMG to Broken enemies",
+          "textZh": "削韧 +14%；对被击破敌人的伤害 +6%。"
         },
         {
           "star": 2,
-          "text": "+13.75% Guard damage; +5.5% DMG to Broken enemies",
-          "textZh": "削韧 +13.75%；对被击破敌人的伤害 +5.5%。"
+          "text": "+19.25% Guard damage; +8.25% DMG to Broken enemies",
+          "textZh": "削韧 +19.25%；对被击破敌人的伤害 +8.25%。"
         },
         {
           "star": 3,
-          "text": "+17.5% Guard damage; +7% DMG to Broken enemies",
-          "textZh": "削韧 +17.5%；对被击破敌人的伤害 +7%。"
+          "text": "+24.5% Guard damage; +10.5% DMG to Broken enemies",
+          "textZh": "削韧 +24.5%；对被击破敌人的伤害 +10.5%。"
         },
         {
           "star": 4,
-          "text": "+21.25% Guard damage; +8.5% DMG to Broken enemies",
-          "textZh": "削韧 +21.25%；对被击破敌人的伤害 +8.5%。"
+          "text": "+29.75% Guard damage; +12.75% DMG to Broken enemies",
+          "textZh": "削韧 +29.75%；对被击破敌人的伤害 +12.75%。"
         },
         {
           "star": 5,
-          "text": "+25% Guard damage; +10% DMG to Broken enemies",
-          "textZh": "削韧 +25%；对被击破敌人的伤害 +10%。"
+          "text": "+35% Guard damage; +15% DMG to Broken enemies",
+          "textZh": "削韧 +35%；对被击破敌人的伤害 +15%。"
         }
       ],
       "mainStatWeights": {
@@ -1091,10 +1098,10 @@
         "dt"
       ],
       "forWho": "Skill carries",
-      "text": "After using its Skill: +25% DMG and +10% SPD until the end of its next turn.",
+      "text": "After using its Skill: +12% DMG and +5% SPD until the end of its next turn.",
       "nameZh": "爆发输出",
       "forWhoZh": "战技核心",
-      "textZh": "使用战技后：伤害 +25%、SPD +10%，持续到其下一回合结束。"
+      "textZh": "使用战技后：伤害 +12%、SPD +5%，持续到其下一回合结束。"
     },
     {
       "id": "crit",
@@ -1104,10 +1111,10 @@
         "hr"
       ],
       "forWho": "Crit carries",
-      "text": "+15% CRIT Rate; +40% CRIT DMG against debuffed enemies.",
+      "text": "+5% CRIT Rate; +20% CRIT DMG against debuffed enemies.",
       "nameZh": "暴击输出",
       "forWhoZh": "暴击核心",
-      "textZh": "暴击率 +15%；对带减益的敌人暴击伤害 +40%。"
+      "textZh": "暴击率 +5%；对带减益的敌人暴击伤害 +20%。"
     },
     {
       "id": "hypercarry",
@@ -1118,10 +1125,10 @@
         "hr"
       ],
       "forWho": "Main damage dealer",
-      "text": "Crits build Overdrive (max 5). At 5, its next Skill spends it all for +60% DMG and ignores 20% DEF.",
+      "text": "+10% CRIT Rate. Crits build Overdrive (max 3). At 3, its next Skill spends it all for +90% DMG and ignores 20% DEF.",
       "nameZh": "核心输出",
       "forWhoZh": "主要输出",
-      "textZh": "暴击累积超载（最多 5 层）。满 5 层时，下一次战技消耗全部层数，伤害 +60% 并无视 20% DEF。"
+      "textZh": "暴击率 +10%。暴击累积超载（最多 3 层）。满 3 层时，下一次战技消耗全部层数，伤害 +90% 并无视 20% DEF。"
     },
     {
       "id": "assassin",
@@ -1132,10 +1139,10 @@
         "fl"
       ],
       "forWho": "DPS",
-      "text": "+25% DMG on its first hit each turn against the lowest-HP enemy; a knockout moves its turn up 50%.",
+      "text": "+18% DMG on its first hit each turn against the lowest-HP enemy; a knockout moves its turn up 50%.",
       "nameZh": "刺客",
       "forWhoZh": "输出",
-      "textZh": "每回合首次攻击 HP 最低的敌人时伤害 +25%；击倒敌人后行动提前 50%。"
+      "textZh": "每回合首次攻击 HP 最低的敌人时伤害 +18%；击倒敌人后行动提前 50%。"
     },
     {
       "id": "defensive",
@@ -1146,10 +1153,10 @@
         "ht"
       ],
       "forWho": "Tanks and Supports",
-      "text": "Healing and shields +5%; at the start of each of its turns, shields the lowest-HP ally for 3% of its max HP.",
+      "text": "+3% Healing and shields; at the start of each of its turns, shields the lowest-HP ally for 0.4% of its max HP.",
       "nameZh": "防御辅助",
       "forWhoZh": "坦克和辅助",
-      "textZh": "治疗和护盾 +5%；每次自身回合开始时，为 HP 最低的队友提供相当于其 HP 上限 3% 的护盾。"
+      "textZh": "治疗和护盾 +3%；每次自身回合开始时，为 HP 最低的队友提供相当于其 HP 上限 0.4% 的护盾。"
     },
     {
       "id": "focus",
@@ -1172,10 +1179,10 @@
         "ht"
       ],
       "forWho": "Supports",
-      "text": "Healing +15%; overhealing becomes a shield (up to 10% of max HP).",
+      "text": "+5% Healing; overhealing becomes a shield (up to 6% of max HP).",
       "nameZh": "续航",
       "forWhoZh": "辅助",
-      "textZh": "治疗 +15%；溢出的治疗转化为护盾（最多为 HP 上限的 10%）。"
+      "textZh": "治疗 +5%；溢出的治疗转化为护盾（最多为 HP 上限的 6%）。"
     },
     {
       "id": "fortress",
@@ -1185,10 +1192,10 @@
         "ht"
       ],
       "forWho": "Tanks",
-      "text": "+15% DEF; 10% less damage taken while Taunting.",
+      "text": "+15% DEF; 8% less damage taken while Taunting.",
       "nameZh": "要塞",
       "forWhoZh": "坦克",
-      "textZh": "DEF +15%；嘲讽期间受到伤害降低 10%。"
+      "textZh": "DEF +15%；嘲讽期间受到伤害降低 8%。"
     },
     {
       "id": "glass",
@@ -1198,10 +1205,10 @@
         "hr"
       ],
       "forWho": "DPS",
-      "text": "+30% DMG; −15% max HP.",
+      "text": "+36% DMG; −15% max HP.",
       "nameZh": "玻璃大炮",
       "forWhoZh": "输出",
-      "textZh": "伤害 +30%；HP 上限 −15%。"
+      "textZh": "伤害 +36%；HP 上限 −15%。"
     },
     {
       "id": "hex",
@@ -1210,11 +1217,11 @@
         "hd",
         "ht"
       ],
-      "forWho": "CC",
-      "text": "Debuffs last 1 turn longer; slows are 50% stronger.",
+      "forWho": "Mages",
+      "text": "Debuffs last 1 turn longer (from its Skill, only on the enemy it targets); slows are 50% stronger.",
       "nameZh": "咒术",
-      "forWhoZh": "控制",
-      "textZh": "减益持续时间 +1 回合；减速效果提高 50%。"
+      "forWhoZh": "法师",
+      "textZh": "减益持续时间 +1 回合（技能施加的仅限其目标敌人）；减速效果提高 50%。"
     },
     {
       "id": "tempo",
@@ -1224,10 +1231,10 @@
         "rx"
       ],
       "forWho": "Supports",
-      "text": "Heals and buffs it gives also move the target’s turn up 15%.",
+      "text": "Heals and buffs it gives also move the target’s turn up 6%.",
       "nameZh": "节奏",
       "forWhoZh": "辅助",
-      "textZh": "提供的治疗和增益还会使目标行动提前 15%。"
+      "textZh": "提供的治疗和增益还会使目标行动提前 6%。"
     },
     {
       "id": "kiai",
@@ -1237,10 +1244,10 @@
         "dt"
       ],
       "forWho": "Skill-focused cards",
-      "text": "Using its Skill moves its next turn up 20%.",
+      "text": "Using its Skill moves its next turn up 7%.",
       "nameZh": "Kiai Time",
       "forWhoZh": "以战技为主的卡牌",
-      "textZh": "使用战技会使其下一次行动提前 20%。"
+      "textZh": "使用战技会使其下一次行动提前 7%。"
     },
     {
       "id": "shatter",
@@ -1250,10 +1257,10 @@
         "fl"
       ],
       "forWho": "DPS and Tanks",
-      "text": "Single-target hits deal 40% more Guard damage; +20% DMG to Broken enemies.",
+      "text": "+20% GDMG on single-target hits; +10% DMG to Broken enemies.",
       "nameZh": "粉碎",
       "forWhoZh": "输出和坦克",
-      "textZh": "单体攻击的削韧提高 40%；对被击破的敌人伤害 +20%。"
+      "textZh": "单体攻击 GDMG +20%；对被击破的敌人伤害 +10%。"
     },
     {
       "id": "storm",
@@ -1263,10 +1270,10 @@
         "nc"
       ],
       "forWho": "Blade Storm DPS",
-      "text": "Moves that hit every enemy deal 30% more Guard damage; breaking an enemy gives its team 1 Skill Point (once a turn).",
+      "text": "+50% GDMG on moves that hit every enemy.",
       "nameZh": "Spinner Storm",
       "forWhoZh": "剑刃风暴输出",
-      "textZh": "攻击所有敌人的技能削韧提高 30%；击破敌人时为己方提供 1 战技点（每回合一次）。"
+      "textZh": "攻击所有敌人的技能 GDMG +50%。"
     },
     {
       "id": "ss",
@@ -1276,10 +1283,10 @@
         "hr"
       ],
       "forWho": "Crit carries",
-      "text": "+15% CRIT Rate and +35% CRIT DMG; lost for 1 turn after it takes damage.",
+      "text": "+5% CRIT Rate and +20% CRIT DMG; lost for 1 turn after it takes damage.",
       "nameZh": "SS 评级",
       "forWhoZh": "暴击核心",
-      "textZh": "暴击率 +15%、暴击伤害 +35%；受到伤害后失效 1 回合。"
+      "textZh": "暴击率 +5%、暴击伤害 +20%；受到伤害后失效 1 回合。"
     },
     {
       "id": "conductor",
@@ -1290,10 +1297,10 @@
         "dt"
       ],
       "forWho": "Supports",
-      "text": "When it uses its Skill, every ally gets +15% DMG for 1 turn.",
+      "text": "When it uses its Skill, every ally gets +6% DMG for 1 turn.",
       "nameZh": "指挥家",
       "forWhoZh": "辅助",
-      "textZh": "使用战技时，所有队友伤害 +15%，持续 1 回合。"
+      "textZh": "使用战技时，所有队友伤害 +6%，持续 1 回合。"
     },
     {
       "id": "executioner",
@@ -1304,10 +1311,10 @@
         "fl"
       ],
       "forWho": "DPS",
-      "text": "+10% DMG, and +25% more to enemies under 35% HP; a knockout makes its next hit a sure crit.",
+      "text": "+8% DMG, and +25% more to enemies under 35% HP; a knockout makes its next hit a sure crit.",
       "nameZh": "处刑者",
       "forWhoZh": "输出",
-      "textZh": "伤害 +10%，对 HP 低于 35% 的敌人再 +25%；击倒敌人后，下一次攻击必定暴击。"
+      "textZh": "伤害 +8%，对 HP 低于 35% 的敌人再 +25%；击倒敌人后，下一次攻击必定暴击。"
     },
     {
       "id": "firstaid",
@@ -1317,10 +1324,10 @@
         "nf"
       ],
       "forWho": "Tanks and Supports",
-      "text": "The first time each ally drops under 30% HP, heals it for 4% of this card's max HP.",
+      "text": "The first time each ally drops under 30% HP, heals it for 2.2% of this card's max HP.",
       "nameZh": "急救",
       "forWhoZh": "坦克和辅助",
-      "textZh": "每名队友首次 HP 降到 30% 以下时，为其恢复相当于此卡 HP 上限 4% 的 HP。"
+      "textZh": "每名队友首次 HP 降到 30% 以下时，为其恢复相当于此卡 HP 上限 2.2% 的 HP。"
     },
     {
       "id": "juggernaut",
@@ -1330,10 +1337,10 @@
         "so"
       ],
       "forWho": "Attacking Tanks",
-      "text": "+ATK equal to 0.7% of its max HP, and +30% Guard damage. Breaking an enemy shields it for 5% of its max HP.",
+      "text": "While Taunting: +15% GDMG and +ATK equal to 0.4% of its max HP. Breaking an enemy shields it for 1% of its max HP.",
       "nameZh": "重装",
       "forWhoZh": "进攻型坦克",
-      "textZh": "ATK 提高，数值等同于 HP 上限的 0.70%；削韧提高 30%。击破敌人时获得相当于 HP 上限 5% 的护盾。"
+      "textZh": "嘲讽期间：GDMG +15%，ATK 提高，数值等同于 HP 上限的 0.4%。击破敌人时获得相当于 HP 上限 1% 的护盾。"
     },
     {
       "id": "pindown",
@@ -1343,11 +1350,11 @@
         "ht",
         "fl"
       ],
-      "forWho": "CC",
-      "text": "Debuffs last 1 turn longer and slows are 50% stronger. Its single-target hits Slow the enemy by 10%; hits on an enemy that was already Slowed also push its turn back 12%.",
+      "forWho": "Mages",
+      "text": "Debuffs last 1 turn longer (from its Skill, only on the enemy it targets) and slows are 50% stronger. Its single-target hits Slow the enemy by 4%; hits on an enemy that was already Slowed also push its turn back 3%.",
       "nameZh": "钉锁",
-      "forWhoZh": "控制",
-      "textZh": "减益持续时间 +1 回合；减速效果提高 50%。单体攻击使敌人减速 10%；攻击已减速的敌人时，还会使其行动延后 12%。"
+      "forWhoZh": "法师",
+      "textZh": "减益持续时间 +1 回合（技能施加的仅限其目标敌人）；减速效果提高 50%。单体攻击使敌人减速 4%；攻击已减速的敌人时，还会使其行动延后 3%。"
     },
     {
       "id": "lockdown",
@@ -1356,11 +1363,11 @@
         "ht",
         "fl"
       ],
-      "forWho": "CC",
-      "text": "Its single-target hits Slow the enemy by 10%; hits on an enemy that was already Slowed also push its turn back 12%.",
+      "forWho": "Mages",
+      "text": "Its single-target hits Slow the enemy by 4%; hits on an enemy that was already Slowed also push its turn back 3%.",
       "nameZh": "封锁",
-      "forWhoZh": "控制",
-      "textZh": "单体攻击使敌人减速 10%；攻击已减速的敌人时，还会使其行动延后 12%。"
+      "forWhoZh": "法师",
+      "textZh": "单体攻击使敌人减速 4%；攻击已减速的敌人时，还会使其行动延后 3%。"
     },
     {
       "id": "opening",
@@ -1370,10 +1377,10 @@
         "rx"
       ],
       "forWho": "Cards that Break",
-      "text": "When it Breaks an enemy, every ally gets +20% DMG for 2 turns.",
+      "text": "When it Breaks an enemy, every ally gets +12% DMG for 2 turns.",
       "nameZh": "破绽",
       "forWhoZh": "能击破的卡",
-      "textZh": "击破敌人时，所有队友伤害 +20%，持续 2 回合。"
+      "textZh": "击破敌人时，所有队友伤害 +12%，持续 2 回合。"
     },
     {
       "id": "overclock",
@@ -1383,10 +1390,10 @@
         "fl"
       ],
       "forWho": "DPS",
-      "text": "+10% CRIT Rate; its first crit each turn moves its next turn up 30%.",
+      "text": "+4% CRIT Rate; its first crit each turn moves its next turn up 10%.",
       "nameZh": "超频",
       "forWhoZh": "输出",
-      "textZh": "暴击率 +10%；每回合首次暴击使其下一次行动提前 30%。"
+      "textZh": "暴击率 +4%；每回合首次暴击使其下一次行动提前 10%。"
     },
     {
       "id": "laststand",
@@ -1396,10 +1403,10 @@
         "sd"
       ],
       "forWho": "DPS and Tanks",
-      "text": "Under 50% HP: +25% DMG and 15% less damage taken.",
+      "text": "Under 50% HP: +15% DMG and 8% less damage taken.",
       "nameZh": "背水一战",
       "forWhoZh": "输出和坦克",
-      "textZh": "HP 低于 50% 时：伤害 +25%，受到伤害降低 15%。"
+      "textZh": "HP 低于 50% 时：伤害 +15%，受到伤害降低 8%。"
     },
     {
       "id": "contagion",
@@ -1409,11 +1416,11 @@
         "ht",
         "nc"
       ],
-      "forWho": "CC",
-      "text": "Debuffs from its Skill also land on every other enemy at 70% strength.",
+      "forWho": "Mages",
+      "text": "Debuffs from its Skill also land on every other enemy at 30% strength.",
       "nameZh": "传染",
-      "forWhoZh": "控制",
-      "textZh": "战技施加的减益还会以 70% 的效果施加给其他所有敌人。"
+      "forWhoZh": "法师",
+      "textZh": "战技施加的减益还会以 30% 的效果施加给其他所有敌人。"
     },
     {
       "id": "riposte",
@@ -1424,10 +1431,10 @@
         "fl"
       ],
       "forWho": "Tanks",
-      "text": "While Taunting, it hits back every attacker (once per move) for 80% of its ATK, with double Guard damage.",
+      "text": "While Taunting, it hits back every attacker (once per move) for 40% of its ATK + 40% of its DEF, with 4× Guard damage.",
       "nameZh": "回击",
       "forWhoZh": "坦克",
-      "textZh": "嘲讽期间，对每名攻击者进行反击（每次行动一次），造成 ATK 80% 的伤害，削韧翻倍。"
+      "textZh": "嘲讽期间，对每名攻击者进行反击（每次行动一次），造成 ATK 40% + DEF 40% 的伤害，削韧 4 倍。"
     },
     {
       "id": "secondchance",
@@ -1438,10 +1445,10 @@
         "rx"
       ],
       "forWho": "Supports",
-      "text": "Once per fight, the first ally that would be knocked out stays up with 5% HP instead.",
+      "text": "Once per fight, the first ally that would be knocked out stays up with 5% HP instead, and its turn starts over.",
       "nameZh": "第二次机会",
       "forWhoZh": "辅助",
-      "textZh": "每场战斗一次，第一名即将被击倒的队友改为以 HP 上限 5% 的 HP 存活。"
+      "textZh": "每场战斗一次，第一名即将被击倒的队友改为以 HP 上限 5% 的 HP 存活，且其行动进度从头开始。"
     },
     {
       "id": "desperado",
@@ -1452,10 +1459,10 @@
         "ez"
       ],
       "forWho": "DPS",
-      "text": "Under 50% HP: +30% SPD and +40% DMG. Each knockout heals it for 8% of its max HP.",
+      "text": "Under 50% HP: +25% SPD and +25% DMG. Each knockout heals it for 5% of its max HP.",
       "nameZh": "亡命徒",
       "forWhoZh": "输出",
-      "textZh": "HP 低于 50% 时：SPD +30%，伤害 +40%。每次击倒敌人恢复 HP 上限 8% 的 HP。"
+      "textZh": "HP 低于 50% 时：SPD +25%，伤害 +25%。每次击倒敌人恢复 HP 上限 5% 的 HP。"
     }
   ],
   "signatures": [
@@ -1464,17 +1471,17 @@
       "cls": "dps",
       "skill": {
         "name": "Clear the Bases",
-        "text": "Deals 390% ATK split evenly between the enemies still standing (at most 160% each), lowest HP first. Damage past a knockout carries on to the rest.",
+        "text": "Deals 310% ATK split evenly between the enemies still standing (at most 160% each), lowest HP first. Damage past a knockout carries on to the rest.",
         "targets": "none",
         "aoe": true,
         "nameZh": "清垒打",
-        "textZh": "造成总计 390% ATK 的伤害，均分给存活敌人，每名敌人最多承受 160% ATK；从 HP 最低者开始结算。击倒后的溢出伤害继续分给其他敌人。"
+        "textZh": "将 310% ATK 平均分摊给仍然站立的敌人（每人最多 160%），从 HP 最低的开始。击倒后多余的伤害会转移到其余敌人身上。"
       },
       "passive": {
         "name": "Cleanup Hitter",
         "text": "Each time an ally uses a Skill, a runner gets on base (up to 3). Clear the Bases brings them all home: +20% damage each.",
         "nameZh": "强打者",
-        "textZh": "每当一名队友使用战技，一名跑者上垒，最多 3 名。清垒打消耗所有跑者，每名使其伤害提高 20%。"
+        "textZh": "每当队友使用战技，就有一名跑者上垒（最多 3 名）。Clear the Bases 把他们全部送回本垒：每名 +20% 伤害。"
       },
       "name": "Clear the Bases",
       "nameZh": "清垒打"
@@ -1484,17 +1491,17 @@
       "cls": "dps",
       "skill": {
         "name": "Double Exposure",
-        "text": "Hits one enemy for 170% and puts crop marks on it. Just before the next enemy’s turn, whoever it is, a second exposure lands on that enemy for another 140%.",
+        "text": "Hits one enemy for 175% and puts crop marks on it. Just before the next enemy’s turn, whoever it is, a second exposure lands on that enemy for another 145%.",
         "targets": "enemy",
         "single": true,
         "nameZh": "双重曝光",
-        "textZh": "对一名敌人造成 170% ATK 伤害并留下裁切标记。下一个敌方回合开始前，对即将行动的那名敌人再造成 140% ATK 伤害。"
+        "textZh": "对一名敌人造成 175% 伤害并打上裁切标记。在下一个敌人的回合开始前（无论是谁），第二次曝光落在该敌人身上，再造成 145% 伤害。"
       },
       "passive": {
         "name": "Crop Marks",
-        "text": "An enemy with its crop marks takes 25% more damage from everyone until its next turn. If it’s knocked out first, the marks move to the lowest-HP enemy.",
+        "text": "An enemy with its crop marks takes 30% more damage from everyone until its next turn. If it’s knocked out first, the marks move to the lowest-HP enemy.",
         "nameZh": "裁切标记",
-        "textZh": "有裁切标记的敌人在其下次回合前，受到所有来源的伤害提高 25%。若其先被击倒，标记转移至 HP 最低的敌人。"
+        "textZh": "带有其裁切标记的敌人在下个回合前受到所有人的伤害提高 30%。若其先被击倒，标记会转移到 HP 最低的敌人身上。"
       },
       "name": "Double Exposure",
       "nameZh": "双重曝光"
@@ -1504,23 +1511,23 @@
       "cls": "support",
       "skill": {
         "name": "Starlight",
-        "text": "Starlight falls on the team: every ally heals 7.5% of this card’s max HP and its next turn comes 25% sooner. The Skill Point comes back. Deals no damage.",
+        "text": "Starlight falls on the team: every ally heals 2.5% HP and its next turn comes 12% sooner. The Skill Point comes back. Deals no damage.",
         "targets": "none",
         "nameZh": "星光",
-        "textZh": "全体队友恢复相当于此卡 HP 上限 7.5% 的生命，行动提前 25%，并返还此次战技点。不造成伤害。"
+        "textZh": "星光洒落全队：每名队友恢复 HP 2.5%，下个回合提前 12% 到来。战技点返还。不造成伤害。"
       },
       "passive": {
         "name": "Grace",
-        "text": "Never attacks: its Basic heals one ally for 15% of its max HP and gives 2 Skill Points.",
+        "text": "Never attacks: its Basic heals one ally for 5% of its max HP and gives 2 Skill Points.",
         "nameZh": "恩典",
-        "textZh": "从不攻击：普攻改为治疗一名队友，恢复相当于此卡 HP 上限 15% 的生命，并获得 2 战技点。"
+        "textZh": "从不攻击：其普通攻击为一名队友恢复 HP 5%，并给予 2 战技点。"
       },
       "basic": {
         "name": "Basic",
-        "text": "Heals one ally for 15% of its max HP. +2 Skill Points.",
+        "text": "Heals one ally for 5% of its max HP. +2 Skill Points.",
         "targets": "ally",
         "nameZh": "恩典普攻",
-        "textZh": "治疗一名队友，恢复相当于此卡 HP 上限 15% 的生命。获得 2 战技点。"
+        "textZh": "为一名队友恢复 HP 5%。+2 战技点。"
       },
       "pacifist": true,
       "name": "Starlight",
@@ -1531,17 +1538,17 @@
       "cls": "tank",
       "skill": {
         "name": "Mental Bite",
-        "text": "Bites one enemy for 120% with heavy Guard damage and gets in its head: for 2 turns it has to attack this card, and deals 25% less damage. Shields itself for 100% of its DEF and every other ally for 30%.",
+        "text": "Bites one enemy for 140% with heavy Guard damage and gets in its head: for 2 turns it has to attack this card, and deals 20% less damage. Shields itself for 50% of its DEF and every other ally for 8%.",
         "targets": "enemy",
         "single": true,
         "nameZh": "心灵咬击",
-        "textZh": "对一名敌人造成 120% ATK 伤害与高额削韧；令其在 2 回合内必须攻击此卡，且伤害降低 25%。为自身提供相当于 DEF 100% 的护盾，为每名其他队友提供相当于 DEF 30% 的护盾。"
+        "textZh": "撕咬一名敌人造成 140% 伤害与大量削韧，并钻进其脑中：2 回合内它必须攻击本卡，且造成的伤害降低 20%。为自身提供 DEF 50% 的护盾，为其他每名队友提供 8% 的护盾。"
       },
       "passive": {
         "name": "Riptide",
         "text": "An enemy that hits it while it’s Taunting, or while it’s been bitten, is dragged under: its next turn comes 15% later.",
         "nameZh": "暗流",
-        "textZh": "此卡处于嘲讽时攻击它的敌人，或被咬击标记后攻击它的敌人，其下次行动推迟 15%。"
+        "textZh": "在其嘲讽期间或被撕咬期间攻击它的敌人会被拖入水下：下个回合推迟 15%。"
       },
       "name": "Mental Bite",
       "nameZh": "心灵咬击"
@@ -1551,17 +1558,17 @@
       "cls": "dps",
       "skill": {
         "name": "Stream",
-        "text": "Hits one enemy 2 times, plus once for every Ramp Up stack, for 60% each (if it goes down, the rest go to the lowest-HP enemy). Then Ramp Up starts over.",
+        "text": "Hits one enemy 3 times, plus once for every Ramp Up stack, for 38% ATK + 5% bonus ATK each (if it goes down, the rest go to the lowest-HP enemy). Then Ramp Up starts over.",
         "targets": "enemy",
         "single": true,
         "nameZh": "连打",
-        "textZh": "对一名敌人攻击 2 次，每层加速额外攻击 1 次，每击造成 60% ATK 伤害。目标倒下后，剩余攻击转向 HP 最低的敌人。随后清空加速层数。"
+        "textZh": "对一名敌人攻击 3 次，每层 Ramp Up 额外攻击 1 次，每次造成 ATK 38% + 额外 ATK 5% 伤害（若其倒下，其余攻击转向 HP 最低的敌人）。随后 Ramp Up 重新开始。"
       },
       "passive": {
         "name": "Ramp Up",
-        "text": "Each of its turns gives it +8% SPD, up to 5 times. Being Slowed resets it.",
+        "text": "Each of its turns gives it +4% SPD, up to 4 times. Being Slowed resets it.",
         "nameZh": "渐入佳境",
-        "textZh": "每次自身回合获得 +8% SPD，最多叠加 5 层。被减速时重置。"
+        "textZh": "它的每个回合提供 SPD +4%，最多 4 次。被减速时重置。"
       },
       "name": "Stream",
       "nameZh": "连打"
@@ -1571,16 +1578,16 @@
       "cls": "support",
       "skill": {
         "name": "Shoyu Ramen",
-        "text": "Adds the next topping to the bowl, then serves it: heals every ally for 7% of its max HP, plus every topping in the bowl.\nChashu: +15% ATK for 2 turns.\nEgg: a 5% shield.\nNori: removes a debuff.\nScallions: their next turn comes 15% sooner.",
+        "text": "Adds the next topping to the bowl, then serves it: heals every ally for 5% of its max HP, plus every topping in the bowl.\nChashu: +15% ATK for 2 turns.\nEgg: a 2.5% shield.\nNori: removes a debuff.\nScallions: their next turn comes 15% sooner.",
         "targets": "none",
         "nameZh": "酱油拉面",
-        "textZh": "在碗中加入下一种配料后上餐：全体队友恢复相当于此卡 HP 上限 7% 的生命，并获得碗内所有配料效果。叉烧：ATK +15%，持续 2 回合；鸡蛋：5% 护盾；海苔：移除一个减益；葱花：行动提前 15%。"
+        "textZh": "把下一种配料加进碗里并端上：为每名队友恢复 HP 5%，再加上碗里每种配料的效果。\n叉烧：2 回合内 ATK +15%。\n溏心蛋：2.5% 的护盾。\n海苔：驱散一个减益。\n葱花：下个回合提前 15% 到来。"
       },
       "passive": {
         "name": "Slow Simmer",
         "text": "Each Basic lets the broth simmer: the next bowl heals 20% more, up to +60%.",
         "nameZh": "慢火熬煮",
-        "textZh": "每次普攻使下一碗治疗量提高 20%，最多 +60%。"
+        "textZh": "每次普通攻击都让汤头慢炖：下一碗的治疗提高 20%，最多 +60%。"
       },
       "name": "Shoyu Ramen",
       "nameZh": "酱油拉面"
@@ -1590,17 +1597,17 @@
       "cls": "cc",
       "skill": {
         "name": "Heatwave",
-        "text": "Hits one enemy for 70%, and the heat Slows every enemy by 20% for its next turn.",
+        "text": "Hits one enemy for 180%, and the heat Slows every enemy by 22% for its next turn.",
         "targets": "enemy",
         "single": true,
         "nameZh": "热浪",
-        "textZh": "对一名敌人造成 70% ATK 伤害；使所有敌人减速 20%，持续其下一个回合。"
+        "textZh": "对一名敌人造成 180% 伤害，热浪使所有敌人在下个回合减速 22%。"
       },
       "passive": {
         "name": "Warm Up",
-        "text": "Each Heatwave also warms up the team: every ally gets +20% ATK for 2 turns.",
+        "text": "Each Heatwave also warms up the team: every ally gets +32% ATK for 2 turns.",
         "nameZh": "热身",
-        "textZh": "每次热浪也使全体队友 ATK +20%，持续 2 回合。"
+        "textZh": "每次 Heatwave 也让全队热身：所有队友 2 回合内 ATK +32%。"
       },
       "name": "Heatwave",
       "nameZh": "热浪"
@@ -1610,36 +1617,36 @@
       "cls": "support",
       "skill": {
         "name": "Rainfall",
-        "text": "Rain falls on the team: every ally heals 13% of this card’s max HP at the start of each of its next 2 turns.",
+        "text": "Rain falls on the team: every ally heals 8% of this card’s max HP at the start of each of its next 3 turns.",
         "targets": "none",
         "nameZh": "降雨",
-        "textZh": "全体队友在接下来的 2 次自身回合开始时，各恢复相当于此卡 HP 上限 13% 的生命。"
+        "textZh": "雨落全队：每名队友在接下来 3 个回合的开始时各恢复本卡 HP 8%。"
       },
       "passive": {
         "name": "Steady Rain",
-        "text": "An ally still under Rainfall when it’s used again heals 13% at once.",
+        "text": "An ally still under Rainfall when it’s used again heals 7% at once.",
         "nameZh": "绵绵细雨",
-        "textZh": "再次施放降雨时，仍处于降雨效果中的队友立即恢复相当于此卡 HP 上限 13% 的生命。"
+        "textZh": "再次施放 Rainfall 时仍处于其效果中的队友立即恢复 7%。"
       },
       "name": "Rainfall",
-      "nameZh": "雨幕"
+      "nameZh": "降雨"
     },
     {
       "id": "haze",
       "cls": "cc",
       "skill": {
         "name": "Haze",
-        "text": "Hits one enemy for 45% and fogs over the enemy team: every enemy is Hazy for its next turn and can’t see what it’s aiming at, so its single-target attacks land on a random target.",
+        "text": "Hits one enemy for 160% and fogs over the enemy team: every enemy is Hazy for its next turn and can’t see what it’s aiming at, so its single-target attacks land on a random target.",
         "targets": "enemy",
         "single": true,
         "nameZh": "迷雾",
-        "textZh": "对一名敌人造成 45% ATK 伤害。使所有敌人在其下一个回合陷入迷雾，单体攻击改为随机选择目标。"
+        "textZh": "对一名敌人造成 160% 伤害并让敌方全队陷入雾中：所有敌人在下个回合处于朦胧状态，看不清目标，单体攻击会落在随机目标身上。"
       },
       "passive": {
         "name": "Low Visibility",
-        "text": "Hazy enemies miss 10% of their single-target attacks.",
+        "text": "Hazy enemies miss 25% of their single-target attacks.",
         "nameZh": "低能见度",
-        "textZh": "迷雾中的敌人有 10% 的单体攻击会落空。"
+        "textZh": "朦胧的敌人有 25% 的单体攻击会落空。"
       },
       "name": "Haze",
       "nameZh": "迷雾"
@@ -1649,9 +1656,9 @@
     {
       "id": "full",
       "name": "Full team",
-      "text": "One of each class (Tank, DPS, Support and CC): +10% ATK and HP for everyone.",
+      "text": "One of each class (Tank, DPS, Support and Mage): +10% ATK and HP for everyone.",
       "nameZh": "全职业",
-      "textZh": "每个职业各一张（坦克、输出、辅助和控制）：全员 ATK 和 HP +10%。"
+      "textZh": "每个职业各一张（坦克、输出、辅助和法师）：全员 ATK 和 HP +10%。"
     },
     {
       "id": "frontline",
@@ -1663,9 +1670,9 @@
     {
       "id": "mark",
       "name": "Mark for death",
-      "text": "A CC and a DPS: both get +10% ATK.",
+      "text": "A Mage and a DPS: both get +10% ATK.",
       "nameZh": "死亡标记",
-      "textZh": "一名控制和一名输出：两者 ATK +10%。"
+      "textZh": "一名法师和一名输出：两者 ATK +10%。"
     },
     {
       "id": "lifeline",
@@ -1684,44 +1691,44 @@
     {
       "id": "underdogs",
       "name": "Underdogs",
-      "text": "Three or more Common, Uncommon or Rare cards: they get +15% ATK and HP.",
+      "text": "Three or more Common, Uncommon or Rare cards: they get +5% ATK and HP.",
       "nameZh": "逆袭之师",
-      "textZh": "三张或以上普通、优秀或稀有卡牌：它们 ATK 和 HP +15%。"
+      "textZh": "三张或以上普通、优秀或稀有卡牌：它们 ATK 和 HP +5%。"
     },
     {
       "id": "rainbow",
       "name": "Rainbow",
-      "text": "Four different rarities: +5% ATK and HP for everyone.",
+      "text": "Four different rarities (Signature cards count as one of their own): +5% ATK and HP for everyone.",
       "nameZh": "彩虹",
-      "textZh": "四种不同稀有度：全员 ATK 和 HP +5%。"
+      "textZh": "四种不同稀有度（签名卡单独算一种）：全员 ATK 和 HP +5%。"
     },
     {
       "id": "twin",
       "name": "Twin Blades",
-      "text": "Two or more DPS: they get +25% ATK, +12% HP and +5% SPD.",
+      "text": "Two or more DPS: they get +12% HP and +5% SPD.",
       "nameZh": "双刃",
-      "textZh": "两名或以上输出：它们 ATK +25%、HP +12%、SPD +5%。"
+      "textZh": "两名或以上输出：它们 HP +12%、SPD +5%。"
     },
     {
       "id": "wall",
       "name": "Iron Wall",
-      "text": "Two or more Tanks: everyone gets +22% ATK and +10% HP.",
+      "text": "Two or more Tanks: everyone gets +12% ATK and +10% HP.",
       "nameZh": "铁壁",
-      "textZh": "两名或以上坦克：全员 ATK +22%、HP +10%。"
+      "textZh": "两名或以上坦克：全员 ATK +12%、HP +10%。"
     },
     {
       "id": "choir",
       "name": "Choir",
-      "text": "Two or more Supports: everyone gets +6% SPD and +5% ATK.",
+      "text": "Two or more Supports: everyone gets +4% SPD.",
       "nameZh": "唱诗班",
-      "textZh": "两名或以上辅助：全员 SPD +6%、ATK +5%。"
+      "textZh": "两名或以上辅助：全员 SPD +4%。"
     },
     {
       "id": "coven",
       "name": "Hex Circle",
-      "text": "Two or more CC: everyone gets +12% ATK and +8% SPD.",
+      "text": "Two or more Mages: everyone gets +8% ATK and +5% SPD.",
       "nameZh": "咒术圈",
-      "textZh": "两名或以上控制：全员 ATK +12%、SPD +8%。"
+      "textZh": "两名或以上法师：全员 ATK +8%、SPD +5%。"
     },
     {
       "id": "reckless",
@@ -1906,16 +1913,16 @@
     {
       "id": "guardDmg",
       "name": "Guard DMG",
-      "short": "GD",
+      "short": "GDMG",
       "pct": true,
-      "nameZh": "削韧"
+      "nameZh": "GDMG"
     },
     {
       "id": "outHeal",
-      "name": "Outgoing Healing",
-      "short": "OH",
+      "name": "Healing",
+      "short": "HEAL",
       "pct": true,
-      "nameZh": "治疗加成"
+      "nameZh": "治疗"
     }
   ],
   "modGrowth": {
@@ -1967,7 +1974,7 @@
     },
     "subBase": {
       "hp": 185,
-      "atk": 9,
+      "atk": 6,
       "def": 19,
       "hpPct": 0.039,
       "atkPct": 0.039,
@@ -1994,38 +2001,56 @@
       50,
       60,
       70,
-      80
+      80,
+      85,
+      90,
+      95,
+      100,
+      105,
+      110,
+      115,
+      120,
+      125,
+      130,
+      135,
+      140,
+      145,
+      150,
+      155,
+      160,
+      165,
+      170
     ],
     "rarityBase": {
-      "common": 51,
-      "uncommon": 54,
-      "rare": 57,
-      "epic": 60,
-      "legendary": 63,
-      "mythic": 67,
+      "common": 62,
+      "uncommon": 64,
+      "rare": 65.5,
+      "epic": 67,
+      "legendary": 68.5,
+      "mythic": 70,
       "divine": 72,
       "restricted": 72
     },
     "classEidolons": {
       "tank": [
-        "Taunting also cuts damage taken by 10%.",
-        "Shields it gives are 20% stronger.",
-        "While Taunting, counters every hit for 60% ATK."
+        "Taunting also cuts damage taken by 7%.",
+        "Shields it gives are 15% stronger.",
+        "While Taunting, counters every hit for 35% ATK."
       ],
       "dps": [
         "+10% CRIT Rate.",
-        "+20% CRIT DMG.",
-        "Its Skill hits a second time for half damage."
+        "+15% CRIT DMG.",
+        "Its Skill hits a second time for 30% damage."
       ],
       "support": [
-        "Heals 10% more.",
-        "Its heals also cleanse one debuff.",
-        "Its Skill also heals the lowest-HP other ally for half as much."
+        "+10% Healing.",
+        "When its Skill heals the ally it aims at, it also cleanses one debuff from it.",
+        "Its Skill also heals the lowest-HP other ally for 30% as much."
       ],
       "cc": [
-        "Debuffs it applies are 5 points stronger.",
-        "Debuffs it applies last 1 turn longer.",
-        "Its Skill also lands on the enemy whose turn comes next: half the damage, the whole effect."
+        "Debuffs it applies are 2 points stronger.",
+        "Debuffs it applies that last 2 turns or more last 1 turn longer.",
+        "Its Skill also lands on the enemy whose turn comes next: 20% the damage, 30% of the effect."
       ]
     }
   },
@@ -2041,8 +2066,8 @@
       "id": "basic",
       "name": "Basic attacks",
       "nameZh": "普通攻击与辅助普攻",
-      "text": "Ordinary Basic hits one enemy for 100% ATK. Support Basics also heal the lowest-HP ally for 3% of the Support’s max HP. Signature kits may replace the Basic.",
-      "textZh": "普通普攻对一名敌人造成 100% ATK 伤害。辅助的普通普攻还治疗 HP 最低的队友，治疗基数为辅助 HP 上限的 3%。签名技能组可替换普攻，例如恩典改为治疗且回复 2 战技点。"
+      "text": "A normal Basic usually gains 1 SP. Supports also help the lowest-HP ally; Grace replaces the attack with targeted healing and 2 SP.",
+      "textZh": "普攻通常回 1 战技点。辅助的普通普攻还照顾血量最低的队友；签名「恩典」则不攻击，改为指定治疗并回 2 点。"
     },
     {
       "id": "mod-priority",
@@ -2076,15 +2101,15 @@
       "id": "guard-break",
       "name": "Guard Break",
       "nameZh": "韧性与击破",
-      "text": "Breaking adds 30% damage taken and attempts to delay the target by 60% of a turn. At its next turn, the target recovers full Guard. Delay is subject to a per-turn push cap and resistance.",
-      "textZh": "韧性降至零会击破：基础受到伤害提高 30%，并尝试推迟 60% 回合。目标下次自身回合开始时恢复全部韧性并解除击破。推迟会受抗推迟效果和单次行动间累计推迟上限影响；破韧者另有击破易伤，不能只看基础 30%。"
+      "text": "Breaking Guard sends the target to the back of the turn order and opens a damage window. Breaks no longer grant Skill Points.",
+      "textZh": "韧性归零时，目标被击破并被送向行动队列末尾，承伤增加；到它自己行动时恢复韧性。击破不再返还战技点。建议由坦克开窗、输出跟进，不要把击破当成全队回点手段。"
     },
     {
       "id": "push-cap",
       "name": "Turn push cap",
       "nameZh": "推迟上限与速度",
-      "text": "The engine caps accumulated push at 60% between turns. Action interval uses the square root of effective speed, not a simple inverse-linear SPD multiplier.",
-      "textZh": "当前战斗实现把角色两次行动间累计被推迟的幅度限制在 60%。因此多次推条不一定全部生效。行动间隔按有效 SPD 的平方根换算，不应把“速度 +40%”直接理解成实际行动次数也精确增加 40%。"
+      "text": "Ordinary delays are capped between turns. Restless weakens further pushes until the unit acts; Break uses a send-to-back path.",
+      "textZh": "连续推条受限制：两次行动间普通推迟累计上限为 60%；若目标已被推过原本的回合，会获得 Restless，直到出手前，继续推迟的效果递减。击破送往队尾是另外的规则。"
     },
     {
       "id": "shield-cap",
@@ -2097,8 +2122,8 @@
       "id": "status-merge",
       "name": "Same-type statuses",
       "nameZh": "同类状态不简单相加",
-      "text": "A repeated status of the same kind keeps the larger duration and the larger value. General debuff application caps Weaken at 60% and other handled debuffs at 80%.",
-      "textZh": "同类状态重复施加时，分别保留较长持续时间和较强数值，不直接把强度逐层相加。通用减益施加逻辑把虚弱上限设为 60%，其处理的其他减益上限设为 80%；部分独立标记另行结算。"
+      "text": "Repeated statuses keep the stronger value and longer duration rather than adding both magnitudes.",
+      "textZh": "重复施加同类状态时分别保留较强数值与较长回合，不直接叠加。用诅咒配传染时，别把两项扩散百分比相加。"
     },
     {
       "id": "team-shape",
@@ -2118,50 +2143,50 @@
       "id": "level-growth",
       "name": "Level and ascension",
       "nameZh": "等级与晋阶上限",
-      "text": "Ascension 0–6 caps levels at 20, 30, 40, 50, 60, 70 and 80. Card stats depend on rarity, class, level, ascension and equipment; rarity alone is not a full ranking.",
-      "textZh": "晋阶 0–6 的等级上限依次为 20、30、40、50、60、70、80。卡牌面板由稀有度、职业、等级、晋阶和装备共同决定，不能仅凭稀有度或名气判定强弱。签名卡另有 3% 基础属性加成。"
+      "text": "A7–A24 add five levels per ascension beyond level 80, to 170 at A24. Ascending beyond A6 soulbinds the card.",
+      "textZh": "A0–A6 上限依次为 20、30、40、50、60、70、80 级。A7–A24 每阶增加 5 级：A12 为 110、A18 为 140、A24 为 170。突破 A6 后卡牌绑定，不可交易。账号等级门槛：A5 / A6 / A7 / A13 / A19 分别为 10 / 15 / 40 / 60 / 80 级。"
     },
     {
       "id": "eidolon-shared",
       "name": "Shared Eidolons E2/E3/E5",
       "nameZh": "通用星魂 E2 / E3 / E5",
-      "text": "E2 strengthens the passive tier (generally ×1.3); E3 makes Skills 20% stronger and their buffs/debuffs/pushes 10% stronger; E5 makes Basic attacks 30% stronger with 50% more Guard damage.",
-      "textZh": "E2 提升被动档位（一般数值 ×1.3，但不代表每种被动都只是机械乘法）；E3 战技强度 +20%，其增益、减益和推条强度 +10%；E5 普攻强度 +30%，削韧 +50%。签名技能也有对应处理，特殊被动应看实现例外。"
+      "text": "E2 generally strengthens the passive. E3 uses 1.15 skill power and 1.05 effect; E5 uses 1.2 basic power and 1.3 Guard damage.",
+      "textZh": "E2 通常强化被动（×1.3，有独立例外）；E3 战技威力 ×1.15、部分附加效果 ×1.05；E5 普攻威力 ×1.2、削韧 ×1.3。签名卡 E6 的额外攻击或治疗依专属规则，不要当作普通卡的双倍战技。"
     },
     {
       "id": "eidolon-tank",
       "name": "Tank Eidolons",
       "nameZh": "坦克星魂 E1 / E4 / E6",
-      "text": "E1: 10% less damage taken while Taunting. E4: shields given are 20% stronger. E6: while Taunting, counter every hit for 60% ATK.",
-      "textZh": "E1：嘲讽时受到伤害降低 10%。E4：提供的护盾强度 +20%。E6：嘲讽时每次受击以 60% ATK 反击。签名心灵咬击的锁定目标在相应实现中也可触发坦克嘲讽相关判定。"
+      "text": "E1: 7% less damage while Taunting. E4: 15% stronger shields. E6: counters hits for 35% ATK while Taunting.",
+      "textZh": "E1 嘲讽时承伤 −7%；E4 施加的护盾 +15%；E6 嘲讽时每次受击以 35% ATK 反击。"
     },
     {
       "id": "eidolon-dps",
       "name": "DPS Eidolons",
       "nameZh": "输出星魂 E1 / E4 / E6",
-      "text": "E1: +10% CRIT Rate. E4: +20% CRIT DMG. E6: its Skill hits a second time for half damage.",
-      "textZh": "E1：暴击率 +10%。E4：暴击伤害 +20%。E6：战技以一半伤害再打一次。是否值得堆暴击还应结合实际暴击率、技能与敌人规则，不宜无条件全堆暴伤。"
+      "text": "E1: +10% CRIT Rate. E4: +15% CRIT DMG. E6: a 30% second hit by default; Blade Storm has its own coefficient.",
+      "textZh": "E1 暴击率 +10%；E4 暴击伤害 +15%；E6 战技再次攻击，普通说明为 30% 伤害，剑刃风暴有独立系数。"
     },
     {
       "id": "eidolon-support",
       "name": "Support Eidolons",
       "nameZh": "辅助星魂 E1 / E4 / E6",
-      "text": "E1: heals 10% more. E4: heals also cleanse one debuff. E6: its Skill also heals the lowest-HP other ally for half as much.",
-      "textZh": "E1：治疗量 +10%。E4：治疗同时净化一个减益。E6：战技还以一半治疗量治疗 HP 最低的另一名队友。净化和群体治疗会改变对控制阵容的应对价值。"
+      "text": "E1: +10% Healing. E4 cleanses the targeted ally on skill healing. E6 normally shares 30% healing with another ally.",
+      "textZh": "E1 治疗 +10%；E4 战技直接治疗指定队友时，净化该目标的一个减益；E6 战技通常再治疗生命最低的另一名队友，治疗量为原来的 30%。群疗和签名战技另看专属处理。"
     },
     {
       "id": "eidolon-cc",
       "name": "CC Eidolons",
-      "nameZh": "控制星魂 E1 / E4 / E6",
-      "text": "E1: debuffs applied are 5 points stronger. E4: debuffs last 1 turn longer. E6: the Skill also lands on the enemy whose turn comes next: half damage, whole effect.",
-      "textZh": "E1：施加的减益增加 5 个百分点。E4：减益延长 1 回合。E6：战技也命中下一个行动的敌人，造成一半伤害但施加完整效果。"
+      "nameZh": "法师星魂",
+      "text": "Mage: E1 adds 2 points to debuffs. E4 extends debuffs lasting at least two turns. E6 also hits the next enemy for 20% damage and 30% effect.",
+      "textZh": "法师（旧称控制 / CC）：E1 减益强度 +2 个百分点；E4 原本至少 2 回合的减益再延长 1 回合；E6 战技也命中下一个行动的敌人，造成 20% 的伤害，施加 30% 的效果。"
     },
     {
       "id": "undying-e2",
       "name": "Undying E2 exception",
       "nameZh": "不死被动的 E2 例外",
-      "text": "Above the base passive tier, ordinary Undying revives at 10% max HP instead of 1 HP. Counter Stance’s matched synergy instead restores 50% HP and enters Counter Stance.",
-      "textZh": "不死达到强化被动档位时，普通触发改为保留 10% HP 上限，而不是 1 HP。若与反击架势形成专属联动，则走另一条规则：恢复至 50% HP 并进入反击架势。不要把所有效果都仅按 ×1.3 推算。"
+      "text": "Empowered Undying leaves 10% HP normally; the Counter Stance synergy instead gets up at 15% HP in its stance.",
+      "textZh": "强化不死普通触发时保留 10% HP，而不是 1 HP。搭配反击架势时走专属联动，恢复到 15% HP 并进入反击架势，不是旧版的 50%。"
     },
     {
       "id": "snapshot-boundary",
@@ -2169,6 +2194,1681 @@
       "nameZh": "快照与搭配建议的边界",
       "text": "This catalog documents public frontend rules, not private inventory or verified current server authority. Recommendations are reasoning, not measured win rates.",
       "textZh": "本图鉴整理公开前端快照，不包含你的真实背包、账号隐私或已验证的服务器全部判定。搭配建议是根据技能联动推导，不是实测胜率榜；遇到版本更新、特殊楼层和签名卡，应以当前游戏显示及实战为准。"
+    },
+    {
+      "id": "depths",
+      "name": "The Depths",
+      "nameZh": "深境：怎么选门、怎么保队",
+      "text": "Choose three Gates, then face a phased boss. HP and knockouts persist. Depth 3 is level 65; Depths 6–10 are upcoming.",
+      "textZh": "三次选门战斗后迎来分阶段首领；血量和阵亡跨战斗保留。选门先看自己能否完成目标：蓄力要打断、核心要击破、生存门要撑住倒计时。带一名能削韧的前排和能续航的辅助，比只为第一战堆爆发更稳。深境 3 敌人已降至 65 级且 MOD 变弱；深境 6–10 在本快照仍未开放。"
+    },
+    {
+      "id": "depth-chests",
+      "name": "Depth Chests",
+      "nameZh": "深境：免费宝箱与每周精选",
+      "text": "The first three daily free chests pay in full and the next three pay half. Featured Depths award more. Premium chests start at 500 Stars; Fuel adds 2,000 Stars.",
+      "textZh": "免费箱每日前 3 次通关全额、之后 3 次减半，再往后不发放。每周精选深境的免费箱更丰厚，并额外发放账号经验。高级箱先看内容再决定是否购买，基础价 500 Stars；燃料约 6%（更深处略高），出现时加价 2,000 Stars。"
+    },
+    {
+      "id": "tower",
+      "name": "Monthly Tower",
+      "nameZh": "月度高塔：8 人名单，4 人出战",
+      "text": "A monthly endless climb: roster eight, field four, swap between floors and preserve HP/KOs. Daily free entry and boss checkpoints are separate from Depths.",
+      "textZh": "高塔独立于深境，每月重置。带 8 张，每层选 4 张，层间可换人；血量和阵亡保留，最后一张倒下才结束。每天一次免费；额外票每日最多购买 3 张，每张 1,000 Stars。每 10 层奖励当月只领一次。可从本月打过的首领之后满血起跑，起点不超过个人最佳层的一半。搭配建议：替补位留一名辅助，而不是只备同型输出。"
+    },
+    {
+      "id": "rally",
+      "name": "Rally",
+      "nameZh": "集结 Rally：阵亡后的速度",
+      "text": "Each knockout gives surviving teammates 25% speed; that contribution ends on revival. Opening order and Scramble are deterministic; crits are not.",
+      "textZh": "每倒下一名队友，幸存队友获得 25% 速度；若倒下的卡复起，由它带来的速度增益随之消失。开场先后看速度；扰乱按固定节奏移动行动，暴击仍有随机性。"
+    },
+    {
+      "id": "solo-carry",
+      "name": "Solo DPS",
+      "nameZh": "单核输出：一名 DPS 怎么配",
+      "text": "A solo DPS deals +25% damage. Its single-target hits gain another 8% per qualifying setup, up to three.",
+      "textZh": "队中唯一的 DPS 造成伤害 +25%；单体攻击还会按自身增益、目标减益和被击破状态，每项再 +8%，最多计 3 项。可用战歌辅助先上增益、法师挂易伤、坦克削韧，再让主输出打同一目标。第二名 DPS 会失去单核加成。"
+    },
+    {
+      "id": "stones",
+      "name": "Sharp & Gem",
+      "nameZh": "MOD 宝石：强化或替换副词条",
+      "text": "Only +15 five-star mods take stones. Sharp improves a matching substat by a roll; Gem replaces one without duplicating an existing stat. One stone of each kind per mod, ever.",
+      "textZh": "仅适用于 +15 的 5★ MOD。Sharp 让一条匹配的副词条增加一次成长；Gem 把选定副词条换成宝石指定的新属性，不得与主词条或既有副词条重复。同一件 MOD 终身每种石头各用一次，选择前先确认它会长期装备。"
+    },
+    {
+      "id": "skill-scaling",
+      "name": "Class scaling",
+      "nameZh": "技能成长：别只看总面板",
+      "text": "Skills distinguish total stats from bonus stats; class-specific MOD rolls therefore matter.",
+      "textZh": "看战技的分项系数：坦克偏 DEF 和 HP，输出与法师偏 ATK，辅助偏 HP。规则区分总属性和额外属性；例如重击的 155% ATK + 20% 额外 ATK 不能直接写成 175% 总 ATK。"
+    },
+    {
+      "id": "sanctuary-shield",
+      "name": "Sanctuary shield rounding",
+      "nameZh": "圣域联动：为什么描述写 2%",
+      "text": "The synergy label rounds the shield to 2%; the runtime uses 0.015 of caster max HP before modifiers.",
+      "textZh": "圣域 × 守护天使的公开短说明把护盾显示为辅助 HP 的 2%，规则常量为 0.015，实际计算起点是 1.5%，再应用相应修正。不要用显示时的取整反推真实护盾量。"
+    }
+  ],
+  "depthTeams": [
+    {
+      "id": "riptide",
+      "name": "Riptide",
+      "source": "designed",
+      "text": "A Conductor Overture and a Tempo Stall keep pushing their turns up while a Blade Storm sweeps. Hit the Overture first.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "stall",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "dt",
+              "stat": "spd"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "blade-storm",
+          "passive": "follow-up",
+          "gear": [
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "shield-bash",
+          "passive": "momentum",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            }
+          ]
+        }
+      ],
+      "pool": 2,
+      "nameZh": "离岸流",
+      "textZh": "指挥家序曲和节奏拖延不断提前他们的回合，剑刃风暴趁机横扫。先打序曲。"
+    },
+    {
+      "id": "lifeguards",
+      "name": "Lifeguards",
+      "source": "designed",
+      "text": "Two Supports heal through almost anything for a Piercing Shot behind a Counter Stance. Burst one Support down between heals.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "mend",
+          "passive": "lifeline",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "unshakable",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "counter-stance",
+          "passive": "spiked-armor",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "deadeye",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        }
+      ],
+      "pool": 2,
+      "nameZh": "救生员",
+      "textZh": "两名辅助几乎什么都能奶回来，反击架势后面的穿透射击负责输出。在两次治疗之间打掉一名辅助。"
+    },
+    {
+      "id": "prism",
+      "name": "Prism",
+      "source": "designed",
+      "text": "An Assassin Execute and a Weak Point Piercing Shot go for your weakest card while a Contagion Curse spreads. Shield it, Taunt, and kill the Execute first.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "opportunist",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "weak-point",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "curse",
+          "passive": "exploit",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        }
+      ],
+      "pool": 3,
+      "nameZh": "棱镜",
+      "textZh": "刺客处决和弱点穿透射击专挑你最弱的卡，传染诅咒同时扩散。护住那张卡、嘲讽，先击倒处决。"
+    },
+    {
+      "id": "shatterglass",
+      "name": "Shatterglass",
+      "source": "designed",
+      "text": "A Glass Cannon Heavy Strike hits very hard once a Guard is gone, and a Shatter Fracture takes the Guards. It has little HP: kill it fast.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "heavy-strike",
+          "passive": "vampirism",
+          "gear": [
+            {
+              "mod": "sd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "fracture",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "wither",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "iron-skin",
+          "passive": "guardian-angel",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        }
+      ],
+      "pool": 3,
+      "nameZh": "碎玻璃",
+      "textZh": "玻璃大炮重击在韧性破掉时打得极痛，粉碎碎裂专门削韧性。它血很少：尽快击倒。"
+    },
+    {
+      "id": "garrison",
+      "name": "Garrison",
+      "source": "designed",
+      "text": "Two Tanks behind shields and two healers: almost nothing gets through. Break the Tanks with Guard damage, then burst.",
+      "slots": [
+        {
+          "cls": "tank",
+          "skill": "bulwark",
+          "passive": "bastion",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "iron-skin",
+          "passive": "unshakable",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "sanctuary",
+          "passive": "lifeline",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        }
+      ],
+      "pool": 4,
+      "nameZh": "卫戍",
+      "textZh": "两名坦克躲在护盾后，再加两名治疗：几乎打不进去。用韧性伤害击破坦克，再集中爆发。"
+    },
+    {
+      "id": "warsong",
+      "name": "Warsong",
+      "source": "designed",
+      "text": "A Conductor Battle Hymn drives a Shatter Heavy Strike and a Juggernaut Shield Bash through your Guard. Stall the Hymn.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "heavy-strike",
+          "passive": "momentum",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "shield-bash",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "stall",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "dt",
+              "stat": "spd"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        }
+      ],
+      "pool": 4,
+      "nameZh": "战歌",
+      "textZh": "指挥家战歌推动粉碎重击和重装盾击打穿你的韧性。拖住战歌。"
+    },
+    {
+      "id": "chorusline",
+      "name": "Chorus Line",
+      "source": "designed",
+      "text": "Encore on everyone and two Conductors: they act again and again around a Hypercarry Execute. Stall and Break the singers.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "nc",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "stall",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "dt",
+              "stat": "spd"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "follow-up",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            }
+          ]
+        }
+      ],
+      "pool": 5,
+      "nameZh": "合唱队",
+      "textZh": "全员安可、两个指挥家：围绕核心输出处决一次又一次行动。拖住并击破唱歌的。"
+    },
+    {
+      "id": "crescendo",
+      "name": "Crescendo",
+      "source": "designed",
+      "text": "A Spinner Storm Blade Storm builds while a Contagion Curse spreads, behind a Riposte Counter Stance. Take the Storm before it breaks every Guard.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "blade-storm",
+          "passive": "momentum",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "curse",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "counter-stance",
+          "passive": "spiked-armor",
+          "gear": [
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        }
+      ],
+      "pool": 5,
+      "nameZh": "渐强",
+      "textZh": "Spinner Storm 剑刃风暴不断蓄势，传染诅咒同时扩散，后面还有回击反击架势。在它击破所有韧性前先击倒风暴。"
+    },
+    {
+      "id": "anvil",
+      "name": "Anvil",
+      "source": "designed",
+      "text": "Three Guard Breakers hammer your Guards and cash in on every Break. Keep Guards up with shields, and kill the Heavy Strike.",
+      "slots": [
+        {
+          "cls": "tank",
+          "skill": "shield-bash",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "heavy-strike",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "fracture",
+          "passive": "exploit",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "mend",
+          "passive": "lifeline",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            }
+          ]
+        }
+      ],
+      "pool": 6,
+      "nameZh": "铁砧",
+      "textZh": "三名破韧者猛砸你的韧性，每次击破都赚一笔。用护盾保住韧性，击倒重击。"
+    },
+    {
+      "id": "smelters",
+      "name": "Smelters",
+      "source": "designed",
+      "text": "A Blade Storm breaks everyone and an Executioner Heavy Strike finishes them. Break their Bulwark, then the Storm.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "blade-storm",
+          "passive": "vampirism",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "heavy-strike",
+          "passive": "bloodlust",
+          "gear": [
+            {
+              "mod": "sd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "fracture",
+          "passive": "momentum",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "bulwark",
+          "passive": "bastion",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        }
+      ],
+      "pool": 6,
+      "nameZh": "熔炼工",
+      "textZh": "剑刃风暴击破所有人，处刑者重击负责收尾。先击破他们的壁垒，再打风暴。"
+    },
+    {
+      "id": "gravewardens",
+      "name": "Gravewardens",
+      "source": "designed",
+      "text": "Second Chance, Undying and Guardian Angel: the first knockout rarely sticks. Hit each twice, and save your burst for the second time.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "mend",
+          "passive": "undying",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "bulwark",
+          "passive": "guardian-angel",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "wither",
+          "passive": "unshakable",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "vampirism",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        }
+      ],
+      "pool": 7,
+      "nameZh": "守墓人",
+      "textZh": "第二次机会、不死和守护天使：第一次击倒几乎不算数。每个都要打倒两次，把爆发留到第二次。"
+    },
+    {
+      "id": "ossuary",
+      "name": "Ossuary",
+      "source": "designed",
+      "text": "Two Mages rot your team with long debuffs while an Executioner waits for low HP. Heal and cleanse, then take the Execute.",
+      "slots": [
+        {
+          "cls": "cc",
+          "skill": "curse",
+          "passive": "undying",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "wither",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "sanctuary",
+          "passive": "bastion",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "vampirism",
+          "gear": [
+            {
+              "mod": "sd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        }
+      ],
+      "pool": 7,
+      "nameZh": "骸骨堂",
+      "textZh": "两名法师用长时间减益慢慢侵蚀你的队伍，处刑者等着你血量变低。治疗并驱散，再击倒处决。"
+    },
+    {
+      "id": "hangmen",
+      "name": "Hangmen",
+      "source": "designed",
+      "text": "An Executioner and a Focus Piercing Shot take one card at a time behind an Ambush Stall. Taunt, and shield whoever they pick.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "opportunist",
+          "gear": [
+            {
+              "mod": "sd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "deadeye",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "stall",
+          "passive": "ambush",
+          "gear": [
+            {
+              "mod": "dt",
+              "stat": "spd"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        }
+      ],
+      "pool": 8,
+      "nameZh": "绞刑手",
+      "textZh": "处刑者和专注穿透射击躲在伏击拖延后面，一张一张收割。嘲讽，并保护被盯上的卡。"
+    },
+    {
+      "id": "jury",
+      "name": "The Jury",
+      "source": "designed",
+      "text": "A Pin Down Curse Exposes your cards for a Weak Point Piercing Shot, behind a Riposte Tank. Leave the Tank alone while it Taunts.",
+      "slots": [
+        {
+          "cls": "cc",
+          "skill": "curse",
+          "passive": "weak-point",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "weak-point",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "counter-stance",
+          "passive": "spiked-armor",
+          "gear": [
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        }
+      ],
+      "pool": 8,
+      "nameZh": "陪审团",
+      "textZh": "钉锁诅咒让你的卡暴露，弱点穿透射击随即跟上，后面是回击坦克。坦克嘲讽时别打它。"
+    },
+    {
+      "id": "hymnal",
+      "name": "Hymnal",
+      "source": "designed",
+      "text": "Two Supports, a Bastion Iron Skin and a Contagion Wither: a long fight. Break the Tank, then the healers.",
+      "slots": [
+        {
+          "cls": "support",
+          "skill": "sanctuary",
+          "passive": "unshakable",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "lifeline",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ht",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "iron-skin",
+          "passive": "bastion",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "wither",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            }
+          ]
+        }
+      ],
+      "pool": 9,
+      "nameZh": "圣歌集",
+      "textZh": "两名辅助、堡垒铁肤和传染凋零：一场持久战。先击破坦克，再打治疗。"
+    },
+    {
+      "id": "seraphs",
+      "name": "Seraphs",
+      "source": "designed",
+      "text": "A Hypercarry Execute and an Avenger Piercing Shot behind a Bulwark, kept up by a Tempo Mend. Knock the two DPS out one right after the other.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "deadeye",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "piercing-shot",
+          "passive": "avenger",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            },
+            {
+              "mod": "pf",
+              "stat": "critDmg"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "mend",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "dt",
+              "stat": "spd"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "bulwark",
+          "passive": "guardian-angel",
+          "gear": [
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            },
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            }
+          ]
+        }
+      ],
+      "pool": 9,
+      "nameZh": "炽天使",
+      "textZh": "核心输出处决和复仇者穿透射击躲在壁垒后面，由节奏治愈撑着。把两名输出接连击倒。"
+    },
+    {
+      "id": "court",
+      "name": "Royal Court",
+      "source": "designed",
+      "text": "The best of everything: a Hypercarry Execute, a Defensive Iron Skin, a Conductor Overture and a Pin Down Curse. No weak spot: pick one and finish it.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "execute",
+          "passive": "deadeye",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hr",
+              "stat": "critRate"
+            }
+          ]
+        },
+        {
+          "cls": "tank",
+          "skill": "iron-skin",
+          "passive": "bastion",
+          "gear": [
+            {
+              "mod": "ez",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "nf",
+              "stat": "hpPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "defPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "overture",
+          "passive": "encore",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "nc",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "curse",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "ht",
+              "stat": "spd"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            }
+          ]
+        }
+      ],
+      "pool": 10,
+      "nameZh": "王庭",
+      "textZh": "样样顶尖：核心输出处决、防御辅助铁肤、指挥家序曲和钉锁诅咒。没有弱点：选一个打到底。"
+    },
+    {
+      "id": "regicide",
+      "name": "Regicide",
+      "source": "designed",
+      "text": "All Guard damage: a Storm, a Shatter Heavy Strike and an Opening Fracture Break your team again and again. No Tank: kill them before your Guards go.",
+      "slots": [
+        {
+          "cls": "dps",
+          "skill": "blade-storm",
+          "passive": "vampirism",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "nc",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "dt",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "dps",
+          "skill": "heavy-strike",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "fl",
+              "stat": "atkPct"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "cc",
+          "skill": "fracture",
+          "passive": "guard-breaker",
+          "gear": [
+            {
+              "mod": "so",
+              "stat": "guardDmg"
+            },
+            {
+              "mod": "rx",
+              "stat": "spd"
+            },
+            {
+              "mod": "hd",
+              "stat": "atkPct"
+            }
+          ]
+        },
+        {
+          "cls": "support",
+          "skill": "battle-hymn",
+          "passive": "thrifty",
+          "gear": [
+            {
+              "mod": "rx",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "ez",
+              "stat": "outHeal"
+            },
+            {
+              "mod": "dt",
+              "stat": "spd"
+            }
+          ]
+        }
+      ],
+      "pool": 10,
+      "nameZh": "弑君",
+      "textZh": "全是韧性伤害：风暴、粉碎重击和破绽碎裂一次又一次击破你的队伍。没有坦克：在你的韧性耗尽前击倒他们。"
+    }
+  ],
+  "depthGates": [
+    {
+      "id": "windup",
+      "name": "Wind-up",
+      "nameZh": "蓄力一击",
+      "text": "A Break interrupts the charged attack; Taunting can intercept it.",
+      "textZh": "敌人锁定目标蓄力，在第二个自身回合打出 300% ATK。用盾击或重击及时击破可以取消；来不及击破时，可用嘲讽接招或拖延施放者。"
+    },
+    {
+      "id": "core",
+      "name": "Core",
+      "nameZh": "核心",
+      "text": "Break the Core first. The resulting two-turn opening makes all enemies take 30% more damage.",
+      "textZh": "核心韧性还在时，其他敌人受伤减半，核心受到的战技伤害也减半。用高削韧战技先击破核心，利用随后己方 2 个回合，全体敌人承伤 +30% 的窗口爆发。"
+    },
+    {
+      "id": "caller",
+      "name": "Caller",
+      "nameZh": "召唤者",
+      "text": "The Caller revives a fallen ally every third turn. Focus or delay it.",
+      "textZh": "召唤者每第 3 个自身回合会让一名倒下的同伴以 40% 生命和满韧性复起。优先集火召唤者；如果做不到，拖延它的行动，别任由它反复拉起同一个目标。"
+    },
+    {
+      "id": "holdout",
+      "name": "Hold out",
+      "nameZh": "坚守",
+      "text": "Survive the counter or knock out all four at once. Each KO shortens the counter and resets that foe’s growth when it revives.",
+      "textZh": "敌人每次行动会变强；阵亡后等己方 2 回合又会以 50% 生命复起并失去成长。撑过己方 26 回合即胜，每次击倒让计数少 2；同时击倒全部四名敌人也算赢。优先压住成长最高的敌人。"
+    },
+    {
+      "id": "mirror",
+      "name": "Mirror Wall",
+      "nameZh": "镜墙",
+      "text": "Basics do not reflect and deal double Guard damage. Save hard-hitting skills for the opening.",
+      "textZh": "战技攻击韧性未破的敌人会反弹 60% 伤害；普攻不反弹，且造成双倍削韧。先普攻击破，再交高伤战技。能直接击破或击倒目标的那次战技也不反弹。"
+    },
+    {
+      "id": "choir",
+      "name": "Choir",
+      "nameZh": "唱诗班",
+      "text": "The singer heals and cleanses every third turn. Time a delay or Break before that turn.",
+      "textZh": "歌者每第 3 个自身回合治疗全队 30% 并清除减益。让法师拖延或让坦克击破歌者，然后在下一次治疗前集火；只铺减益而不改变其行动顺序容易白忙。"
+    },
+    {
+      "id": "hunt",
+      "name": "Hunt",
+      "nameZh": "狩猎",
+      "text": "The Hunter marks the weakest card for 60% more damage and gains 2 SP on Basics. Protect the marked ally.",
+      "textZh": "猎手盯上生命最低的卡，对其伤害 +60%；猎手普攻回 2 战技点。先保护被标记的队友，或用嘲讽接住攻击。目标倒下会换标记，不是牺牲一张就结束。"
     }
   ],
   "statuses": [
@@ -2221,10 +3921,10 @@
       "id": "taunt",
       "short": "TNT",
       "name": "Taunting",
-      "text": "Enemies’ single-target attacks have to hit it, and it takes a share of the damage dealt to its allies. It can’t Taunt again for a turn after it ends.",
+      "text": "Enemies’ single-target attacks have to hit it, and it takes a share of the damage dealt to its allies. Breaking it ends the Taunt.",
       "bad": false,
       "nameZh": "嘲讽",
-      "textZh": "敌方单体攻击必须攻击嘲讽者；嘲讽者分担队友受到的部分伤害。嘲讽结束后有一回合不能再次嘲讽。"
+      "textZh": "敌方单体攻击必须攻击嘲讽者；嘲讽者分担队友受到的部分伤害。被击破会解除嘲讽。"
     },
     {
       "id": "counter",

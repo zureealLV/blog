@@ -29,7 +29,7 @@ corepack pnpm build
 corepack pnpm preview --host 127.0.0.1 --port 4326
 ```
 
-The rule tests cover all 299 distinct zero-to-three-MOD selections, all 160
+The rule tests cover all 299 distinct zero-to-three-MOD selections, all 193
 catalog entries, translations/percentages, reference integrity, recipes, search,
 favorites filtering, build normalization and share-link round trips. Browser
 interaction and responsive QA are separate evidence, not implied by unit tests.
@@ -38,7 +38,7 @@ interaction and responsive QA are separate evidence, not implied by unit tests.
 
 ```powershell
 node scripts/gacha-wiki/extract-data.mjs
-node scripts/gacha-wiki/generate-guides.mjs docs/gacha-wiki/evidence/rpg-Rm3zoMWw.js
+node scripts/gacha-wiki/generate-guides.mjs
 node --test scripts/gacha-wiki/tests/*.test.mjs
 ```
 
@@ -53,7 +53,7 @@ they are not hosted by the Wiki. A clean checkout without these bundles skips
 the four source-snapshot/differential tests explicitly, while retaining all
 catalog and engine tests. Running the extractor downloads the current reviewed
 sources; historical differential checks additionally require the old bundles.
-The tracked audit notes record the historical comparison.
+See [v1.1 release review](evidence/UPDATE-20261102.md) for the rule migration and source/guide coverage.
 
 An offline rebuild uses `node scripts/gacha-wiki/extract-data.mjs --offline`
 and requires the locally cached source assets. It preserves the snapshot date.

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "sp",
+    "name": "Shared Skill Points",
+    "nameZh": "共享战技点",
+    "text": "Normally starts at 3, capped at 5. Basic attacks grant 1; Skills cost 1. Special kits and battlefield rules can change this.",
+    "textZh": "通常初始 3 点，上限 5 点，全队共用。普通攻击获得 1 点，战技消耗 1 点。序曲、星光等技能以及特殊战场规则会改变点数收支，不能把所有技能都当成同样的净消耗。"
+  },
+  {
+    "id": "basic",
+    "name": "Basic attacks",
+    "nameZh": "普通攻击与辅助普攻",
+    "text": "A normal Basic usually gains 1 SP. Supports also help the lowest-HP ally; Grace replaces the attack with targeted healing and 2 SP.",
+    "textZh": "普攻通常回 1 战技点。辅助的普通普攻还照顾血量最低的队友；签名「恩典」则不攻击，改为指定治疗并回 2 点。"
+  },
+  {
+    "id": "mod-priority",
+    "name": "MOD combo priority",
+    "nameZh": "三件组合优先，不与两件组合自动叠加",
+    "text": "The combo resolver picks the first matching 3-mod combo. Only when no 3-mod combo matches does it return every matching 2-mod combo.",
+    "textZh": "判定器先寻找匹配的三件组合；存在时仅返回该三件组合，不再叠加其中的两件组合。若没有三件组合，才同时返回所有匹配的两件组合。单件 MOD 固有加成与主副词条仍保留。例：HD + DT + HR 激活核心输出，而非同时激活爆发输出、暴击输出。"
+  },
+  {
+    "id": "mod-slots",
+    "name": "Three equipment slots",
+    "nameZh": "三个 MOD 槽位",
+    "text": "Each card has three mod slots. Mod types carry intrinsic effects; main and substats add independently of combo identity.",
+    "textZh": "每张卡有 3 个 MOD 槽位。类型固有效果、主副词条、组合效果是不同层次：同一组合可以因星级和词条不同而强弱不同。实验台只核对技能与组合，不会替你虚构实际装备词条。"
+  },
+  {
+    "id": "mod-level",
+    "name": "MOD rarity and enhancement",
+    "nameZh": "MOD 星级与强化",
+    "text": "1–5 star mods cap at +3/+6/+9/+12/+15. Intrinsic effect scaling is 0.4/0.55/0.7/0.85/1; several durations and flat mitigation effects do not scale.",
+    "textZh": "1★ 到 5★ 的强化上限依次为 +3 / +6 / +9 / +12 / +15。类型固有效果通常按 0.4 / 0.55 / 0.7 / 0.85 / 1 缩放；固定回合数、NF 有盾减伤 8% 等不随星级缩放。每种 MOD 的逐星效果见其详情。"
+  },
+  {
+    "id": "substats",
+    "name": "MOD substats",
+    "nameZh": "MOD 主副词条",
+    "text": "Initial substat count ranges by rarity: 0; 0–1; 1–2; 2–3; 3–4. New substats exclude the main stat and existing substat types. Individual rolls use 80%, 90% or 100% of their rarity-scaled base.",
+    "textZh": "1★ 到 5★ 初始副词条数量依次为 0、0–1、1–2、2–3、3–4。新副词条不会重复主词条或现有副词条类型。单次副词条数值为基准 × 星级系数 × 80% / 90% / 100% 档位。主词条权重是该类型的随机生成权重，不是实战推荐优先级。"
+  },
+  {
+    "id": "guard-break",
+    "name": "Guard Break",
+    "nameZh": "韧性与击破",
+    "text": "Breaking Guard sends the target to the back of the turn order and opens a damage window. Breaks no longer grant Skill Points.",
+    "textZh": "韧性归零时，目标被击破并被送向行动队列末尾，承伤增加；到它自己行动时恢复韧性。击破不再返还战技点。建议由坦克开窗、输出跟进，不要把击破当成全队回点手段。"
+  },
+  {
+    "id": "push-cap",
+    "name": "Turn push cap",
+    "nameZh": "推迟上限与速度",
+    "text": "Ordinary delays are capped between turns. Restless weakens further pushes until the unit acts; Break uses a send-to-back path.",
+    "textZh": "连续推条受限制：两次行动间普通推迟累计上限为 60%；若目标已被推过原本的回合，会获得 Restless，直到出手前，继续推迟的效果递减。击破送往队尾是另外的规则。"
+  },
+  {
+    "id": "shield-cap",
+    "name": "Shield limit",
+    "nameZh": "护盾上限",
+    "text": "Shield gain is capped by the recipient’s current shield and 50% of its maximum HP. Sudden Death floor rules disable shields.",
+    "textZh": "当前战斗实现的护盾总量上限为受盾者 HP 上限的 50%。施加新护盾时只补到上限；楼层 SD 规则会禁用护盾。装备 SD 的效果与楼层 SD 不同，勿混为一谈。"
+  },
+  {
+    "id": "status-merge",
+    "name": "Same-type statuses",
+    "nameZh": "同类状态不简单相加",
+    "text": "Repeated statuses keep the stronger value and longer duration rather than adding both magnitudes.",
+    "textZh": "重复施加同类状态时分别保留较强数值与较长回合，不直接叠加。用诅咒配传染时，别把两项扩散百分比相加。"
+  },
+  {
+    "id": "team-shape",
+    "name": "Team shape precedence",
+    "nameZh": "阵容形态的优先级与满队条件",
+    "text": "Shape bonuses require four units. Siege > Hex Circle > Twin Blades > Iron Wall > Choir; only the first match applies. Other eligible ordinary bonuses may still add.",
+    "textZh": "阵容形态加成需满 4 人。按“攻城 → 咒术圈 → 双刃 → 铁壁 → 唱诗班”顺序只取第一个匹配项（中英文对照见队伍羁绊）。满编、双职业、同国等其他符合条件的普通羁绊仍可参与加算。"
+  },
+  {
+    "id": "team-cap",
+    "name": "Team synergy cap",
+    "nameZh": "队伍加成上限",
+    "text": "Team bonus contributions add, capped at +35% each for ATK, HP and SPD. Four of one class applies −20% ATK and HP.",
+    "textZh": "队伍羁绊采用加算，每张卡的 ATK、HP、SPD 正向加成各自最多 +35%。四张同职业会承受 ATK、HP 各 −20% 的惩罚；该惩罚并非 SPD −20%。"
+  },
+  {
+    "id": "level-growth",
+    "name": "Level and ascension",
+    "nameZh": "等级与晋阶上限",
+    "text": "A7–A24 add five levels per ascension beyond level 80, to 170 at A24. Ascending beyond A6 soulbinds the card.",
+    "textZh": "A0–A6 上限依次为 20、30、40、50、60、70、80 级。A7–A24 每阶增加 5 级：A12 为 110、A18 为 140、A24 为 170。突破 A6 后卡牌绑定，不可交易。账号等级门槛：A5 / A6 / A7 / A13 / A19 分别为 10 / 15 / 40 / 60 / 80 级。"
+  },
+  {
+    "id": "eidolon-shared",
+    "name": "Shared Eidolons E2/E3/E5",
+    "nameZh": "通用星魂 E2 / E3 / E5",
+    "text": "E2 generally strengthens the passive. E3 uses 1.15 skill power and 1.05 effect; E5 uses 1.2 basic power and 1.3 Guard damage.",
+    "textZh": "E2 通常强化被动（×1.3，有独立例外）；E3 战技威力 ×1.15、部分附加效果 ×1.05；E5 普攻威力 ×1.2、削韧 ×1.3。签名卡 E6 的额外攻击或治疗依专属规则，不要当作普通卡的双倍战技。"
+  },
+  {
+    "id": "eidolon-tank",
+    "name": "Tank Eidolons",
+    "nameZh": "坦克星魂 E1 / E4 / E6",
+    "text": "E1: 7% less damage while Taunting. E4: 15% stronger shields. E6: counters hits for 35% ATK while Taunting.",
+    "textZh": "E1 嘲讽时承伤 −7%；E4 施加的护盾 +15%；E6 嘲讽时每次受击以 35% ATK 反击。"
+  },
+  {
+    "id": "eidolon-dps",
+    "name": "DPS Eidolons",
+    "nameZh": "输出星魂 E1 / E4 / E6",
+    "text": "E1: +10% CRIT Rate. E4: +15% CRIT DMG. E6: a 30% second hit by default; Blade Storm has its own coefficient.",
+    "textZh": "E1 暴击率 +10%；E4 暴击伤害 +15%；E6 战技再次攻击，普通说明为 30% 伤害，剑刃风暴有独立系数。"
+  },
+  {
+    "id": "eidolon-support",
+    "name": "Support Eidolons",
+    "nameZh": "辅助星魂 E1 / E4 / E6",
+    "text": "E1: +10% Healing. E4 cleanses the targeted ally on skill healing. E6 normally shares 30% healing with another ally.",
+    "textZh": "E1 治疗 +10%；E4 战技直接治疗指定队友时，净化该目标的一个减益；E6 战技通常再治疗生命最低的另一名队友，治疗量为原来的 30%。群疗和签名战技另看专属处理。"
+  },
+  {
+    "id": "eidolon-cc",
+    "name": "CC Eidolons",
+    "nameZh": "法师星魂",
+    "text": "Mage: E1 adds 2 points to debuffs. E4 extends debuffs lasting at least two turns. E6 also hits the next enemy for 20% damage and 30% effect.",
+    "textZh": "法师（旧称控制 / CC）：E1 减益强度 +2 个百分点；E4 原本至少 2 回合的减益再延长 1 回合；E6 战技也命中下一个行动的敌人，造成 20% 的伤害，施加 30% 的效果。"
+  },
+  {
+    "id": "undying-e2",
+    "name": "Undying E2 exception",
+    "nameZh": "不死被动的 E2 例外",
+    "text": "Empowered Undying leaves 10% HP normally; the Counter Stance synergy instead gets up at 15% HP in its stance.",
+    "textZh": "强化不死普通触发时保留 10% HP，而不是 1 HP。搭配反击架势时走专属联动，恢复到 15% HP 并进入反击架势，不是旧版的 50%。"
+  },
+  {
+    "id": "snapshot-boundary",
+    "name": "Snapshot and recommendation boundary",
+    "nameZh": "快照与搭配建议的边界",
+    "text": "This catalog documents public frontend rules, not private inventory or verified current server authority. Recommendations are reasoning, not measured win rates.",
+    "textZh": "本图鉴整理公开前端快照，不包含你的真实背包、账号隐私或已验证的服务器全部判定。搭配建议是根据技能联动推导，不是实测胜率榜；遇到版本更新、特殊楼层和签名卡，应以当前游戏显示及实战为准。"
+  },
+  {
+    "id": "depths",
+    "name": "The Depths",
+    "nameZh": "深境：怎么选门、怎么保队",
+    "text": "Choose three Gates, then face a phased boss. HP and knockouts persist. Depth 3 is level 65; Depths 6–10 are upcoming.",
+    "textZh": "三次选门战斗后迎来分阶段首领；血量和阵亡跨战斗保留。选门先看自己能否完成目标：蓄力要打断、核心要击破、生存门要撑住倒计时。带一名能削韧的前排和能续航的辅助，比只为第一战堆爆发更稳。深境 3 敌人已降至 65 级且 MOD 变弱；深境 6–10 在本快照仍未开放。"
+  },
+  {
+    "id": "depth-chests",
+    "name": "Depth Chests",
+    "nameZh": "深境：免费宝箱与每周精选",
+    "text": "The first three daily free chests pay in full and the next three pay half. Featured Depths award more. Premium chests start at 500 Stars; Fuel adds 2,000 Stars.",
+    "textZh": "免费箱每日前 3 次通关全额、之后 3 次减半，再往后不发放。每周精选深境的免费箱更丰厚，并额外发放账号经验。高级箱先看内容再决定是否购买，基础价 500 Stars；燃料约 6%（更深处略高），出现时加价 2,000 Stars。"
+  },
+  {
+    "id": "tower",
+    "name": "Monthly Tower",
+    "nameZh": "月度高塔：8 人名单，4 人出战",
+    "text": "A monthly endless climb: roster eight, field four, swap between floors and preserve HP/KOs. Daily free entry and boss checkpoints are separate from Depths.",
+    "textZh": "高塔独立于深境，每月重置。带 8 张，每层选 4 张，层间可换人；血量和阵亡保留，最后一张倒下才结束。每天一次免费；额外票每日最多购买 3 张，每张 1,000 Stars。每 10 层奖励当月只领一次。可从本月打过的首领之后满血起跑，起点不超过个人最佳层的一半。搭配建议：替补位留一名辅助，而不是只备同型输出。"
+  },
+  {
+    "id": "rally",
+    "name": "Rally",
+    "nameZh": "集结 Rally：阵亡后的速度",
+    "text": "Each knockout gives surviving teammates 25% speed; that contribution ends on revival. Opening order and Scramble are deterministic; crits are not.",
+    "textZh": "每倒下一名队友，幸存队友获得 25% 速度；若倒下的卡复起，由它带来的速度增益随之消失。开场先后看速度；扰乱按固定节奏移动行动，暴击仍有随机性。"
+  },
+  {
+    "id": "solo-carry",
+    "name": "Solo DPS",
+    "nameZh": "单核输出：一名 DPS 怎么配",
+    "text": "A solo DPS deals +25% damage. Its single-target hits gain another 8% per qualifying setup, up to three.",
+    "textZh": "队中唯一的 DPS 造成伤害 +25%；单体攻击还会按自身增益、目标减益和被击破状态，每项再 +8%，最多计 3 项。可用战歌辅助先上增益、法师挂易伤、坦克削韧，再让主输出打同一目标。第二名 DPS 会失去单核加成。"
+  },
+  {
+    "id": "stones",
+    "name": "Sharp & Gem",
+    "nameZh": "MOD 宝石：强化或替换副词条",
+    "text": "Only +15 five-star mods take stones. Sharp improves a matching substat by a roll; Gem replaces one without duplicating an existing stat. One stone of each kind per mod, ever.",
+    "textZh": "仅适用于 +15 的 5★ MOD。Sharp 让一条匹配的副词条增加一次成长；Gem 把选定副词条换成宝石指定的新属性，不得与主词条或既有副词条重复。同一件 MOD 终身每种石头各用一次，选择前先确认它会长期装备。"
+  },
+  {
+    "id": "skill-scaling",
+    "name": "Class scaling",
+    "nameZh": "技能成长：别只看总面板",
+    "text": "Skills distinguish total stats from bonus stats; class-specific MOD rolls therefore matter.",
+    "textZh": "看战技的分项系数：坦克偏 DEF 和 HP，输出与法师偏 ATK，辅助偏 HP。规则区分总属性和额外属性；例如重击的 155% ATK + 20% 额外 ATK 不能直接写成 175% 总 ATK。"
+  },
+  {
+    "id": "sanctuary-shield",
+    "name": "Sanctuary shield rounding",
+    "nameZh": "圣域联动：为什么描述写 2%",
+    "text": "The synergy label rounds the shield to 2%; the runtime uses 0.015 of caster max HP before modifiers.",
+    "textZh": "圣域 × 守护天使的公开短说明把护盾显示为辅助 HP 的 2%，规则常量为 0.015，实际计算起点是 1.5%，再应用相应修正。不要用显示时的取整反推真实护盾量。"
+  }
+]

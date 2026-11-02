@@ -11,7 +11,7 @@ import {
 	buildParams,
 	parseBuild,
 	buildWarnings,
-} from "./engine.mjs";
+} from "./engine.mjs?v=1.1";
 const data = window.WIKI_DATA,
 	editorial = window.WIKI_GUIDES || { guides: [], glossary: [], rules: [] };
 const main = document.querySelector("main"),
@@ -61,7 +61,8 @@ const date = new Date(data.meta.fetchedAt)
 		day: "2-digit",
 	})
 	.replaceAll("/", ".");
-document.querySelector("#snapshot-date").textContent = date + " 快照";
+document.querySelector("#snapshot-date").textContent =
+	"v" + data.meta.version + " · " + date;
 const count = (k) => (data[k] || []).length;
 const badge = (cls) =>
 	classNames[cls]
@@ -149,7 +150,7 @@ function classFilters() {
 	return `<div class="filter-row" id="class-filters">${[["all", "全部职业"], ...Object.entries(classNames)].map(([id, n]) => `<button class="pill ${classFilter === id ? "active" : ""}" data-class-filter="${id}" aria-pressed="${classFilter === id}">${n}</button>`).join("")}<span class="results-count" id="results-count"></span></div>`;
 }
 function home() {
-	main.innerHTML = `<section class="hero"><div><div class="eyebrow">A LITTLE KNOWLEDGE. A BETTER BUILD.</div><h1>每一种搭配，<br>都<em>有迹可循。</em></h1><p>从战技与被动，到 MOD 的隐藏联动。<br>查清规则，再把你的下一套阵容搭出来。</p><div class="hero-actions"><a class="btn primary" href="#builder">进入搭配实验台 <span>↗</span></a><a class="btn ghost" href="#guides">先看搭配手册 →</a></div></div><div class="hero-diagram" aria-label="重击与破韧者专属联动示意"><div class="diagram-top"><span>SYNERGY / 专属联动</span><span>● MATCHED</span></div><div class="diagram-chain"><div class="ability-node">重击<small>HEAVY STRIKE</small></div><span class="diagram-plus">＋</span><div class="ability-node">破韧者<small>GUARD BREAKER</small></div></div><div class="diagram-result"><span class="mod-mini">↳</span><p><strong>击破时，再来一击。</strong>额外伤害由该击的 20% 提升至 100%</p></div></div></section>${searchBox("搜索「暴击」「治疗」「HD DT」或技能名称…")}<div id="home-search-results" hidden></div><div id="home-sections"><div class="stat-row">${[
+	main.innerHTML = `<section class="hero"><div><div class="eyebrow">A LITTLE KNOWLEDGE. A BETTER BUILD.</div><h1>每一种搭配，<br>都<em>有迹可循。</em></h1><p>从战技与被动，到 MOD 的隐藏联动。<br>查清规则，再把你的下一套阵容搭出来。</p><div class="hero-actions"><a class="btn primary" href="#builder">进入搭配实验台 <span>↗</span></a><a class="btn ghost" href="#guides">先看搭配手册 →</a></div></div><div class="hero-diagram" aria-label="重击与破韧者专属联动示意"><div class="diagram-top"><span>SYNERGY / 专属联动</span><span>● MATCHED</span></div><div class="diagram-chain"><div class="ability-node">重击<small>HEAVY STRIKE</small></div><span class="diagram-plus">＋</span><div class="ability-node">破韧者<small>GUARD BREAKER</small></div></div><div class="diagram-result"><span class="mod-mini">↳</span><p><strong>击破时，再来一击。</strong>${esc(data.synergies.find((s) => s.skill === "heavy-strike").bonusZh)}</p></div></div></section><nav class="patch-links" aria-label="本版重点"><strong>v${esc(data.meta.version)} 更新</strong><a href="#entry/mechanics/depths">深境选门 ↗</a><a href="#depthTeams">敌队配装 ↗</a><a href="#entry/mechanics/tower">月度高塔 ↗</a><a href="#entry/mechanics/solo-carry">单核输出 ↗</a><a href="#entry/mechanics/stones">MOD 宝石 ↗</a></nav>${searchBox("搜索「暴击」「治疗」「HD DT」或技能名称…")}<div id="home-search-results" hidden></div><div id="home-sections"><div class="stat-row">${[
 		["skills", "种战技"],
 		["passives", "种被动"],
 		["mods", "种 MOD"],
@@ -381,14 +382,14 @@ function updateGlossary() {
 			.join("") || emptyResults();
 }
 function sources() {
-	main.innerHTML = `${head("来源与版本", "让每个数值都有出处，也让每个结论有边界。")}<article class="source-panel"><div class="notice mint"><span>✓</span><div><b>这是静态规则快照，不是实时游戏服务。</b><br>本页不连接你的账号，不读取库存，不执行抽卡、交易、战斗或装备操作。搜索与收藏在浏览器中完成。</div></div><table class="source-table"><tbody><tr><th>抓取时间</th><td>${esc(new Date(data.meta.fetchedAt).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false }))}（北京时间）</td></tr><tr><th>前端版本</th><td><code>${esc(data.meta.build)}</code></td></tr><tr><th>规则来源</th><td><a href="${safeUrl(data.meta.sourceUrl)}" target="_blank" rel="noopener noreferrer">osugacha.com / 公开 RPG 规则 ↗</a></td></tr><tr><th>中文词典</th><td><a href="${safeUrl(data.meta.localeUrl)}" target="_blank" rel="noopener noreferrer">原站简体中文词典 ↗</a></td></tr><tr><th>SHA-256</th><td><code>${esc(data.meta.sourceHash)}</code></td></tr><tr><th>收录范围</th><td>${Object.entries(
+	main.innerHTML = `${head("来源与版本", "让每个数值都有出处，也让每个结论有边界。")}<article class="source-panel"><div class="notice mint"><span>✓</span><div><b>这是静态规则快照，不是实时游戏服务。</b><br>本页不连接你的账号，不读取库存，不执行抽卡、交易、战斗或装备操作。搜索与收藏在浏览器中完成。</div></div><table class="source-table"><tbody><tr><th>游戏版本</th><td><a href="${safeUrl(data.meta.patchUrl)}" target="_blank" rel="noopener noreferrer">官方更新日志 v${esc(data.meta.version)} ↗</a><br>${esc(data.meta.updateNote)}</td></tr><tr><th>抓取时间</th><td>${esc(new Date(data.meta.fetchedAt).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", hour12: false }))}（北京时间）</td></tr><tr><th>前端版本</th><td><code>${esc(data.meta.build)}</code></td></tr><tr><th>规则来源</th><td><a href="${safeUrl(data.meta.sourceUrl)}" target="_blank" rel="noopener noreferrer">osugacha.com / 公开 RPG 规则 ↗</a></td></tr><tr><th>中文词典</th><td><a href="${safeUrl(data.meta.localeUrl)}" target="_blank" rel="noopener noreferrer">原站简体中文词典 ↗</a></td></tr><tr><th>SHA-256</th><td><code>${esc(data.meta.sourceHash)}</code></td></tr><tr><th>收录范围</th><td>${Object.entries(
 		categories,
 	)
 		.filter(([k]) => count(k))
 		.map(([k, v]) => `${v.name} ${count(k)}`)
 		.join(
 			" · ",
-		)}</td></tr></tbody></table><h2>怎样读这份 Wiki</h2><ul><li><strong>图鉴效果：</strong>来自站点公开前端规则；普通条目优先采用原站中文词典，保留英文可核对。</li><li><strong>搭配手册：</strong>基于规则的编辑推导，不是官方推荐、胜率实验或数值最优解。</li><li><strong>实验台：</strong>复现已核对的战技/被动配对与 MOD 组合选择规则；不模拟战斗，不估算账号战力。</li><li><strong>签名技能：</strong>展示技能原型，而非声称拥有全部签名卡面或当期卡池映射。</li></ul><h2>没有包含的东西</h2><p>你的实际卡库、MOD 主副词条和强化、当前队伍、私有战斗记录，以及无法从公开前端核实的服务器逻辑。公开卡池有大量玩家条目，本 Wiki 未镜像整个玩家库；请在 <a href="https://osugacha.com/players" target="_blank" rel="noopener noreferrer">原站玩家池</a> 查询具体角色。</p><h2>版本可能变化</h2><p>原站更新后，这个快照不会自动变成新版本。资产文件名与 SHA-256 用于识别来源，不代表服务器全部实现一致。看到差异时，以原站当前游戏说明与实际结算为准；更新脚本会在未知结构或翻译缺失时停止，避免静默发布错误资料。</p><h2>资料导出</h2><p><a href="data.json" download>下载规则快照 JSON</a> · <a href="guides.json" download>下载搭配手册 JSON</a> · <a href="https://osugacha.com/" target="_blank" rel="noopener noreferrer">访问原站</a></p><details><summary>查看完整快照元数据</summary><pre>${esc(JSON.stringify(data.meta, null, 2))}</pre></details><h2>致谢与使用范围</h2><p>osu! gacha 是独立同人游戏；本 Wiki 为非官方中文学习与检索资料，和游戏开发者及 ppy / osu! 无隶属关系。游戏名称、规则与原文归其各自权利人所有。请支持原站；本页不提供作弊、绕过认证或自动战斗功能。</p></article>`;
+		)}</td></tr></tbody></table><h2>怎样读这份 Wiki</h2><ul><li><strong>图鉴效果：</strong>来自站点公开前端规则；普通条目优先采用原站中文词典，过期的签名说明按同版规则校正；保留英文可核对。</li><li><strong>搭配手册：</strong>基于规则的编辑推导，不是官方推荐、胜率实验或数值最优解。</li><li><strong>实验台：</strong>复现已核对的战技/被动配对与 MOD 组合选择规则；不模拟战斗，不估算账号战力。</li><li><strong>签名技能：</strong>展示技能原型，而非声称拥有全部签名卡面或当期卡池映射。</li></ul><h2>没有包含的东西</h2><p>你的实际卡库、MOD 主副词条和强化、当前队伍、私有战斗记录，以及无法从公开前端核实的服务器逻辑。公开卡池有大量玩家条目，本 Wiki 未镜像整个玩家库；请在 <a href="https://osugacha.com/players" target="_blank" rel="noopener noreferrer">原站玩家池</a> 查询具体角色。</p><h2>版本可能变化</h2><p>原站更新后，这个快照不会自动变成新版本。资产文件名与 SHA-256 用于识别来源，不代表服务器全部实现一致。看到差异时，以原站当前游戏说明与实际结算为准；更新脚本会在未知结构或翻译缺失时停止，避免静默发布错误资料。</p><h2>资料导出</h2><p><a href="data.json" download>下载规则快照 JSON</a> · <a href="guides.json" download>下载搭配手册 JSON</a> · <a href="https://osugacha.com/" target="_blank" rel="noopener noreferrer">访问原站</a></p><details><summary>查看完整快照元数据</summary><pre>${esc(JSON.stringify(data.meta, null, 2))}</pre></details><h2>致谢与使用范围</h2><p>osu! gacha 是独立同人游戏；本 Wiki 为非官方中文学习与检索资料，和游戏开发者及 ppy / osu! 无隶属关系。游戏名称、规则与原文归其各自权利人所有。请支持原站；本页不提供作弊、绕过认证或自动战斗功能。</p></article>`;
 }
 function showDetail(key, fromRoute = false) {
 	const e = byKey.get(key);
@@ -398,6 +399,50 @@ function showDetail(key, fromRoute = false) {
 	}
 	detailOrigin = document.activeElement;
 	let extra = "";
+	if (e.kind === "depthTeams") {
+		extra =
+			"<p>来源：深境 " +
+			esc(e.pool) +
+			" 的设计阵容池。" +
+			(e.pool >= 6
+				? "此深度在 v1.1 尚未开放；仅展示公开模板。"
+				: "模板也可能出现在其他关卡。") +
+			'</p><h3>四人出战配置</h3><p class="result-note">原站设计的敌队模板，不是玩家胜率榜。带入实验台只复制战技、被动和 MOD 类型，不模拟敌方等级与词条。</p>' +
+			e.slots
+				.map((slot) => {
+					const mods = slot.gear.map((x) => x.mod);
+					const fields = slot.gear
+						.map(
+							(x) =>
+								x.mod.toUpperCase() +
+								" · " +
+								(data.stats.find((s) => s.id === x.stat)?.nameZh || x.stat),
+						)
+						.join(" / ");
+					const url = "#builder?" + buildParams({ ...slot, mods, star: 5 });
+					return (
+						'<div class="mini-entry"><b>' +
+						esc(classNames[slot.cls]) +
+						"</b><p>" +
+						linkEntry("skills", slot.skill) +
+						" × " +
+						linkEntry("passives", slot.passive) +
+						"</p><p>" +
+						esc(fields) +
+						'</p><a class="btn ghost" href="' +
+						esc(url) +
+						'">带入实验台 →</a></div>'
+					);
+				})
+				.join("");
+	}
+	if (e.kind === "mechanics" && e.id === "depths")
+		extra =
+			'<h3>七种门怎么应对</h3><div class="detail-related">' +
+			data.depthGates
+				.map((x) => linkEntry("depthGates", x.id, x.nameZh))
+				.join(" · ") +
+			"</div>";
 	if (e.kind === "skills") {
 		const sy = data.synergies.find((s) => (s.skill || s.id) === e.id);
 		extra = `<h3>战技类型</h3><p>${e.aoe ? "全体敌人" : e.single ? "单体目标" : e.targets === "ally" ? "指定队友" : "无需指定敌人 / 全队效果"} · ${classNames[e.cls]}</p>${sy ? `<h3>专属联动</h3><p>${linkEntry("passives", sy.passive)}</p><div class="notice mint"><div>${esc(sy.bonusZh)}</div></div>` : ""}`;

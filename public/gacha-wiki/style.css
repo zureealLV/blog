@@ -1643,3 +1643,23 @@ dialog::backdrop {
 		scroll-behavior: auto !important;
 	}
 }
+
+.patch-links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem 0.85rem;
+	margin: 1rem 0;
+	color: var(--text);
+	font-size: 0.88rem;
+}
+.patch-links a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+.patch-links strong {
+	margin-right: 0.25rem;
+}

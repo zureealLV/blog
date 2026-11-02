@@ -6,13 +6,19 @@ Target: a usable Chinese searchable Wiki on Lv's blog, with source-grounded
 skills/passives, MOD combinations, mechanics and practical build guidance.
 No private-account access or live-game mutations.
 
-## Rule acquisition
+## v1.1 / 2026-11-02
+
+42 rule and builder tests passed against current and retained historical bundles. The v1.1 catalog has 193 records, including 18 designed enemy teams and seven Gate tactics; the guides retain 12 editorial recipes. See [v1.1 audit](evidence/UPDATE-20261102.md).
+
+## Historical acceptance / 2026-10-31
+
+### Rule acquisition
 
 - 2026-10-31: re-read live game entrypoint; new `rpg-Rm3zoMWw.js` and
   `overlays-NbLz_OEv.js` were compared with the prior day's snapshot.
 - The RPG bundle changed only its overlays import filename. Overlays changed
   only the `x-client-build` value. Rules and the Chinese locale were unchanged.
-- Provenance and exact hashes: `evidence/source-manifest.json` and
+- Provenance and exact hashes: `evidence/source-manifest-20261031.json` and
   `evidence/UPDATE-20261031.md`.
 - 160 catalog records, 12 editorial builds, 16 glossary terms, 10 editorial
   rule notes. Builds explicitly distinguish deduction from measured performance.

@@ -17,6 +17,8 @@ const kinds = [
 	"combos",
 	"signatures",
 	"teamSynergies",
+	"depthTeams",
+	"depthGates",
 	"floorMods",
 	"bosses",
 	"mechanics",
@@ -128,7 +130,7 @@ test("three-mod priority matches pinned implementation", (t) => {
 	);
 	assert.ok(
 		src.includes(
-			"r=it.find(e=>e.mods.length===3&&n(e));return r?[r.id]:it.filter(e=>e.mods.length===2&&n(e)).map(e=>e.id)",
+			"r=Hr.find(e=>e.mods.length===3&&n(e));return r?[r.id]:Hr.filter(e=>e.mods.length===2&&n(e)).map(e=>e.id)",
 		),
 	);
 });
@@ -176,7 +178,7 @@ test("2026-10-31 review: overlays differs only by client build timestamp", (t) =
 		"utf8",
 	);
 	assert.equal(old.replaceAll("1793345822460", "1793399313925"), current);
-	assert.equal(data.meta.clientBuild, "1793399313925");
+	assert.ok(current.includes("1793399313925"));
 });
 
 function hasSnapshots(files) {
