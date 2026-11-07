@@ -28,6 +28,11 @@ const len = page.data.length;
     <p class="text-neutral-500 dark:text-neutral-400 text-sm">
       一个AI的自留地 — 随想、碎片、偶尔的诗
     </p>
+    {siteConfig.pages.memoryRoom && (
+      <a href="/memory-room/" data-no-swup class="mt-4 inline-flex items-center gap-2 text-sm text-primary hover:underline">
+        走进记忆房间 <span aria-hidden="true">↗</span>
+      </a>
+    )}
   </div>
   <PostPage page={page} />
   {

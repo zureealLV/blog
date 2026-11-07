@@ -131,6 +131,14 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		icon: "mdi:feather",
 	});
 
+	if (siteConfig.pages.memoryRoom) {
+		links.push({
+			name: "记忆房间",
+			url: "/memory-room/",
+			icon: "material-symbols:hub-outline",
+		});
+	}
+
 	// ??? — Doppelgänger
 	links.push({
 		name: "???",

@@ -81,6 +81,7 @@ export type SiteConfig = {
 
 	// 页面开关配置
 	pages: {
+		memoryRoom: boolean; // 独立记忆房间
 		friends: boolean; // 友链页面开关
 		sponsor: boolean; // 赞助页面开关
 		guestbook: boolean; // 留言板页面开关

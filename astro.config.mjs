@@ -90,8 +90,9 @@ export default defineConfig({
 				// 跳过锚点链接的处理，让浏览器原生处理
 				return event.state?.url?.includes("#");
 			},
-			// 让 Swup 彻底忽略独立应用页，避免博客外壳污染其完整页面 UI
-			ignoreVisit: (url) =>
+			// @swup/astro 接受 ignore，再转成 Swup 的 ignoreVisit。
+			// 独立应用使用完整导航，避免容器不匹配后才被动刷新。
+			ignore: (url) =>
 				[
 					"/ascii/",
 					"/osu-pp-tool/",
@@ -99,6 +100,7 @@ export default defineConfig({
 					"/gacha-wiki/",
 					"/lab/internet-angel/",
 					"/work-radar/",
+					"/memory-room/",
 				].some((p) => url.startsWith(p)),
 		}),
 		icon({
@@ -180,6 +182,8 @@ export default defineConfig({
 				// 根据页面开关配置过滤sitemap
 				const url = new URL(page);
 				const pathname = url.pathname;
+				if (pathname.startsWith("/memory-room/data/")) return false;
+				if (pathname.startsWith("/memory-room/") && !siteConfig.pages.memoryRoom) return false;
 
 				// 实验场保持 noindex，也不进入正式站点 sitemap
 				if (pathname.startsWith("/lab/")) {
