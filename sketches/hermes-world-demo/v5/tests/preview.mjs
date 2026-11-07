@@ -1,0 +1,15 @@
+import { chromium } from '@playwright/test';
+import path from 'node:path';
+import { here } from '../indexer.mjs';
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
+page.on('pageerror',e=>console.error('PAGE ERROR',e.message));
+page.on('console',m=>{if(m.type()==='error')console.error('CONSOLE',m.text());});
+await page.goto('http://127.0.0.1:8767/v5/');await page.waitForFunction(()=>window.__v5?.count===194);await page.waitForTimeout(1300);
+await page.screenshot({path:path.join(here,'preview-room.png')});
+console.log(JSON.stringify(await page.evaluate(()=>({state:window.__v5,body:document.body.innerText}))).slice(0,1800));
+await page.getByRole('button',{name:'选择主题星区',exact:true}).click();await page.locator('#topic-list button').first().click();await page.waitForTimeout(1000);await page.screenshot({path:path.join(here,'preview-sector.png')});
+await page.getByRole('button',{name:'搜索与筛选文章',exact:true}).click();await page.locator('.result').first().click();await page.waitForTimeout(1000);await page.screenshot({path:path.join(here,'preview-focus.png')});
+await page.setViewportSize({width:390,height:844});await page.waitForTimeout(400);await page.screenshot({path:path.join(here,'preview-mobile-focus.png')});
+await page.locator('#back').click();await page.locator('#back').click();await page.waitForTimeout(900);await page.reload();await page.waitForFunction(()=>window.__v5?.count===194);await page.waitForTimeout(900);await page.screenshot({path:path.join(here,'preview-mobile.png')});
+await browser.close();

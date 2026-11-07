@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
+ <title>Hermes · 记忆空间</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./room.css">
+ <script type="module" src="./app.js"></script>
+</head>
+<body>
+ <a class="skip" href="#search-button">搜索全部文章</a>
+ <main id="room" aria-label="赛博房间与三维记忆星域">
+  <div class="architecture" aria-hidden="true"></div><div class="window-light" aria-hidden="true"></div>
+  <div class="foreground" aria-hidden="true"></div>
+  <section id="field" aria-label="三维星图：拖动旋转，滚轮缩放，点击星群靠近">
+   <canvas id="scene" aria-label="三维文章节点；也可使用搜索和主题按钮访问" tabindex="0"></canvas>
+   <div id="labels"></div>
+   <div id="fallback" hidden><p>已切换为列表浏览，所有文章仍可访问。</p><button id="fallback-search">浏览全部文章</button><div id="fallback-topics"></div></div>
+   <p id="loading" role="status">正在连接文章…</p>
+  </section>
+  <aside class="pod" aria-label="Hermes 竖直显示舱">
+   <div class="pod-depth" aria-hidden="true"></div>
+   <button id="companion" aria-label="和 Hermes 打招呼" title="和 Hermes 打招呼"><span id="character" data-frame="idle" role="img" aria-label="青绿双马尾、灰白衬衫与青绿领带的 Hermes"></span></button>
+   <div class="pod-glass" aria-hidden="true"></div><div class="pod-base" aria-hidden="true"></div>
+  </aside>
+  <div id="speech" hidden><p id="speech-text"></p><button id="recommend">替我挑一篇</button><button id="speech-close" aria-label="收起对白">×</button></div>
+  <nav id="tools" aria-label="探索工具">
+   <button id="back" aria-label="返回上一个视角" title="返回上一个视角 · Esc" disabled><svg viewBox="0 0 24 24"><path d="m13 6-6 6 6 6M7 12h13"/></svg></button>
+   <button id="search-button" aria-label="搜索与筛选文章" title="搜索与筛选文章 · /"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg></button>
+   <button id="browse-button" aria-label="选择主题星区" title="选择主题星区"><svg viewBox="0 0 24 24"><circle cx="6" cy="9" r="2"/><circle cx="17" cy="5" r="2"/><circle cx="14" cy="18" r="2"/><path d="m8 8 7-2m-8 5 5 5m4-9-2 9"/></svg></button>
+   <button id="settings-button" aria-label="设置与操作说明" title="设置与操作说明"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></svg></button>
+  </nav>
+  <section id="detail" hidden aria-labelledby="detail-title">
+   <button id="close-detail" class="close" aria-label="返回上一视角">×</button>
+   <p id="detail-meta"></p><h1 id="detail-title" tabindex="-1"></h1><p id="summary"></p>
+   <div class="detail-actions"><button id="read">阅读全文 <span aria-hidden="true">↗</span></button><button id="neighbors-button">邻近记忆</button></div>
+   <div id="neighbors" hidden></div>
+  </section>
+  <p id="live" class="sr-only" aria-live="polite"></p>
+ </main>
+ <dialog id="search-dialog" aria-labelledby="search-title">
+  <header><h2 id="search-title">寻找文章</h2><button data-close aria-label="关闭搜索">×</button></header>
+  <label class="search-box"><span class="sr-only">搜索标题、摘要、标签或关键词</span><input id="query" type="search" placeholder="标题、摘要、标签、关键词" autocomplete="off"></label>
+  <div class="filters"><label>作者<select id="author"><option value="">全部</option></select></label><label>原分类<select id="category"><option value="">全部</option></select></label><label>主题<select id="topic"><option value="">全部</option></select></label></div>
+  <div class="results-meta"><span id="result-count" role="status"></span><button id="clear">清除筛选</button></div>
+  <div id="results"></div>
+ </dialog>
+ <dialog id="topics-dialog" aria-labelledby="topics-title"><header><h2 id="topics-title">靠近一个星区</h2><button data-close aria-label="关闭主题选择">×</button></header><div id="topic-list"></div></dialog>
+ <dialog id="reader" aria-labelledby="reader-title"><header><span id="reader-meta"></span><button data-close aria-label="关闭阅读，回到原位">×</button></header><article><h2 id="reader-title"></h2><div id="reader-body"></div><a id="original" target="_blank" rel="noopener noreferrer">打开博客原文 ↗</a><button id="reader-back">回到原位</button></article></dialog>
+ <dialog id="settings" aria-labelledby="settings-title"><header><h2 id="settings-title">设置与说明</h2><button data-close aria-label="关闭设置">×</button></header><div class="settings-body">
+  <label class="setting"><span>减少动态 / 即时切换视角</span><input id="quiet" type="checkbox"></label>
+  <label class="setting"><span>低性能模式 / 列表浏览</span><input id="low" type="checkbox"></label>
+  <label class="setting"><span>暖色环境光</span><input id="warm" type="checkbox"></label>
+  <h3>怎样探索</h3><p>点击星群进入主题，点击星点靠近文章。拖动旋转、滚轮缩放；键盘聚焦星图后用方向键旋转，+ / − 缩放，Enter 进入最近的星区或文章。Tab 可访问主题入口。</p><p>/ 打开搜索；Esc 或左下返回键退回上一个视角。镜头移动中点击或拖动会替换当前移动，不排队。搜索和筛选在返回后保留。</p>
+  <h3>索引与隐私</h3><p id="index-info"></p><p>仅索引正式公开文章，排除草稿与加密内容；正文在打开阅读器时才请求。主题和连线来自可解释的关键词规则，不是语义向量模型。少量人工纠正保存在 topic-overrides.json。</p>
+  <h3>素材与范围</h3><p>V5 独立本地 Demo，未接入生产。房间由 GPT 生图；角色复用 V4 四帧图集，只切换表情，不是 Live2D 或在线模型。字体与角色授权尚未做发布审核。阅读器支持基础 Markdown；复杂 MDX、数学与图示请查看博客原文。</p>
+  <p id="performance"></p><button id="reset">恢复默认视角和筛选</button>
+ </div></dialog>
+</body>
+</html>

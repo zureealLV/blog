@@ -1,0 +1,13 @@
+{
+  "testedAt": "2026-11-07T06:38:03.718Z",
+  "checks": [
+    "New fixture article appears without restart or reload",
+    "Existing XYZ unchanged after addition",
+    "Edited title and open reader body update automatically",
+    "Deleting selected article closes stale reader and removes star",
+    "Public-to-private change removes frontend metadata",
+    "Unchanged index uses empty 304 response",
+    "Static allowlist denies server source"
+  ],
+  "productionSourceTouched": false
+}

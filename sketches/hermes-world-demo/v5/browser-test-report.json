@@ -1,0 +1,234 @@
+{
+  "testedAt": "2026-11-07T06:39:33.005Z",
+  "browser": "156.0.4314.58",
+  "checks": [
+    "194 public posts in runtime",
+    "No body payload on initial load",
+    "No external network assets",
+    "Default has no decorative text",
+    "Three/WebGL active",
+    "Sector camera moves in 3D",
+    "Actual star click focuses article",
+    "Focus reduces perspective distance",
+    "Selected description is sourced and visible",
+    "Body fetched only after read action",
+    "Reader returns to unchanged selection and view",
+    "Back restores previous sector view",
+    "Keyboard article selection",
+    "Search empty state",
+    "Original-category filter",
+    "Filter survives selection",
+    "Rapid selections replace flight, no queue",
+    "Reload restores filters and selection",
+    "Reload restores settled camera",
+    "Static mode uses immediate camera placement",
+    "Low performance mode remains usable",
+    "Fallback exposes all articles",
+    "Canvas Enter enters nearest sector",
+    "1920x1080: full viewport, no overflow, upright pod, square sprite",
+    "1440x900: full viewport, no overflow, upright pod, square sprite",
+    "2560x1080: full viewport, no overflow, upright pod, square sprite",
+    "390x844: full viewport, no overflow, upright pod, square sprite",
+    "360x740: full viewport, no overflow, upright pod, square sprite",
+    "No-WebGL fallback auto activates",
+    "No-WebGL search covers every article",
+    "System reduced-motion honored",
+    "No browser runtime or console errors"
+  ],
+  "errors": [],
+  "metrics": {
+    "renderSamples": 180,
+    "meanRenderMs": 0.23,
+    "animationSamples": 180,
+    "meanAnimationFrameMs": 5.72,
+    "drawCalls": 4,
+    "enabled": true
+  },
+  "layouts": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "overflow": false,
+      "pod": {
+        "x": 1455.375,
+        "y": 183.59375,
+        "width": 322.546875,
+        "height": 648,
+        "right": 1777.921875,
+        "bottom": 831.59375
+      },
+      "character": {
+        "x": 1426.53125,
+        "y": 339.40374755859375,
+        "width": 382.25,
+        "height": 382.25,
+        "right": 1808.78125,
+        "bottom": 721.6537475585938
+      },
+      "tools": {
+        "x": 163.1875,
+        "y": 907.203125,
+        "width": 211,
+        "height": 54,
+        "right": 374.1875,
+        "bottom": 961.203125
+      },
+      "room": {
+        "x": 0,
+        "y": 0,
+        "width": 1920,
+        "height": 1080,
+        "right": 1920,
+        "bottom": 1080
+      }
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "pod": {
+        "x": 1091.546875,
+        "y": 153,
+        "width": 241.90625,
+        "height": 540,
+        "right": 1333.453125,
+        "bottom": 693
+      },
+      "character": {
+        "x": 1070.765625,
+        "y": 297.3868713378906,
+        "width": 285.484375,
+        "height": 285.4843444824219,
+        "right": 1356.25,
+        "bottom": 582.8712158203125
+      },
+      "tools": {
+        "x": 122.390625,
+        "y": 747,
+        "width": 211,
+        "height": 54,
+        "right": 333.390625,
+        "bottom": 801
+      },
+      "room": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900,
+        "right": 1440,
+        "bottom": 900
+      }
+    },
+    {
+      "width": 2560,
+      "height": 1080,
+      "overflow": false,
+      "pod": {
+        "x": 1894.40625,
+        "y": 140.390625,
+        "width": 332.796875,
+        "height": 723.59375,
+        "right": 2227.203125,
+        "bottom": 863.984375
+      },
+      "character": {
+        "x": 1864.53125,
+        "y": 328.58685302734375,
+        "width": 394.546875,
+        "height": 394.546875,
+        "right": 2259.078125,
+        "bottom": 723.1337280273438
+      },
+      "tools": {
+        "x": 409.59375,
+        "y": 928.8125,
+        "width": 211,
+        "height": 54,
+        "right": 620.59375,
+        "bottom": 982.8125
+      },
+      "room": {
+        "x": 0,
+        "y": 0,
+        "width": 2560,
+        "height": 1080,
+        "right": 2560,
+        "bottom": 1080
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "pod": {
+        "x": 253.515625,
+        "y": 33.75,
+        "width": 105.296875,
+        "height": 227.875,
+        "right": 358.8125,
+        "bottom": 261.625
+      },
+      "character": {
+        "x": 249.4375,
+        "y": 96.8812484741211,
+        "width": 115.46875,
+        "height": 115.46875762939453,
+        "right": 364.90625,
+        "bottom": 212.35000610351562
+      },
+      "tools": {
+        "x": 23.390625,
+        "y": 747.8125,
+        "width": 208,
+        "height": 54,
+        "right": 231.390625,
+        "bottom": 801.8125
+      },
+      "room": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "right": 390,
+        "bottom": 844
+      }
+    },
+    {
+      "width": 360,
+      "height": 740,
+      "overflow": false,
+      "pod": {
+        "x": 234.015625,
+        "y": 29.59375,
+        "width": 97.1875,
+        "height": 199.796875,
+        "right": 331.203125,
+        "bottom": 229.390625
+      },
+      "character": {
+        "x": 230.5,
+        "y": 82.74812316894531,
+        "width": 106.21875,
+        "height": 106.21875,
+        "right": 336.71875,
+        "bottom": 188.9668731689453
+      },
+      "tools": {
+        "x": 21.59375,
+        "y": 649,
+        "width": 208,
+        "height": 54,
+        "right": 229.59375,
+        "bottom": 703
+      },
+      "room": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 740,
+        "right": 360,
+        "bottom": 740
+      }
+    }
+  ]
+}
